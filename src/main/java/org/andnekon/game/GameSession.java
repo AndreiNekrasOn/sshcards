@@ -34,18 +34,16 @@ public class GameSession {
         this.player = player;
     }
     public void initBattle() {
-        this.player.setDefense(0);
         this.turn = 1;
         this.player.setBattleDeck();
     }
-    // public void initTurn() {
-    //     this.player.setEnergy(3);
-    //     this.enemy.fillIntents(this.player);
-    //     this.enemy.setDefense(0);
-    // }
+    public void initTurn() {
+        this.player.setEnergy(3);
+        this.player.setDefense(0);
+        this.enemy.fillIntents(this.player);
+    }
     public void incTurn() {
         this.turn++;
-        // initTurn();
     }
     public void initializeDefaultDeck() {
         for (int i = 0; i < 4; i++) {
@@ -67,6 +65,10 @@ public class GameSession {
 
     public void setNavigationInit(boolean navigationInit) {
         this.navigationInit = navigationInit;
+    }
+
+    public int getTurnNumber() {
+        return turn;
     }
 }
 

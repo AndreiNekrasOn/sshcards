@@ -67,15 +67,5 @@ public class Player extends Entity {
     public void setEnergy(int energy) {
         this.energy = energy;
     }
-
-    public void printBattleDeck() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("[");
-        for (int i = 0; i < battleDeck.size(); i++) {
-            builder.append(String.format("%d. %s, ", i + 1, battleDeck.get(i)));
-        }
-        builder.append("]");
-        System.out.println(builder.toString());
-    }
 }
 

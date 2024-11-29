@@ -1,13 +1,16 @@
 package org.andnekon.game;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.Scanner;
-
 import org.andnekon.game.action.Card;
 import org.andnekon.game.action.Intent;
 import org.andnekon.game.entity.Player;
 import org.andnekon.game.entity.enemy.Enemy;
+import org.andnekon.ui.console.ConsoleDisplayer;
+import org.andnekon.ui.console.ConsoleReader;
+import org.andnekon.ui.DisplayOptions;
+import org.andnekon.ui.Displayer;
+import org.andnekon.ui.HelpType;
+import org.andnekon.ui.Messages;
+import org.andnekon.ui.Reader;
 
 /**
  * Turn-based game that takes user input, provides a Slay-the-spire like interaction
@@ -24,11 +27,14 @@ public class Game {
 
     GameSession session;
 
-    Scanner scanner;
+    Reader reader;
+
+    Displayer ui;
 
     public Game() {
-        this.scanner = new Scanner( new BufferedReader( new InputStreamReader( System.in ) ) );
+        this.reader = new ConsoleReader();
         this.session = new GameSession();
+        this.ui = new ConsoleDisplayer(this.session);
         this.session.setPlayer(new Player());
     }
 
@@ -72,36 +78,36 @@ public class Game {
         Enemy enemy = session.getEnemy();
 
         BattleState battleState = BattleState.START;
+        session.initBattle();
         while (battleState != BattleState.COMPLETE) {
             switch (battleState) {
                 case START -> {
-                    session.initBattle();
                     battleState = BattleState.PLAYER_TURN_START;
                 }
                 case PLAYER_TURN_START -> {
-                    player.setEnergy(3);
-                    player.setDefense(0);
-                    enemy.fillIntents(player);
+                    session.initTurn();
+                    ui.help(HelpType.BATTLE_INFO);
+                    ui.choice(player.getBattleDeck().toArray());
                     battleState = BattleState.PLAYER_TURN;
                 }
                 case PLAYER_TURN -> {
                     String input = readInput("What do you do?");
                     battleState = processBattleInput(player, enemy, input);
                 }
-                case PLAYER_TURN_END -> {}
+                case PLAYER_TURN_END -> {
+                    battleState = checkBattleEnd(BattleState.ENEMY_TURN_START, player, enemy);
+                }
                 case ENEMY_TURN_START -> {
                     enemy.setDefense(0);
                     for (Intent intent : enemy.getCurrentIntents()) {
                         intent.execute();
-                        System.out.printf("%s: %s\n", enemy.display(), intent);
                     }
-                    System.out.println();
                     battleState = BattleState.ENEMY_TURN_END;
                 }
                 case ENEMY_TURN_END -> {
                     enemy.clearIntents();
                     session.incTurn();
-                    battleState = setIfBattleEnd(player, enemy);
+                    battleState = checkBattleEnd(BattleState.PLAYER_TURN_START, player, enemy);
                 }
                 case PLAYER_TURN_HELP -> {
                     battleState = BattleState.PLAYER_TURN;
@@ -111,7 +117,7 @@ public class Game {
         }
     }
 
-    private BattleState setIfBattleEnd(Player player, Enemy enemy) {
+    private BattleState checkBattleEnd(BattleState nextState, Player player, Enemy enemy) {
         if (player.getHp() <= 0) {
             setGameState(GameState.GAME_OVER);
             return BattleState.COMPLETE;
@@ -119,7 +125,7 @@ public class Game {
             setGameState(GameState.REWARD);
             return BattleState.COMPLETE;
         }
-        return BattleState.PLAYER_TURN_START;
+        return nextState;
     }
 
     private BattleState processBattleInput(Player player, Enemy enemy, String input) {
@@ -141,7 +147,7 @@ public class Game {
             return BattleState.PLAYER_TURN_HELP;
         }
         if (card.getCost() > player.getEnergy()) {
-            System.out.println("Not enough energy");
+            ui.warning("Not enough energy");
             return BattleState.PLAYER_TURN;
         }
         player.useCard(card, enemy);
@@ -158,20 +164,14 @@ public class Game {
                 setGameState(GameState.QUIT);
                 yield BattleState.COMPLETE;
             }
-            case 'e' -> BattleState.ENEMY_TURN_START;
+            case 'e' -> BattleState.PLAYER_TURN_END;
             case 'h' -> {
                 printBattleHelp();
                 yield BattleState.PLAYER_TURN_HELP;
             }
             case 'c' -> {
-                player.printBattleDeck();
-                System.out.println(String.format("""
-                            Player: [energy: %d, hp: %d, defence: %d]
-                            %s: [hp: %d, def %d]
-                            %s intends to %s.""",
-                            player.getEnergy(), player.getHp(), player.getDefense(),
-                            enemy.display(), enemy.getHp(), enemy.getDefense(),
-                            enemy.display(), enemy.displayIntents()));
+                ui.choice(player.getBattleDeck().toArray());
+                ui.help(HelpType.BATTLE_INFO);
                 yield BattleState.PLAYER_TURN_HELP;
             }
             default -> BattleState.PLAYER_TURN;
@@ -179,12 +179,8 @@ public class Game {
     }
 
     private void printBattleHelp() {
-        System.out.println("""
-                [q] - quit
-                [h] - print this help
-                [e] - end your turn
-                [c] - check your state
-                [1-4] - play selected card""");
+        ui.withSettings(DisplayOptions.MENU.id())
+            .choice((Object[]) Messages.BATTLE_OPTIONS);
     }
 
     private void selectNavigation() {
@@ -193,8 +189,7 @@ public class Game {
         }
         Enemy firstEnemy = session.getEnemyNavLeft();
         Enemy secondEnemy = session.getEnemyNavRight();
-        System.out.println(String.format(" Choose: [ 1. %s | 2. %s ] ",
-                    firstEnemy.display(), secondEnemy.display()));
+        ui.choice(firstEnemy.display(), secondEnemy.display());
         switch (readInput("Where do you go?")) {
             case "1":
                 session.setEnemy(firstEnemy);
@@ -231,26 +226,23 @@ public class Game {
     }
 
     private void displayHelp() {
-        System.out.println("Help yourself, jerk.");
+        ui.help(HelpType.WRONG_INPUT);;
     }
 
     private void displayMenu() {
-        System.out.println("""
-                1. Start game
-                2. Continue
-                3. About
-                4. Quit
-                """);
+        ui.withSettings(DisplayOptions.MENU.id())
+            .choice((Object[]) Messages.MENU_OPTIONS);
     }
 
     private void showEndScreen() {
-        System.out.println("Game over");
+        ui.warning("Game over");
         setGameState(GameState.MENU);
     }
 
     private String readInput(String prompt) {
-        System.out.printf("%s ", prompt);
-        return scanner.nextLine();
+        ui.prompt(prompt);
+        reader.consume();
+        return reader.flush();
 
     }
 
