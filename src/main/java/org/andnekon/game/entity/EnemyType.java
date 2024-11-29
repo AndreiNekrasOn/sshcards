@@ -1,4 +1,4 @@
-package org.andnekon.game;
+package org.andnekon.game.entity;
 
 public enum EnemyType {
     THE_HORROR,

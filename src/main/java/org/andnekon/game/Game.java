@@ -4,6 +4,11 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Scanner;
 
+import org.andnekon.game.action.Card;
+import org.andnekon.game.action.Intent;
+import org.andnekon.game.entity.Player;
+import org.andnekon.game.entity.enemy.Enemy;
+
 /**
  * Turn-based game that takes user input, provides a Slay-the-spire like interaction
  * in the terminal.
@@ -18,8 +23,19 @@ public class Game {
     GameState gameState;
 
     GameSession session;
-    Scanner scanner = new Scanner( new BufferedReader( new InputStreamReader( System.in ) ) );
 
+    Scanner scanner;
+
+    public Game() {
+        this.scanner = new Scanner( new BufferedReader( new InputStreamReader( System.in ) ) );
+        this.session = new GameSession();
+        this.session.setPlayer(new Player());
+    }
+
+
+    public void setGameState(GameState gameState) {
+        this.gameState = gameState;
+    }
 
     /** Game description:
      * Menu: Start game, Continue, About, Quit
@@ -36,37 +52,19 @@ public class Game {
      * After the end screen, show the menu
      */
     private void run() {
-        session = new GameSession();
-        Player player = new Player();
-        session.setPlayer(player);
         session.initializeDefaultDeck();
         gameState = GameState.MENU;
-        boolean isNavigationInit = false;
         while (gameState != GameState.QUIT) {
             switch (gameState) {
                 case QUIT -> {}
                 case MENU -> processMenu();
                 case START_GAME -> setGameState(GameState.NAVIGATION);
-                case NAVIGATION -> {
-                    if (!isNavigationInit) {
-                        session.initNavigation();
-                        isNavigationInit = true;
-                    }
-                    selectNavigation();
-                }
-                case BATTLE -> {
-                    processBattle();//advanceTurn();
-                    isNavigationInit = false;
-                }
-                case REWARD -> {
-                    System.out.println("YOU WON!");
-                    setGameState(GameState.NAVIGATION);
-                }
+                case NAVIGATION -> selectNavigation();
+                case BATTLE -> processBattle();
+                case REWARD -> setGameState(GameState.NAVIGATION);
                 case GAME_OVER -> showEndScreen();
-                default -> {}
             }
         }
-
     }
 
     private void processBattle() {
@@ -93,7 +91,7 @@ public class Game {
                 case PLAYER_TURN_END -> {}
                 case ENEMY_TURN_START -> {
                     enemy.setDefense(0);
-                    for (Intent intent : enemy.currentIntents) {
+                    for (Intent intent : enemy.getCurrentIntents()) {
                         intent.execute();
                         System.out.printf("%s: %s\n", enemy.display(), intent);
                     }
@@ -190,6 +188,9 @@ public class Game {
     }
 
     private void selectNavigation() {
+        if (!session.isNavigationInit()) {
+            session.initNavigation();
+        }
         Enemy firstEnemy = session.getEnemyNavLeft();
         Enemy secondEnemy = session.getEnemyNavRight();
         System.out.println(String.format(" Choose: [ 1. %s | 2. %s ] ",
@@ -205,6 +206,7 @@ public class Game {
                 displayHelp();
                 return;
         }
+        session.setNavigationInit(false);
         setGameState(GameState.BATTLE);
     }
 
@@ -250,10 +252,6 @@ public class Game {
         System.out.printf("%s ", prompt);
         return scanner.nextLine();
 
-    }
-
-    public void setGameState(GameState gameState) {
-        this.gameState = gameState;
     }
 
 }

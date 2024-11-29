@@ -8,6 +8,5 @@ public enum GameState {
     BATTLE,
     REWARD,
     GAME_OVER,
-    TURN_END
 }
 

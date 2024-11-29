@@ -1,7 +1,12 @@
-package org.andnekon.game;
+package org.andnekon.game.entity.enemy;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.andnekon.game.action.Intent;
+import org.andnekon.game.entity.Entity;
+import org.andnekon.game.entity.Player;
+
 
 public abstract class Enemy extends Entity {
 
@@ -19,7 +24,7 @@ public abstract class Enemy extends Entity {
         }
     }
 
-    protected abstract void fillIntents(Player player);
+    public abstract void fillIntents(Player player);
 
     public String displayIntents() {
         StringBuilder intents = new StringBuilder();
@@ -31,6 +36,10 @@ public abstract class Enemy extends Entity {
 
     public void clearIntents() {
         currentIntents.clear();
+    }
+
+    public List<Intent> getCurrentIntents() {
+        return currentIntents;
     }
 }
 

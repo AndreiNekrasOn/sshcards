@@ -1,7 +1,8 @@
-package org.andnekon.game;
+package org.andnekon.game.action;
+
+import org.andnekon.game.entity.Player;
 
 public class CardFactory {
-
 
     public static Card getCard(Player player, String name) {
         Card card;

@@ -1,4 +1,7 @@
-package org.andnekon.game;
+package org.andnekon.game.entity.enemy;
+
+import org.andnekon.game.action.Intent;
+import org.andnekon.game.entity.Player;
 
 public class RegularShip extends Enemy {
 
@@ -14,7 +17,7 @@ public class RegularShip extends Enemy {
     }
 
     @Override
-    protected void fillIntents(Player player) {
+    public void fillIntents(Player player) {
         this.currentIntents.add(new Intent(this, Intent.IntentType.ATTACK, 1, player));
         this.currentIntents.add(new Intent(this, Intent.IntentType.ATTACK, 1, player));
         this.currentIntents.add(new Intent(this, Intent.IntentType.ATTACK, 1, player));

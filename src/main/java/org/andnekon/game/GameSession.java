@@ -1,5 +1,10 @@
 package org.andnekon.game;
 
+import org.andnekon.game.action.CardFactory;
+import org.andnekon.game.entity.Player;
+import org.andnekon.game.entity.enemy.Enemy;
+import org.andnekon.game.entity.enemy.EnemyFactory;
+
 public class GameSession {
 
     private Enemy enemy;
@@ -7,6 +12,7 @@ public class GameSession {
     private int turn;
     private Enemy enemyNavRight;
     private Enemy enemyNavLeft;
+    private boolean navigationInit;
 
     public Enemy getEnemyNavRight() {
         return enemyNavRight;
@@ -52,6 +58,15 @@ public class GameSession {
     public void initNavigation() {
         this.enemyNavLeft = EnemyFactory.getRandomEnemy();
         this.enemyNavRight = EnemyFactory.getRandomEnemy();
+        this.navigationInit = true;
+    }
+
+    public boolean isNavigationInit() {
+        return navigationInit;
+    }
+
+    public void setNavigationInit(boolean navigationInit) {
+        this.navigationInit = navigationInit;
     }
 }
 

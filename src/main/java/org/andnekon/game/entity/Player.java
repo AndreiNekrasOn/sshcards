@@ -1,7 +1,9 @@
-package org.andnekon.game;
+package org.andnekon.game.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.andnekon.game.action.Card;
 
 /**
   * Player model

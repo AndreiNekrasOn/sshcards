@@ -1,7 +1,11 @@
-package org.andnekon.game;
+package org.andnekon.game.action;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.andnekon.game.entity.Entity;
+import org.andnekon.game.entity.Player;
+import org.andnekon.game.entity.enemy.Enemy;
 
 public class Intent {
 

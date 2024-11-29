@@ -1,6 +1,8 @@
-package org.andnekon.game;
+package org.andnekon.game.entity.enemy;
 
 import java.util.Random;
+
+import org.andnekon.game.entity.EnemyType;
 
 public class EnemyFactory {
 
