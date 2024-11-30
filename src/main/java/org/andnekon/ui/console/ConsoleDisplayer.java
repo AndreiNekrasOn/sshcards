@@ -46,15 +46,19 @@ public class ConsoleDisplayer implements Displayer {
                 }
                 System.out.println();
             }
-            case WRONG_INPUT -> {
-                System.out.println("Informative help message");
-            }
+            case WRONG_INPUT -> System.out.println("Informative help message");
+            case TURN_INFO -> throw new UnsupportedOperationException("Unimplemented case: " + type);
+            default -> throw new IllegalArgumentException("Unexpected value: " + type);
         };
     }
 
     @Override
-    public void warning(String message) {
-        System.out.printf("WARNING! %s\n", message);
+    public void message(String format, Object... params) {
+        if (params.length == 0) {
+            System.out.printf("%s\n", format);
+        } else {
+            System.out.printf(format, params);
+        }
     }
 
     @Override

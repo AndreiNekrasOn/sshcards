@@ -4,7 +4,7 @@ public interface Displayer {
 
     void help(HelpType type);
 
-    void warning(String message);
+    void message(String format, Object... args);
 
     void prompt(String message);
 

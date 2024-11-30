@@ -4,6 +4,7 @@ import org.andnekon.game.action.CardFactory;
 import org.andnekon.game.entity.Player;
 import org.andnekon.game.entity.enemy.Enemy;
 import org.andnekon.game.entity.enemy.EnemyFactory;
+import org.andnekon.ui.HelpType;
 
 public class GameSession {
 
@@ -13,6 +14,11 @@ public class GameSession {
     private Enemy enemyNavRight;
     private Enemy enemyNavLeft;
     private boolean navigationInit;
+    private HelpType helpType;
+
+    public HelpType getHelpType() {
+        return helpType;
+    }
 
     public Enemy getEnemyNavRight() {
         return enemyNavRight;
@@ -69,6 +75,10 @@ public class GameSession {
 
     public int getTurnNumber() {
         return turn;
+    }
+
+    public void setHelpType(HelpType type) {
+        this.helpType = type;
     }
 }
 
