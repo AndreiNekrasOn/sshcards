@@ -1,4 +1,4 @@
-package org.andnekon.ui;
+package org.andnekon.view.formatter;
 
 public enum DisplayOptions {
     MENU(1);

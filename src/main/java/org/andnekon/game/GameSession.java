@@ -4,7 +4,7 @@ import org.andnekon.game.action.CardFactory;
 import org.andnekon.game.entity.Player;
 import org.andnekon.game.entity.enemy.Enemy;
 import org.andnekon.game.entity.enemy.EnemyFactory;
-import org.andnekon.ui.HelpType;
+import org.andnekon.view.HelpType;
 
 public class GameSession {
 

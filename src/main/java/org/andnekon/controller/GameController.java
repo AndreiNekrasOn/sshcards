@@ -1,9 +1,10 @@
-package org.andnekon.game;
+package org.andnekon.controller;
 
-import org.andnekon.ui.ConsoleView;
-import org.andnekon.ui.GameView;
-import org.andnekon.ui.Reader;
-import org.andnekon.ui.console.ConsoleReader;
+import org.andnekon.game.GameLogic;
+import org.andnekon.view.ConsoleView;
+import org.andnekon.view.GameView;
+import org.andnekon.view.reader.Reader;
+import org.andnekon.view.reader.ConsoleReader;
 
 public class GameController {
 

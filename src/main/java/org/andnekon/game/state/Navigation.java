@@ -2,7 +2,7 @@ package org.andnekon.game.state;
 
 import org.andnekon.game.GameSession;
 import org.andnekon.game.entity.enemy.Enemy;
-import org.andnekon.ui.HelpType;
+import org.andnekon.view.HelpType;
 
 public class Navigation extends State {
 

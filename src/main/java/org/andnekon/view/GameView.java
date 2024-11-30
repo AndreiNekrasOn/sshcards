@@ -1,6 +1,4 @@
-package org.andnekon.ui;
-
-import org.andnekon.game.GameLogic;
+package org.andnekon.view;
 
 public interface GameView {
 

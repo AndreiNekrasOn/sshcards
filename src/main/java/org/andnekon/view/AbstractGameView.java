@@ -1,4 +1,4 @@
-package org.andnekon.ui;
+package org.andnekon.view;
 
 import org.andnekon.game.GameLogic;
 

@@ -1,4 +1,4 @@
-package org.andnekon.ui;
+package org.andnekon.view;
 
 public class Messages {
 

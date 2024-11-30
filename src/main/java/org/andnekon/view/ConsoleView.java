@@ -1,11 +1,11 @@
-package org.andnekon.ui;
+package org.andnekon.view;
 
-import org.andnekon.game.BattleState;
 import org.andnekon.game.GameLogic;
 import org.andnekon.game.GameSession;
 import org.andnekon.game.state.Battle;
-import org.andnekon.game.state.State;
-import org.andnekon.ui.console.ConsoleDisplayer;
+import org.andnekon.view.formatter.ConsoleDisplayer;
+import org.andnekon.view.formatter.DisplayOptions;
+import org.andnekon.view.formatter.Displayer;
 
 public class ConsoleView extends AbstractGameView {
 

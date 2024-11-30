@@ -1,11 +1,9 @@
-package org.andnekon.ui.console;
+package org.andnekon.view.formatter;
 
 import org.andnekon.game.GameSession;
 import org.andnekon.game.entity.Player;
 import org.andnekon.game.entity.enemy.Enemy;
-import org.andnekon.ui.DisplayOptions;
-import org.andnekon.ui.Displayer;
-import org.andnekon.ui.HelpType;
+import org.andnekon.view.HelpType;
 
 public class ConsoleDisplayer implements Displayer {
 

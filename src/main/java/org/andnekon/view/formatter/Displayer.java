@@ -1,4 +1,6 @@
-package org.andnekon.ui;
+package org.andnekon.view.formatter;
+
+import org.andnekon.view.HelpType;
 
 public interface Displayer {
 

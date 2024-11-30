@@ -1,4 +1,4 @@
-package org.andnekon.ui;
+package org.andnekon.view;
 
 public enum HelpType {
     BATTLE_INFO,

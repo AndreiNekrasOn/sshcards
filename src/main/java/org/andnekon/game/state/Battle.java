@@ -1,12 +1,11 @@
 package org.andnekon.game.state;
 
-import org.andnekon.game.BattleState;
 import org.andnekon.game.GameSession;
 import org.andnekon.game.action.Card;
 import org.andnekon.game.action.Intent;
 import org.andnekon.game.entity.Player;
 import org.andnekon.game.entity.enemy.Enemy;
-import org.andnekon.ui.HelpType;
+import org.andnekon.view.HelpType;
 
 public class Battle extends State {
 
