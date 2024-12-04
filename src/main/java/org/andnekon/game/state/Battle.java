@@ -34,7 +34,7 @@ public class Battle extends State {
         super(session);
         phase = BattleState.PLAYER_TURN_START;
         session.initBattle();
-
+        session.initTurn();
     }
 
     @Override
@@ -56,7 +56,6 @@ public class Battle extends State {
         Enemy enemy = session.getEnemy();
         switch (phase) {
             case PLAYER_TURN_START -> {
-                session.initTurn();
                 phase = processBattleInput(player, enemy, input);
             }
             case PLAYER_TURN, PLAYER_TURN_HELP -> {
@@ -75,6 +74,9 @@ public class Battle extends State {
             case ENEMY_TURN_END -> {
                 enemy.clearIntents();
                 session.incTurn();
+                // we need to init turn in constructor for the better View
+                // so we call initTurn again here, not on PLAYER_TURN_START
+                session.initTurn();
                 phase = checkBattleEnd(BattleState.PLAYER_TURN_START, player, enemy);
             }
             case COMPLETE -> {}
