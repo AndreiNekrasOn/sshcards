@@ -53,19 +53,18 @@ public class ConsoleView extends AbstractGameView {
             case PLAYER_TURN_START -> {
                 helper.help(HelpType.BATTLE_INFO);
                 helper.help(HelpType.BATTLE_ENEMY_INTENTS);
-            }
-            case PLAYER_TURN -> {
+                helper.help(HelpType.ACTIONS);
                 helper.prompt("What do you do?");
             }
-            case PLAYER_TURN_END -> {}
+            case PLAYER_TURN -> { helper.prompt("What do you do?"); }
+            case PLAYER_TURN_END -> { helper.message("Your turn is over"); }
             case ENEMY_TURN_START -> {
                 helper.withSettings(DisplayOptions.MENU.id())
                     .choice(session.getEnemy().getCurrentIntents().toArray());
             }
-            case ENEMY_TURN_END -> {}
-            case PLAYER_TURN_HELP -> helper.help(HelpType.BATTLE_ENEMY_INTENTS);
+            case ENEMY_TURN_END -> { helper.message("Enemy turn is over"); }
+            case PLAYER_TURN_HELP -> { helper.help(HelpType.BATTLE_ENEMY_INTENTS); }
             case COMPLETE -> helper.message("Battle finished");
-            default -> {}
         }
     }
 
