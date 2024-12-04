@@ -1,15 +1,28 @@
 package org.andnekon.game.state;
 
+import java.util.List;
+
 import org.andnekon.game.GameSession;
 import org.andnekon.game.action.Card;
 import org.andnekon.game.action.Intent;
 import org.andnekon.game.entity.Player;
 import org.andnekon.game.entity.enemy.Enemy;
 import org.andnekon.view.HelpType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Battle extends State {
 
+    Logger logger = LoggerFactory.getLogger(Battle.class);
+
     BattleState phase;
+
+    private final static List<BattleState> phasesRequiringInput = List.of(
+        BattleState.PLAYER_TURN_START,
+        BattleState.PLAYER_TURN,
+        BattleState.PLAYER_TURN_HELP,
+        BattleState.COMPLETE
+    );
 
     public BattleState getPhase() {
         return phase;
@@ -19,22 +32,39 @@ public class Battle extends State {
 
     public Battle(GameSession session) {
         super(session);
-        phase = BattleState.START;
+        phase = BattleState.PLAYER_TURN_START;
         session.initBattle();
+
     }
 
     @Override
     public State handleInput(String input) {
+        logger.info("In battle recieved {}, phase {}", input, phase);
+        while (runBattle(input)) {
+        }
+        logger.info("After processing input phase {}", phase);
+
+        if (phase == BattleState.COMPLETE) {
+            return new Reward(session);
+        }
+        return this;
+    }
+
+    private boolean runBattle(String input) {
+        logger.info("runBattle start phase {}", phase);
         Player player = session.getPlayer();
         Enemy enemy = session.getEnemy();
         switch (phase) {
-            case START -> { phase = BattleState.PLAYER_TURN_START; }
             case PLAYER_TURN_START -> {
                 session.initTurn();
-                phase = BattleState.PLAYER_TURN;
+                phase = processBattleInput(player, enemy, input);
             }
-            case PLAYER_TURN -> { phase = processBattleInput(player, enemy, input); }
-            case PLAYER_TURN_END -> { phase = checkBattleEnd(BattleState.ENEMY_TURN_START, player, enemy); }
+            case PLAYER_TURN, PLAYER_TURN_HELP -> {
+                phase = processBattleInput(player, enemy, input);
+            }
+            case PLAYER_TURN_END -> {
+                phase = checkBattleEnd(BattleState.ENEMY_TURN_START, player, enemy);
+            }
             case ENEMY_TURN_START -> {
                 enemy.setDefense(0);
                 for (Intent intent : enemy.getCurrentIntents()) {
@@ -47,18 +77,10 @@ public class Battle extends State {
                 session.incTurn();
                 phase = checkBattleEnd(BattleState.PLAYER_TURN_START, player, enemy);
             }
-            case PLAYER_TURN_HELP -> {
-                nextState = new Help(session);
-                session.setHelpType(HelpType.WRONG_INPUT);
-                phase = BattleState.PLAYER_TURN;
-            }
             case COMPLETE -> {}
         }
-
-        if (phase == BattleState.COMPLETE) {
-            return new Reward(session);
-        }
-        return this;
+        logger.info("runBattle end phase {}", phase);
+        return !phasesRequiringInput.contains(phase);
     }
 
     private BattleState checkBattleEnd(BattleState nextPhase, Player player, Enemy enemy) {
@@ -107,7 +129,7 @@ public class Battle extends State {
             }
             case 'e' -> BattleState.PLAYER_TURN_END;
             case 'h' -> {
-                session.setHelpType(HelpType.BATTLE_INFO);
+                session.setHelpType(HelpType.ACTIONS);
                 nextState = new Help(session);
                 yield BattleState.PLAYER_TURN_HELP;
             }

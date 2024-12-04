@@ -3,6 +3,7 @@ package org.andnekon.view;
 import org.andnekon.game.GameLogic;
 import org.andnekon.game.GameSession;
 import org.andnekon.game.state.Battle;
+import org.andnekon.game.state.BattleState;
 import org.andnekon.view.formatter.ConsoleDisplayer;
 import org.andnekon.view.formatter.DisplayOptions;
 import org.andnekon.view.formatter.Displayer;
@@ -49,23 +50,21 @@ public class ConsoleView extends AbstractGameView {
     }
 
     protected void showBattle() {
-        switch (((Battle) game.getCurrentState()).getPhase()) {
+        BattleState phase = ((Battle) game.getCurrentState()).getPhase();
+        switch (phase) {
             case PLAYER_TURN_START -> {
                 helper.help(HelpType.BATTLE_INFO);
                 helper.help(HelpType.BATTLE_ENEMY_INTENTS);
                 helper.help(HelpType.ACTIONS);
-                helper.prompt("What do you do?");
             }
-            case PLAYER_TURN -> { helper.prompt("What do you do?"); }
-            case PLAYER_TURN_END -> { helper.message("Your turn is over"); }
-            case ENEMY_TURN_START -> {
-                helper.withSettings(DisplayOptions.MENU.id())
-                    .choice(session.getEnemy().getCurrentIntents().toArray());
+            case PLAYER_TURN -> {}
+            case PLAYER_TURN_HELP -> {
+                helper.help(session.getHelpType());
             }
-            case ENEMY_TURN_END -> { helper.message("Enemy turn is over"); }
-            case PLAYER_TURN_HELP -> { helper.help(HelpType.BATTLE_ENEMY_INTENTS); }
             case COMPLETE -> helper.message("Battle finished");
+            default -> throw new IllegalStateException("Unexpected value: " + phase);
         }
+        helper.prompt("What do you do?");
     }
 
 }

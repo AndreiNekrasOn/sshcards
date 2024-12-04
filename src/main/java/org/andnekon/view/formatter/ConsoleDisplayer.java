@@ -35,9 +35,12 @@ public class ConsoleDisplayer implements Displayer {
         switch (type) {
             case BATTLE_INFO -> helpBattleInfo();
             case BATTLE_ENEMY_INTENTS -> helpBattleEnemyIntents();
-            case WRONG_INPUT -> printf("Informative help message");
+            case WRONG_INPUT -> printf("Informative help message\n");
             case ACTIONS -> helpActions();
-            case TURN_INFO -> throw new UnsupportedOperationException("Unimplemented case: " + type);
+            case TURN_INFO -> {
+                helpBattleInfo();
+                choice((Object[]) session.getPlayer().getBattleDeck().toArray());
+            }
             default -> throw new IllegalArgumentException("Unexpected value: " + type);
         };
     }
@@ -110,17 +113,17 @@ public class ConsoleDisplayer implements Displayer {
     }
 
     private void helpBattleInfo() {
-                final Player player = session.getPlayer();
-                final Enemy enemy = session.getEnemy();
-                printf("=== Turn %d ===\n", session.getTurnNumber());
-                printf("""
-                            Player: [energy: %d, hp: %d, defence: %d]
-                            %s: [hp: %d, def %d]
-                            %s intends to %s.\n""",
-                            player.getEnergy(), player.getHp(), player.getDefense(),
-                            enemy.display(), enemy.getHp(), enemy.getDefense(),
-                            enemy.display(), enemy.displayIntents());
-                printf("=== GOOD LUCK!  ===\n", session.getTurnNumber());
-            }
+        final Player player = session.getPlayer();
+        final Enemy enemy = session.getEnemy();
+        printf("=== Turn %d ===\n", session.getTurnNumber());
+        printf("""
+                Player: [energy: %d, hp: %d, defence: %d]
+                %s: [hp: %d, def %d]
+                %s intends to %s.\n""",
+                player.getEnergy(), player.getHp(), player.getDefense(),
+                enemy.display(), enemy.getHp(), enemy.getDefense(),
+                enemy.display(), enemy.displayIntents());
+        printf("=== GOOD LUCK!  ===\n");
+    }
 }
 

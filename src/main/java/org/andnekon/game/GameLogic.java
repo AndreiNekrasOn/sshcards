@@ -3,6 +3,8 @@ package org.andnekon.game;
 import org.andnekon.game.entity.Player;
 import org.andnekon.game.state.Menu;
 import org.andnekon.game.state.State;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Turn-based game that takes user input, provides a Slay-the-spire like interaction
@@ -23,6 +25,8 @@ import org.andnekon.game.state.State;
  * After the end screen, show the menu<br>
  */
 public class GameLogic {
+
+    public static final Logger logger = LoggerFactory.getLogger(GameLogic.class);
 
     State previousState;
 
@@ -48,7 +52,9 @@ public class GameLogic {
     }
 
     public void handleInput(String input) {
+        logger.info("Waiting for input, {}", currentState.getType());
         setCurrentState(currentState.handleInput(input));
+        logger.info("After input, {}", currentState.getType());
     }
 
     public GameSession getSession() {

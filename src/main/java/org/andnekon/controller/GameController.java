@@ -1,6 +1,7 @@
 package org.andnekon.controller;
 
 import org.andnekon.game.GameLogic;
+import org.andnekon.game.state.State;
 import org.andnekon.view.ConsoleView;
 import org.andnekon.view.GameView;
 import org.andnekon.view.reader.Reader;
@@ -21,21 +22,17 @@ public class GameController {
         GameLogic game = new GameLogic();
         GameView view = new ConsoleView(game);
         GameController controller = new GameController(game, view);
-        controller.start();
+        controller.run();
+    }
 
+    private void run() {
         Reader reader = new ConsoleReader();
-
         while (true) {
+            view.display();
             reader.consume();
             String input = reader.flush();
             game.handleInput(input);
-            view.display();
         }
-    }
-
-    private void start() {
-        view.welcome();
-        view.display();
     }
 }
 
