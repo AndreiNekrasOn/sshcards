@@ -11,15 +11,15 @@ import org.andnekon.view.Messages;
 
 public class ConsoleDisplayer implements Displayer {
 
-    GameSession session;
+    protected GameSession session;
+    /** DisplayOptions */
+    protected int settings = 0;
 
-    private static final String O_BRACKET = "\\{OBRACKET\\}";
-    private static final String C_BRACKET = "\\{CBRACKET\\}";
-    private static final String SEPARATOR = "\\{SEPARATOR\\}";
-    private static final String NUMBER = "\\{NUMBER (\\d+)\\}";
+    protected static final String O_BRACKET = "\\{OBRACKET\\}";
+    protected static final String C_BRACKET = "\\{CBRACKET\\}";
+    protected static final String SEPARATOR = "\\{SEPARATOR\\}";
+    protected static final String NUMBER = "\\{NUMBER (\\d+)\\}";
 
-    // DisplayOptions
-    int settings = 0;
 
     public ConsoleDisplayer(final GameSession session) {
         this.session = session;
@@ -39,7 +39,7 @@ public class ConsoleDisplayer implements Displayer {
             case ACTIONS -> helpActions();
             case TURN_INFO -> {
                 helpBattleInfo();
-                choice((Object[]) session.getPlayer().getBattleDeck().toArray());
+                choice(session.getPlayer().getBattleDeck().toArray());
             }
             default -> throw new IllegalArgumentException("Unexpected value: " + type);
         };
@@ -66,7 +66,7 @@ public class ConsoleDisplayer implements Displayer {
         for (int i = 0; i < options.length; i++) {
             builder.append(String.format("{NUMBER %d}%s{SEPARATOR}", i + 1, options[i]));
         }
-        builder.append("{CBRACKET}");
+        builder.append("{CBRACKET}\n");
         printf(builder.toString());
     }
 
@@ -75,14 +75,19 @@ public class ConsoleDisplayer implements Displayer {
         return new ConsoleDisplayer(session, settings);
     }
 
-    private void printf(String format, final Object... params) {
+    protected void printf(String format, final Object... params) {
+        format = transformTemplateString(format);
+        System.out.printf(format, params);
+    }
+
+    protected String transformTemplateString(String format) {
         if ((DisplayOptions.MENU.id() & settings) != 0) {
             format = format.replaceAll(O_BRACKET, "");
             format = format.replaceAll(C_BRACKET, "");
             format = format.replaceAll(SEPARATOR, "\n");
         } else {
             format = format.replaceAll(O_BRACKET, "[");
-            format = format.replaceAll(C_BRACKET, "]\n");
+            format = format.replaceAll(C_BRACKET, "]");
             format = format.replaceAll(SEPARATOR, ", ");
         }
         if ((DisplayOptions.UNNUMBERED.id() & settings) != 0) {
@@ -96,7 +101,7 @@ public class ConsoleDisplayer implements Displayer {
                 m = p.matcher(format);
             }
         }
-        System.out.printf(format, params);
+        return format;
     }
 
     private void helpActions() {

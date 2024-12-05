@@ -10,8 +10,8 @@ import org.andnekon.view.formatter.Displayer;
 
 public class ConsoleView extends AbstractGameView {
 
-    GameSession session;
-    Displayer helper;
+    protected GameSession session;
+    protected Displayer helper;
 
     public ConsoleView(GameLogic game) {
         this.game = game;

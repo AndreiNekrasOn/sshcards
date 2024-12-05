@@ -45,7 +45,7 @@ public class Battle extends State {
         logger.info("After processing input phase {}", phase);
 
         if (phase == BattleState.COMPLETE) {
-            return new Reward(session);
+            return nextState;
         }
         return this;
     }
@@ -55,10 +55,7 @@ public class Battle extends State {
         Player player = session.getPlayer();
         Enemy enemy = session.getEnemy();
         switch (phase) {
-            case PLAYER_TURN_START -> {
-                phase = processBattleInput(player, enemy, input);
-            }
-            case PLAYER_TURN, PLAYER_TURN_HELP -> {
+            case PLAYER_TURN_START, PLAYER_TURN, PLAYER_TURN_HELP -> {
                 phase = processBattleInput(player, enemy, input);
             }
             case PLAYER_TURN_END -> {
@@ -132,12 +129,10 @@ public class Battle extends State {
             case 'e' -> BattleState.PLAYER_TURN_END;
             case 'h' -> {
                 session.setHelpType(HelpType.ACTIONS);
-                nextState = new Help(session);
                 yield BattleState.PLAYER_TURN_HELP;
             }
             case 'c' -> {
                 session.setHelpType(HelpType.TURN_INFO);
-                nextState = new Help(session);
                 yield BattleState.PLAYER_TURN_HELP;
             }
             default -> BattleState.PLAYER_TURN;
