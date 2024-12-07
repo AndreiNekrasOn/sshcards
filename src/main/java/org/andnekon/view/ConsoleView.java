@@ -1,21 +1,18 @@
 package org.andnekon.view;
 
-import org.andnekon.game.GameLogic;
 import org.andnekon.game.GameSession;
 import org.andnekon.game.state.Battle;
-import org.andnekon.game.state.BattleState;
+import org.andnekon.game.state.State;
 import org.andnekon.view.formatter.ConsoleDisplayer;
 import org.andnekon.view.formatter.DisplayOptions;
 import org.andnekon.view.formatter.Displayer;
 
 public class ConsoleView extends AbstractGameView {
 
-    protected GameSession session;
     protected Displayer helper;
 
-    public ConsoleView(GameLogic game) {
-        this.game = game;
-        this.session = game.getSession();
+    public ConsoleView(GameSession session) {
+        this.session = session;
         this.helper = new ConsoleDisplayer(session);
     }
 
@@ -50,7 +47,7 @@ public class ConsoleView extends AbstractGameView {
     }
 
     protected void showBattle() {
-        BattleState phase = ((Battle) game.getCurrentState()).getPhase();
+        Battle.BattleState phase = ((Battle) state).getPhase();
         switch (phase) {
             case PLAYER_TURN_START -> {
                 helper.help(HelpType.BATTLE_INFO);

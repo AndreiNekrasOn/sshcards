@@ -1,14 +1,17 @@
 package org.andnekon.view;
 
-import org.andnekon.game.GameLogic;
+import org.andnekon.game.GameSession;
+import org.andnekon.game.state.State;
 
 public abstract class AbstractGameView implements GameView {
 
-    protected GameLogic game;
+    protected GameSession session;
+    protected State state;
 
     @Override
-    public void display() {
-        switch (game.getCurrentState().getType()) {
+    public void display(State state) {
+        this.state = state;
+        switch (state.getType()) {
             case BATTLE -> showBattle();
             case DEATH -> showDeath();
             case HELP -> showHelp();

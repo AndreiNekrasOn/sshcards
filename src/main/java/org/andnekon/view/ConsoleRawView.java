@@ -2,7 +2,8 @@ package org.andnekon.view;
 
 import java.io.IOException;
 
-import org.andnekon.game.GameLogic;
+import org.andnekon.game.GameSession;
+import org.andnekon.game.state.State;
 import org.andnekon.view.formatter.ConsoleRawDisplayer;
 import org.andnekon.view.formatter.DisplayOptions;
 import org.andnekon.view.formatter.Displayer;
@@ -17,8 +18,8 @@ public class ConsoleRawView extends ConsoleView {
     Terminal terminal;
     public LineReaderImpl reader; // TODO: not public
 
-    public ConsoleRawView(GameLogic game) {
-        super(game);
+    public ConsoleRawView(GameSession session) {
+        super(session);
         try {
             terminal = TerminalBuilder.builder()
                 .system(true)
@@ -34,9 +35,9 @@ public class ConsoleRawView extends ConsoleView {
     }
 
     @Override
-    public void display() {
+    public void display(State state) {
         reader.clearScreen();
-        super.display();
+        super.display(state);
         reader.flush();
     }
 

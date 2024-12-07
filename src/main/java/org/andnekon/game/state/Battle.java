@@ -13,9 +13,15 @@ import org.slf4j.LoggerFactory;
 
 public class Battle extends State {
 
-    Logger logger = LoggerFactory.getLogger(Battle.class);
-
-    BattleState phase;
+    public enum BattleState {
+        PLAYER_TURN_START,
+        PLAYER_TURN,
+        PLAYER_TURN_END,
+        ENEMY_TURN_START,
+        ENEMY_TURN_END,
+        COMPLETE,
+        PLAYER_TURN_HELP,
+    }
 
     private final static List<BattleState> phasesRequiringInput = List.of(
         BattleState.PLAYER_TURN_START,
@@ -24,9 +30,9 @@ public class Battle extends State {
         BattleState.COMPLETE
     );
 
-    public BattleState getPhase() {
-        return phase;
-    }
+    Logger logger = LoggerFactory.getLogger(Battle.class);
+
+    BattleState phase;
 
     State nextState;
 
@@ -35,6 +41,10 @@ public class Battle extends State {
         phase = BattleState.PLAYER_TURN_START;
         session.initBattle();
         session.initTurn();
+    }
+
+    public BattleState getPhase() {
+        return phase;
     }
 
     @Override
@@ -48,6 +58,11 @@ public class Battle extends State {
             return nextState;
         }
         return this;
+    }
+
+    @Override
+    protected void setType() {
+        this.type = State.Type.BATTLE;
     }
 
     private boolean runBattle(String input) {
@@ -137,11 +152,6 @@ public class Battle extends State {
             }
             default -> BattleState.PLAYER_TURN;
         };
-    }
-
-    @Override
-    protected void setType() {
-        this.type = State.Type.BATTLE;
     }
 }
 

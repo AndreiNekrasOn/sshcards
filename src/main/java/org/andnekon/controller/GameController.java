@@ -22,7 +22,7 @@ public class GameController {
 
     public static void main( String[] args ) {
         GameLogic game = new GameLogic();
-        GameView view = new ConsoleRawView(game);
+        GameView view = new ConsoleRawView(game.getSession());
         GameController controller = new GameController(game, view);
         controller.run();
     }
@@ -30,7 +30,7 @@ public class GameController {
     private void run() {
         Reader reader = new ConsoleRawReader(((ConsoleRawView) view).reader);
         while (true) {
-            view.display();
+            view.display(game.getCurrentState());
             String input = reader.read();
             game.handleInput(input);
         }
