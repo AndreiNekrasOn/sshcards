@@ -54,7 +54,7 @@
         <archive>
           <manifest>
             <addClasspath>true</addClasspath>
-            <mainClass>org.andnekon.server.TelnetServer</mainClass>
+            <mainClass>org.andnekon.server.TcpServer</mainClass>
           </manifest>
         </archive>
         <descriptorRefs>

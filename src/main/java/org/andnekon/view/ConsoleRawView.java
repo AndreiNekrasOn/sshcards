@@ -1,6 +1,9 @@
 package org.andnekon.view;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.charset.Charset;
 
 import org.andnekon.game.GameSession;
 import org.andnekon.game.state.State;
@@ -13,21 +16,27 @@ import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
-import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
-import com.googlecode.lanterna.terminal.Terminal;
+import com.googlecode.lanterna.terminal.ansi.UnixTerminal;
 
-// Since in this case reader uses the Screen of the View, I decided
-// to join them in one class
+// Since in this case Reader uses the Screen of the View, I decided
+// to join them in one class. Violates SRP
 public class ConsoleRawView extends ConsoleView implements Reader {
 
+    private UnixTerminal terminal;
     private Screen screen;
 
     // to avoid constantly casting to type
     private ConsoleRawDisplayer crdHelper;
 
+    private InputStream is;
+    private OutputStream os;
+
     public ConsoleRawView(GameSession session) throws IOException {
         super(session);
-        Terminal terminal = new DefaultTerminalFactory().createTerminal();
+    }
+
+    private void setup() throws IOException {
+        this.terminal = new UnixTerminal(is, os, Charset.defaultCharset());
         screen = new TerminalScreen(terminal);
         screen.startScreen();
         crdHelper = ConsoleRawDisplayer.builder(session)
@@ -118,9 +127,18 @@ public class ConsoleRawView extends ConsoleView implements Reader {
         }
     }
 
+    // TODO: get rid of prepare all together, since it was added for ConsoleRawView
+    // which has no use for it. Displayer/Reader can accept IOstream on init
     @Override
     public byte[] prepare() {
-        // TODO: figure out how to send screen over connection
-        throw new UnsupportedOperationException("Raw mode should be handled differently");
+        return null;
+    }
+
+    // TODO: hack-ish way to do this, think this over
+    // Since class has complicated configuration, maybe another case for Factory
+    public void bind(InputStream is, OutputStream os) throws IOException {
+        this.is = is;
+        this.os = os;
+        setup();
     }
 }
