@@ -2,7 +2,6 @@ package org.andnekon.view;
 
 import org.andnekon.game.GameSession;
 import org.andnekon.game.state.Battle;
-import org.andnekon.game.state.State;
 import org.andnekon.view.formatter.ConsoleDisplayer;
 import org.andnekon.view.formatter.DisplayOptions;
 import org.andnekon.view.formatter.Displayer;
@@ -62,6 +61,10 @@ public class ConsoleView extends AbstractGameView {
             default -> throw new IllegalStateException("Unexpected value: " + phase);
         }
         helper.prompt("What do you do?");
+    }
+
+    public byte[] prepare() {
+        return helper.collect();
     }
 
 }

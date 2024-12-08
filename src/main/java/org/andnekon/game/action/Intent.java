@@ -14,12 +14,11 @@ public class Intent {
         DEFEND,
         HEAL
     }
-    public List<Entity> targets;
-    public Entity source;
 
-    public IntentType type;
-
-    public int value;
+    protected List<Entity> targets;
+    protected Entity source;
+    protected IntentType type;
+    protected int value;
 
     public Intent(Entity source, IntentType type, int value, Entity... targets) {
         this.targets = new ArrayList<>();
@@ -53,14 +52,13 @@ public class Intent {
                 }
                 break;
         }
-
     }
 
     public boolean isTargetSelf() {
         return this.targets.size() == 1 && this.targets.get(0) instanceof Player;
     }
 
-    // add descriptions to all intents...
+    // TODO: add descriptions to all intents...
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();

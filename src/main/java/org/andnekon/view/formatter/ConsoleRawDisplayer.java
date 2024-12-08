@@ -92,5 +92,12 @@ public class ConsoleRawDisplayer extends ConsoleDisplayer {
             .withColumn(lines[lines.length - 1].length())
             .withRelativeRow(lines.length + newLine);
     }
+
+    @Override
+    public byte[] collect() {
+        // TODO: raw mode
+        throw new UnsupportedOperationException("Raw mode should be handled differently");
+    }
+
 }
 

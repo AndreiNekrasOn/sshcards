@@ -23,7 +23,7 @@ public class Battle extends State {
         PLAYER_TURN_HELP,
     }
 
-    private final static List<BattleState> phasesRequiringInput = List.of(
+    private static final List<BattleState> phasesRequiringInput = List.of(
         BattleState.PLAYER_TURN_START,
         BattleState.PLAYER_TURN,
         BattleState.PLAYER_TURN_HELP,

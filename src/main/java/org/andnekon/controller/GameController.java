@@ -11,22 +11,6 @@ import org.andnekon.view.reader.Reader;
 
 public class GameController {
 
-    public static void main( String[] args ) {
-        GameLogic game = new GameLogic();
-        GameView view;
-        Reader reader;
-        try {
-            view = new ConsoleRawView(game.getSession());
-            reader = (ConsoleRawView) view;
-        } catch (IOException e) {
-            e.printStackTrace();
-            view = new ConsoleView(game.getSession());
-            reader = new ConsoleReader();
-        }
-        GameController controller = new GameController(game, view, reader);
-        controller.run();
-    }
-
     private final GameLogic game;
 
     private final GameView view;
@@ -39,12 +23,23 @@ public class GameController {
         this.reader = reader;
     }
 
-    private void run() {
+    public void run() {
         while (true) {
             view.display(game.getCurrentState());
             String input = reader.read();
             game.handleInput(input);
         }
+    }
+
+    public String run(String line) {
+        game.handleInput(line);
+        view.display(game.getCurrentState());
+        return new String(view.prepare());
+    }
+
+    public String refresh() {
+        view.display(game.getCurrentState());
+        return new String(view.prepare());
     }
 }
 

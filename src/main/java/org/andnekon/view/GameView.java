@@ -8,4 +8,6 @@ public interface GameView {
 
     public void display(State state);
 
+    public byte[] prepare();
+
 }

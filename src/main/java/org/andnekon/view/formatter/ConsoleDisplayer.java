@@ -1,5 +1,14 @@
 package org.andnekon.view.formatter;
 
+import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,6 +29,8 @@ public class ConsoleDisplayer implements Displayer {
     protected static final String SEPARATOR = "\\{SEPARATOR\\}";
     protected static final String NUMBER = "\\{NUMBER (\\d+)\\}";
 
+    // TODO: change? when Singleton
+    private static ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
     public ConsoleDisplayer(final GameSession session) {
         this.session = session;
@@ -77,7 +88,10 @@ public class ConsoleDisplayer implements Displayer {
 
     protected void printf(String format, final Object... params) {
         format = transformTemplateString(format);
-        System.out.printf(format, params);
+        String out = String.format(format, params);
+        try {
+            baos.write(out.getBytes());
+        } catch (IOException ignored) { }
     }
 
     protected String transformTemplateString(String format) {
@@ -129,6 +143,13 @@ public class ConsoleDisplayer implements Displayer {
                 enemy.display(), enemy.getHp(), enemy.getDefense(),
                 enemy.display(), enemy.displayIntents());
         printf("=== GOOD LUCK!  ===\n");
+    }
+
+    @Override
+    public byte[] collect() {
+        byte[] result = baos.toByteArray();
+        baos.reset();
+        return result;
     }
 }
 

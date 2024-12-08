@@ -54,7 +54,7 @@
         <archive>
           <manifest>
             <addClasspath>true</addClasspath>
-            <mainClass>org.andnekon.controller.GameController</mainClass>
+            <mainClass>org.andnekon.server.TelnetServer</mainClass>
           </manifest>
         </archive>
         <descriptorRefs>

@@ -13,4 +13,6 @@ public interface Displayer {
     void choice(Object... options);
 
     Displayer withSettings(int options);
+
+    byte[] collect();
 }

@@ -117,4 +117,10 @@ public class ConsoleRawView extends ConsoleView implements Reader {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public byte[] prepare() {
+        // TODO: figure out how to send screen over connection
+        throw new UnsupportedOperationException("Raw mode should be handled differently");
+    }
 }
