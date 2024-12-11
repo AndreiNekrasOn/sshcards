@@ -1,20 +1,15 @@
-package org.andnekon.view.formatter;
+package org.andnekon.view.repl;
 
-import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.andnekon.game.GameSession;
 import org.andnekon.game.entity.Player;
 import org.andnekon.game.entity.enemy.Enemy;
+import org.andnekon.view.DisplayOptions;
+import org.andnekon.view.Displayer;
 import org.andnekon.view.HelpType;
 import org.andnekon.view.Messages;
 

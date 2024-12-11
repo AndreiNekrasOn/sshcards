@@ -1,10 +1,12 @@
-package org.andnekon.view;
+package org.andnekon.view.repl;
 
 import org.andnekon.game.GameSession;
 import org.andnekon.game.state.Battle;
-import org.andnekon.view.formatter.ConsoleDisplayer;
-import org.andnekon.view.formatter.DisplayOptions;
-import org.andnekon.view.formatter.Displayer;
+import org.andnekon.view.AbstractGameView;
+import org.andnekon.view.DisplayOptions;
+import org.andnekon.view.Displayer;
+import org.andnekon.view.HelpType;
+import org.andnekon.view.Messages;
 
 public class ConsoleView extends AbstractGameView {
 

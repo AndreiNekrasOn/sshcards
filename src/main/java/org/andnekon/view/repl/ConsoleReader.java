@@ -1,8 +1,10 @@
-package org.andnekon.view.reader;
+package org.andnekon.view.repl;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Scanner;
+
+import org.andnekon.view.Reader;
 
 public class ConsoleReader implements Reader {
 

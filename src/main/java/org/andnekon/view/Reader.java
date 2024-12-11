@@ -1,4 +1,4 @@
-package org.andnekon.view.reader;
+package org.andnekon.view;
 
 public interface Reader {
 

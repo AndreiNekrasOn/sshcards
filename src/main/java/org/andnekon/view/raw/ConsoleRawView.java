@@ -1,4 +1,4 @@
-package org.andnekon.view;
+package org.andnekon.view.raw;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,8 +7,9 @@ import java.nio.charset.Charset;
 
 import org.andnekon.game.GameSession;
 import org.andnekon.game.state.State;
-import org.andnekon.view.formatter.ConsoleRawDisplayer;
-import org.andnekon.view.reader.Reader;
+import org.andnekon.view.HelpType;
+import org.andnekon.view.Reader;
+import org.andnekon.view.repl.ConsoleView;
 
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TextCharacter;

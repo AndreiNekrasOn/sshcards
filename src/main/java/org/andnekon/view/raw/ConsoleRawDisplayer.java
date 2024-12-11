@@ -1,6 +1,7 @@
-package org.andnekon.view.formatter;
+package org.andnekon.view.raw;
 
 import org.andnekon.game.GameSession;
+import org.andnekon.view.repl.ConsoleDisplayer;
 
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.graphics.TextGraphics;

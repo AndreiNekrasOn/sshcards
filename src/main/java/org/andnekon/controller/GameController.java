@@ -7,11 +7,11 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 
 import org.andnekon.game.GameLogic;
-import org.andnekon.view.ConsoleRawView;
-import org.andnekon.view.ConsoleView;
 import org.andnekon.view.GameView;
-import org.andnekon.view.reader.ConsoleReader;
-import org.andnekon.view.reader.Reader;
+import org.andnekon.view.Reader;
+import org.andnekon.view.raw.ConsoleRawView;
+import org.andnekon.view.repl.ConsoleReader;
+import org.andnekon.view.repl.ConsoleView;
 
 public class GameController {
 
