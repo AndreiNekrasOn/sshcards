@@ -22,6 +22,7 @@ public class GameController {
     private Reader reader;
 
     private InputStream is;
+
     private OutputStream os;
 
     private GameController(GameLogic game, GameView view, Reader reader) {
@@ -30,14 +31,8 @@ public class GameController {
         this.reader = reader;
     }
 
-    public void setupIO(InputStream is, OutputStream os) throws IOException {
-        this.is = is;
-        this.os = os;
-        ((ConsoleRawView) this.view).bind(is, os);
-    }
-
     // TODO: type -> enum (-> controller factory / inheritance)
-    public static GameController createController(int type) {
+    public static GameController createController(int type, InputStream is, OutputStream os) {
         GameController controller;
         GameLogic game = new GameLogic();
         GameView view;
@@ -48,7 +43,7 @@ public class GameController {
             controller = new GameController(game, view, reader);
         } else if (type == 1) {
             try {
-                view = new ConsoleRawView(game.getSession());
+                view = new ConsoleRawView(game.getSession(), is, os);
                 reader = (Reader) view;
             } catch (IOException e) {
                 e.printStackTrace();
@@ -56,16 +51,17 @@ public class GameController {
                 reader = new ConsoleReader();
             }
             controller = new GameController(game, view, reader);
+            controller.is = is;
+            controller.os = os;
         } else {
             throw new UnsupportedOperationException();
         }
         return controller;
     }
 
-    public String run(String line) {
+    public void run(String line) {
         game.handleInput(line);
         view.display(game.getCurrentState());
-        return new String(view.prepare());
     }
 
     public void run() {
@@ -78,11 +74,5 @@ public class GameController {
             }
         } catch (IOException ignored) {}
     }
-
-    public String refresh() {
-        view.display(game.getCurrentState());
-        return new String(view.prepare());
-    }
-
 }
 

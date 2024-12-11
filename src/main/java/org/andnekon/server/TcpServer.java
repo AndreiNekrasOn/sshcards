@@ -13,33 +13,18 @@ public class TcpServer {
         try (ServerSocket socket = new ServerSocket(1234)) {
             while (true) {
                 Socket client = socket.accept();
-                // new Thread(() -> handleClient(client)).start();
-                handleClient(client);
+                new Thread(() -> {
+                    try { handleClient(client); }
+                    catch (IOException e) { e.printStackTrace(); }
+                }).start();
             }
         }
     }
 
-    private static void handleClient(Socket client) {
-        GameController controller = GameController.createController(1);
-        try {
-            controller.setupIO(client.getInputStream(), client.getOutputStream());
-            controller.run();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        //     out.print(controller.refresh());
-        //     out.flush();
-        //     while (true) {
-        //         String line = in.readLine();
-        //         if (line == null) {
-        //             break;
-        //         }
-        //         out.print(controller.run(line));
-        //         out.flush();
-        //     }
-        // } catch (IOException e) {
-        //     e.printStackTrace();
-        // }
+    private static void handleClient(Socket client) throws IOException {
+        GameController controller = GameController.createController(1,
+                client.getInputStream(), client.getOutputStream());
+        controller.run();
     }
 
 

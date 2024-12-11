@@ -27,7 +27,6 @@ public class ConsoleRawDisplayer extends ConsoleDisplayer {
         }
     }
 
-    // TODO: hack, until displayers are singleton `withSettings` doesn't allow to track printPos
     private static TerminalPosition printPos = new TerminalPosition(0, 0);
 
 
@@ -35,8 +34,6 @@ public class ConsoleRawDisplayer extends ConsoleDisplayer {
         return new ConsoleRawDisplayerBuilder(session);
     }
 
-    // TODO: all displayers (and views?) should be Singleton. How would this affect `withSettings`?
-    // one idea is to make user call `complete` that resets settings to the previous state
     private Screen screen;
 
     public ConsoleRawDisplayer(GameSession session, int settings, Screen screen) {
@@ -57,7 +54,6 @@ public class ConsoleRawDisplayer extends ConsoleDisplayer {
     @Override
     public ConsoleRawDisplayer withSettings(int settings) {
         ConsoleRawDisplayer displayer = new ConsoleRawDisplayer(session, settings, screen);
-        displayer.printPos = printPos;
         return displayer;
     }
     public void setPosition(TerminalPosition position) {
@@ -92,12 +88,5 @@ public class ConsoleRawDisplayer extends ConsoleDisplayer {
             .withColumn(lines[lines.length - 1].length())
             .withRelativeRow(lines.length + newLine);
     }
-
-    @Override
-    public byte[] collect() {
-        // TODO: raw mode
-        throw new UnsupportedOperationException("Raw mode should be handled differently");
-    }
-
 }
 

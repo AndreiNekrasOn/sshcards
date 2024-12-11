@@ -7,7 +7,4 @@ public interface GameView {
     public void welcome();
 
     public void display(State state);
-
-    public byte[] prepare();
-
 }

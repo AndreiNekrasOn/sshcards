@@ -28,14 +28,12 @@ public class ConsoleRawView extends ConsoleView implements Reader {
     // to avoid constantly casting to type
     private ConsoleRawDisplayer crdHelper;
 
-    private InputStream is;
-    private OutputStream os;
-
-    public ConsoleRawView(GameSession session) throws IOException {
+    private ConsoleRawView(GameSession session) throws IOException {
         super(session);
     }
 
-    private void setup() throws IOException {
+    public ConsoleRawView(GameSession session, InputStream is, OutputStream os) throws IOException {
+        super(session);
         this.terminal = new UnixTerminal(is, os, Charset.defaultCharset());
         screen = new TerminalScreen(terminal);
         screen.startScreen();
@@ -125,20 +123,5 @@ public class ConsoleRawView extends ConsoleView implements Reader {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    // TODO: get rid of prepare all together, since it was added for ConsoleRawView
-    // which has no use for it. Displayer/Reader can accept IOstream on init
-    @Override
-    public byte[] prepare() {
-        return null;
-    }
-
-    // TODO: hack-ish way to do this, think this over
-    // Since class has complicated configuration, maybe another case for Factory
-    public void bind(InputStream is, OutputStream os) throws IOException {
-        this.is = is;
-        this.os = os;
-        setup();
     }
 }

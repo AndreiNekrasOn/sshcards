@@ -29,7 +29,6 @@ public class ConsoleDisplayer implements Displayer {
     protected static final String SEPARATOR = "\\{SEPARATOR\\}";
     protected static final String NUMBER = "\\{NUMBER (\\d+)\\}";
 
-    // TODO: change? when Singleton
     private static ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
     public ConsoleDisplayer(final GameSession session) {
@@ -143,13 +142,6 @@ public class ConsoleDisplayer implements Displayer {
                 enemy.display(), enemy.getHp(), enemy.getDefense(),
                 enemy.display(), enemy.displayIntents());
         printf("=== GOOD LUCK!  ===\n");
-    }
-
-    @Override
-    public byte[] collect() {
-        byte[] result = baos.toByteArray();
-        baos.reset();
-        return result;
     }
 }
 

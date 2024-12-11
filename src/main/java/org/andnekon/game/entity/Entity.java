@@ -5,7 +5,6 @@ public abstract class Entity {
     protected int hp;
     protected int defense;
 
-    // TODO: move takeDamage to entity, Player and Enemy should be subclasses of Entity
     public void takeDamage( int damage ) {
         if (damage >= this.defense) {
             damage -= this.defense;

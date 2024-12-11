@@ -22,8 +22,6 @@ public abstract class AbstractGameView implements GameView {
         }
     }
 
-    public abstract byte[] prepare();
-
     protected abstract void showReward();
 
     protected abstract void showQuitConfirm();
@@ -37,5 +35,4 @@ public abstract class AbstractGameView implements GameView {
     protected abstract void showDeath();
 
     protected abstract void showBattle();
-
 }

@@ -62,9 +62,4 @@ public class ConsoleView extends AbstractGameView {
         }
         helper.prompt("What do you do?");
     }
-
-    public byte[] prepare() {
-        return helper.collect();
-    }
-
 }
