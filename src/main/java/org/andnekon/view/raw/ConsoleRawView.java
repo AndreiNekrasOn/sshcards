@@ -24,7 +24,8 @@ import com.googlecode.lanterna.terminal.ansi.UnixTerminal;
 public class ConsoleRawView extends ConsoleView implements Reader {
 
     private UnixTerminal terminal;
-    private Screen screen;
+    // TODO: RETURN TO PRIVATE, TuiView shouldn't extend ConsoleRawView
+    protected Screen screen;
 
     // to avoid constantly casting to type
     private ConsoleRawDisplayer crdHelper;
@@ -48,15 +49,12 @@ public class ConsoleRawView extends ConsoleView implements Reader {
     public void display(State state) {
         screen.clear();
         super.display(state);
-        try {
-            screen.refresh();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        try { screen.refresh(); }
+        catch (IOException e) { e.printStackTrace(); }
     }
 
     @Override
-    public void showBattle() {
+    protected void showBattle() {
         crdHelper.reset();
         crdHelper.help(HelpType.BATTLE_INFO);
         crdHelper.help(HelpType.BATTLE_ENEMY_INTENTS);
@@ -81,6 +79,7 @@ public class ConsoleRawView extends ConsoleView implements Reader {
         screen.setCursorPosition(new TerminalPosition(0, 30));
         try { screen.refresh(); } catch (IOException e) { e.printStackTrace(); }
         try {
+            // TODO: rethink that, maybe redraw every character. Maybe no need to redraw at all
             while (keyStroke == null || keyStroke.getKeyType() != KeyType.Enter) {
                 if (keyStroke != null) {
                     builder.append(keyStroke.getCharacter());
@@ -114,15 +113,17 @@ public class ConsoleRawView extends ConsoleView implements Reader {
         crdHelper.message("Congrats, reward");
     }
 
-    private void drawInput(char c, int inputSize) throws IOException {
+    // TODO: c can be null if in telnet you press return without input.
+    // What should we do with it?
+    private void drawInput(Character c, int inputSize) throws IOException {
+        if (c == null) {
+            return;
+        }
         TerminalPosition inPos =
             new TerminalPosition(inputSize, 30);
         screen.setCharacter(inPos, TextCharacter.fromCharacter(c)[0]);
         screen.setCursorPosition(inPos.withRelativeColumn(1));
-        try {
-            screen.refresh();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        try { screen.refresh(); }
+        catch (IOException e) { e.printStackTrace(); }
     }
 }

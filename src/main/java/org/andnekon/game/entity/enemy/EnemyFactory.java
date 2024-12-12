@@ -26,8 +26,7 @@ public class EnemyFactory {
             int random = new Random().nextInt(EnemyType.values().length);
             try {
                 return getEnemy(EnemyType.values()[random]);
-            } catch (Exception ignored) {
-            }
+            } catch (Exception ignored) { }
         }
     }
 
