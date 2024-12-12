@@ -18,8 +18,7 @@ public class ConsoleView extends AbstractGameView {
     }
 
     @Override
-    public void welcome() {
-    }
+    public void welcome() {}
 
     protected void showReward() {
         helper.message("YOU WON! Number of turns: %d\n", session.getTurnNumber());
@@ -35,8 +34,7 @@ public class ConsoleView extends AbstractGameView {
     }
 
     protected void showMenu() {
-        helper.withSettings(DisplayOptions.MENU.id())
-            .choice((Object[]) Messages.MENU_OPTIONS);
+        helper.withSettings(DisplayOptions.MENU.id()).choice((Object[]) Messages.MENU_OPTIONS);
     }
 
     protected void showHelp() {
@@ -55,7 +53,8 @@ public class ConsoleView extends AbstractGameView {
                 helper.help(HelpType.BATTLE_ENEMY_INTENTS);
                 helper.help(HelpType.ACTIONS);
             }
-            case PLAYER_TURN -> {}
+            case PLAYER_TURN -> {
+            }
             case PLAYER_TURN_HELP -> {
                 helper.help(session.getHelpType());
             }

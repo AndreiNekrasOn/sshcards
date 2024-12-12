@@ -37,4 +37,3 @@ public class Navigation extends State {
         this.type = State.Type.NAVIGATION;
     }
 }
-

@@ -1,10 +1,10 @@
 package org.andnekon.controller;
 
+import org.andnekon.game.GameLogic;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
-import org.andnekon.game.GameLogic;
 
 public class GameControllerFactory {
 
@@ -14,8 +14,8 @@ public class GameControllerFactory {
         TUI
     }
 
-    public static GameController createController(ControllerType type,
-            InputStream is, OutputStream os) throws IOException {
+    public static GameController createController(
+            ControllerType type, InputStream is, OutputStream os) throws IOException {
         GameLogic game = new GameLogic();
         return switch (type) {
             case RAW -> new RawController(game, is, os);
@@ -24,4 +24,3 @@ public class GameControllerFactory {
         };
     }
 }
-

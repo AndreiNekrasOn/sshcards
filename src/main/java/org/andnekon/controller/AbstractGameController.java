@@ -1,14 +1,14 @@
 package org.andnekon.controller;
 
+import org.andnekon.game.GameLogic;
+import org.andnekon.view.GameView;
+import org.andnekon.view.Reader;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-
-import org.andnekon.game.GameLogic;
-import org.andnekon.view.GameView;
-import org.andnekon.view.Reader;
 
 public abstract class AbstractGameController implements GameController {
 
@@ -22,7 +22,7 @@ public abstract class AbstractGameController implements GameController {
 
     protected OutputStream os;
 
-    public void run(String line) {
+    public void run(final String line) {
         game.handleInput(line);
         view.display(game.getCurrentState());
     }
@@ -30,11 +30,11 @@ public abstract class AbstractGameController implements GameController {
     public void run() {
         try (BufferedReader in = new BufferedReader(new InputStreamReader(is))) {
             view.display(game.getCurrentState());
-            while(in != null) {
+            while (in != null) {
                 game.handleInput(in.readLine());
                 view.display(game.getCurrentState());
             }
-        } catch (IOException e) {
+        } catch (final IOException e) {
             e.printStackTrace();
         }
     }

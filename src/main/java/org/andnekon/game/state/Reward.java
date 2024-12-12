@@ -17,6 +17,4 @@ public class Reward extends State {
     protected void setType() {
         this.type = State.Type.REWARD;
     }
-
 }
-

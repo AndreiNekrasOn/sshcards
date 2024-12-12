@@ -10,11 +10,5 @@ public class Messages {
         "[1-4] - play selected card"
     };
 
-    public static final String[] MENU_OPTIONS = {
-        "Start game",
-        "Continue",
-        "About",
-        "Quit"
-    };
-
+    public static final String[] MENU_OPTIONS = {"Start game", "Continue", "About", "Quit"};
 }

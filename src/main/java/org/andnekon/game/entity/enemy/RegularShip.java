@@ -22,6 +22,4 @@ public class RegularShip extends Enemy {
         this.currentIntents.add(new Intent(this, Intent.IntentType.ATTACK, 1, player));
         this.currentIntents.add(new Intent(this, Intent.IntentType.ATTACK, 1, player));
     }
-
 }
-

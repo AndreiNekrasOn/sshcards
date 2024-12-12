@@ -1,13 +1,11 @@
 package org.andnekon.game.entity;
 
+import org.andnekon.game.action.Card;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import org.andnekon.game.action.Card;
-
-/**
-  * Player model
-  */
+/** Player model. */
 public class Player extends Entity {
 
     public static final int BATTLE_DECK_SIZE = 4;
@@ -16,7 +14,6 @@ public class Player extends Entity {
     private List<Card> battleDeck;
 
     private int energy;
-
 
     public Player() {
         this.hp = 50;
@@ -68,4 +65,3 @@ public class Player extends Entity {
         this.energy = energy;
     }
 }
-

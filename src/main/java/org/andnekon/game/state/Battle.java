@@ -1,7 +1,5 @@
 package org.andnekon.game.state;
 
-import java.util.List;
-
 import org.andnekon.game.GameSession;
 import org.andnekon.game.action.Card;
 import org.andnekon.game.action.Intent;
@@ -10,6 +8,8 @@ import org.andnekon.game.entity.enemy.Enemy;
 import org.andnekon.view.HelpType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 public class Battle extends State {
 
@@ -23,12 +23,12 @@ public class Battle extends State {
         PLAYER_TURN_HELP,
     }
 
-    private static final List<BattleState> phasesRequiringInput = List.of(
-        BattleState.PLAYER_TURN_START,
-        BattleState.PLAYER_TURN,
-        BattleState.PLAYER_TURN_HELP,
-        BattleState.COMPLETE
-    );
+    private static final List<BattleState> phasesRequiringInput =
+            List.of(
+                    BattleState.PLAYER_TURN_START,
+                    BattleState.PLAYER_TURN,
+                    BattleState.PLAYER_TURN_HELP,
+                    BattleState.COMPLETE);
 
     Logger logger = LoggerFactory.getLogger(Battle.class);
 
@@ -50,8 +50,7 @@ public class Battle extends State {
     @Override
     public State handleInput(String input) {
         logger.info("In battle recieved {}, phase {}", input, phase);
-        while (runBattle(input)) {
-        }
+        while (runBattle(input)) {}
         logger.info("After processing input phase {}", phase);
 
         if (phase == BattleState.COMPLETE) {
@@ -91,7 +90,9 @@ public class Battle extends State {
                 session.initTurn();
                 phase = checkBattleEnd(BattleState.PLAYER_TURN_START, player, enemy);
             }
-            case COMPLETE -> {}
+            case COMPLETE -> {
+            }
+            default -> throw new UnsupportedOperationException("Unknown battle state");
         }
         logger.info("runBattle end phase {}", phase);
         return !phasesRequiringInput.contains(phase);
@@ -154,4 +155,3 @@ public class Battle extends State {
         };
     }
 }
-

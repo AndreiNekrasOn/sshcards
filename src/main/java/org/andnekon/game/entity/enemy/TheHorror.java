@@ -14,7 +14,6 @@ public class TheHorror extends Enemy {
     @Override
     public String display() {
         return "The Horror";
-
     }
 
     @Override
@@ -23,4 +22,3 @@ public class TheHorror extends Enemy {
         this.currentIntents.add(new Intent(this, Intent.IntentType.DEFEND, 1, this));
     }
 }
-

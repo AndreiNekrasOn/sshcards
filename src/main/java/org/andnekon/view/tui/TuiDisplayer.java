@@ -1,9 +1,9 @@
 package org.andnekon.view.tui;
 
+import com.googlecode.lanterna.screen.Screen;
+
 import org.andnekon.view.Displayer;
 import org.andnekon.view.HelpType;
-
-import com.googlecode.lanterna.screen.Screen;
 
 public class TuiDisplayer implements Displayer {
 
@@ -42,6 +42,4 @@ public class TuiDisplayer implements Displayer {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'withSettings'");
     }
-
 }
-

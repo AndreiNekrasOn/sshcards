@@ -1,8 +1,8 @@
 package org.andnekon.game.entity.enemy;
 
-import java.util.Random;
-
 import org.andnekon.game.entity.EnemyType;
+
+import java.util.Random;
 
 public class EnemyFactory {
 
@@ -24,11 +24,7 @@ public class EnemyFactory {
     public static Enemy getRandomEnemy() {
         while (true) { // TODO: remove when all types are supported
             int random = new Random().nextInt(EnemyType.values().length);
-            try {
-                return getEnemy(EnemyType.values()[random]);
-            } catch (Exception ignored) { }
+            return getEnemy(EnemyType.values()[random]);
         }
     }
-
 }
-

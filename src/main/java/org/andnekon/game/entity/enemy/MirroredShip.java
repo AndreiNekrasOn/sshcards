@@ -21,6 +21,4 @@ public class MirroredShip extends Enemy {
         this.currentIntents.add(new Intent(this, Intent.IntentType.ATTACK, 2, player));
         this.currentIntents.add(new Intent(this, Intent.IntentType.DEFEND, 1, this));
     }
-
 }
-

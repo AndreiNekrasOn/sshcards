@@ -1,16 +1,5 @@
 package org.andnekon.view.raw;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.charset.Charset;
-
-import org.andnekon.game.GameSession;
-import org.andnekon.game.state.State;
-import org.andnekon.view.HelpType;
-import org.andnekon.view.Reader;
-import org.andnekon.view.repl.ConsoleView;
-
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TextCharacter;
 import com.googlecode.lanterna.input.KeyStroke;
@@ -18,6 +7,17 @@ import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.ansi.UnixTerminal;
+
+import org.andnekon.game.GameSession;
+import org.andnekon.game.state.State;
+import org.andnekon.view.HelpType;
+import org.andnekon.view.Reader;
+import org.andnekon.view.repl.ConsoleView;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.charset.Charset;
 
 // Since in this case Reader uses the Screen of the View, I decided
 // to join them in one class. Violates SRP
@@ -39,9 +39,7 @@ public class ConsoleRawView extends ConsoleView implements Reader {
         this.terminal = new UnixTerminal(is, os, Charset.defaultCharset());
         screen = new TerminalScreen(terminal);
         screen.startScreen();
-        crdHelper = ConsoleRawDisplayer.builder(session)
-            .screen(screen)
-            .build();
+        crdHelper = ConsoleRawDisplayer.builder(session).screen(screen).build();
         helper = crdHelper;
     }
 
@@ -49,8 +47,11 @@ public class ConsoleRawView extends ConsoleView implements Reader {
     public void display(State state) {
         screen.clear();
         super.display(state);
-        try { screen.refresh(); }
-        catch (IOException e) { e.printStackTrace(); }
+        try {
+            screen.refresh();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -69,15 +70,20 @@ public class ConsoleRawView extends ConsoleView implements Reader {
         super.welcome();
     }
 
-    /** Reader **/
+    /** Reader * */
     @Override
     public String read() {
         KeyStroke keyStroke = null;
         StringBuilder builder = new StringBuilder();
         int inputSize = 0;
-        // screen.setCursorPosition(new TerminalPosition(crdHelper.getPrintCol(), crdHelper.getPrintRow()));
+        // screen.setCursorPosition(new TerminalPosition(crdHelper.getPrintCol(),
+        // crdHelper.getPrintRow()));
         screen.setCursorPosition(new TerminalPosition(0, 30));
-        try { screen.refresh(); } catch (IOException e) { e.printStackTrace(); }
+        try {
+            screen.refresh();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         try {
             // TODO: rethink that, maybe redraw every character. Maybe no need to redraw at all
             while (keyStroke == null || keyStroke.getKeyType() != KeyType.Enter) {
@@ -119,11 +125,13 @@ public class ConsoleRawView extends ConsoleView implements Reader {
         if (c == null) {
             return;
         }
-        TerminalPosition inPos =
-            new TerminalPosition(inputSize, 30);
+        TerminalPosition inPos = new TerminalPosition(inputSize, 30);
         screen.setCharacter(inPos, TextCharacter.fromCharacter(c)[0]);
         screen.setCursorPosition(inPos.withRelativeColumn(1));
-        try { screen.refresh(); }
-        catch (IOException e) { e.printStackTrace(); }
+        try {
+            screen.refresh();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

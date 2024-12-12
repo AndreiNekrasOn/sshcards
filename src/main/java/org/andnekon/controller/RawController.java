@@ -1,11 +1,11 @@
 package org.andnekon.controller;
 
+import org.andnekon.game.GameLogic;
+import org.andnekon.view.raw.ConsoleRawView;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
-import org.andnekon.game.GameLogic;
-import org.andnekon.view.raw.ConsoleRawView;
 
 public class RawController extends AbstractGameController {
 

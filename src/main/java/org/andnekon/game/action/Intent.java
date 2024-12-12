@@ -1,11 +1,11 @@
 package org.andnekon.game.action;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.andnekon.game.entity.Entity;
 import org.andnekon.game.entity.Player;
 import org.andnekon.game.entity.enemy.Enemy;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Intent {
 
@@ -51,6 +51,8 @@ public class Intent {
                     target.heal(value);
                 }
                 break;
+            default:
+                throw new UnsupportedOperationException("Unknown intent type");
         }
     }
 
@@ -66,13 +68,11 @@ public class Intent {
         for (Entity target : targets) {
             if (target instanceof Player) {
                 s.append("Player, ");
-            } else if (target instanceof Enemy){
+            } else if (target instanceof Enemy) {
                 s.append(String.format("%s, ", ((Enemy) target).display()));
             }
         }
         s.append("]");
         return s.toString();
-
     }
 }
-

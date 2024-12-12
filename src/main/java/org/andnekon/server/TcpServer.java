@@ -1,13 +1,13 @@
 package org.andnekon.server;
 
-import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
-
 import org.andnekon.controller.GameController;
 import org.andnekon.controller.GameControllerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 public class TcpServer {
 
@@ -30,9 +30,11 @@ public class TcpServer {
     }
 
     private static void handleClient(Socket client) throws IOException {
-        GameController controller = GameControllerFactory.createController(
-                GameControllerFactory.ControllerType.TUI,
-                client.getInputStream(), client.getOutputStream());
+        GameController controller =
+                GameControllerFactory.createController(
+                        GameControllerFactory.ControllerType.TUI,
+                        client.getInputStream(),
+                        client.getOutputStream());
         logger.info("Controller setup done");
         controller.run();
     }

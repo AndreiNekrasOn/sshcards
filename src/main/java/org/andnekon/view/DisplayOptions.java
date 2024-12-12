@@ -14,5 +14,4 @@ public enum DisplayOptions {
     public int id() {
         return id;
     }
-
 }

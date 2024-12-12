@@ -1,12 +1,11 @@
 package org.andnekon.game.entity.enemy;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.andnekon.game.action.Intent;
 import org.andnekon.game.entity.Entity;
 import org.andnekon.game.entity.Player;
 
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Enemy extends Entity {
 
@@ -42,4 +41,3 @@ public abstract class Enemy extends Entity {
         return currentIntents;
     }
 }
-

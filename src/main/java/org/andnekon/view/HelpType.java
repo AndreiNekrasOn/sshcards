@@ -7,4 +7,3 @@ public enum HelpType {
     TURN_INFO,
     ACTIONS,
 }
-

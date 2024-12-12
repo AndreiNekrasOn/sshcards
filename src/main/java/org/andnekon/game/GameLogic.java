@@ -7,9 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Turn-based game that takes user input, provides a Slay-the-spire like interaction
- * in the terminal.<br>
- *
+ * Turn-based game that takes user input, provides a Slay-the-spire like interaction in the
+ * terminal.<br>
  * <b>Game description:</b><br>
  * Menu: Start game, Continue, About, Quit<br>
  * After start game: navigation->battle->reward->navigation untill game over<br>
@@ -61,4 +60,3 @@ public class GameLogic {
         return session;
     }
 }
-

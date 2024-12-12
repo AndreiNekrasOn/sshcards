@@ -21,6 +21,4 @@ public class Menu extends State {
     protected void setType() {
         this.type = State.Type.MENU;
     }
-
 }
-

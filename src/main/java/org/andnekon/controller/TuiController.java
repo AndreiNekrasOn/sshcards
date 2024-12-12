@@ -1,11 +1,11 @@
 package org.andnekon.controller;
 
+import org.andnekon.game.GameLogic;
+import org.andnekon.view.tui.TuiView;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-
-import org.andnekon.game.GameLogic;
-import org.andnekon.view.tui.TuiView;
 
 public class TuiController extends AbstractGameController {
 
@@ -20,4 +20,3 @@ public class TuiController extends AbstractGameController {
         view.welcome();
     }
 }
-

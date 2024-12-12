@@ -31,4 +31,3 @@ public abstract class State {
         return type;
     }
 }
-

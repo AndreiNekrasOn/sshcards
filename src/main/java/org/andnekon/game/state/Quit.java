@@ -6,7 +6,7 @@ public class Quit extends State {
 
     public Quit(GameSession session) {
         super(session);
-        //TODO Auto-generated constructor stub
+        // TODO Auto-generated constructor stub
     }
 
     @Override
@@ -19,6 +19,4 @@ public class Quit extends State {
     protected void setType() {
         this.type = State.Type.QUIT;
     }
-
 }
-

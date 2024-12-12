@@ -6,7 +6,7 @@ public class Death extends State {
 
     public Death(GameSession session) {
         super(session);
-        //TODO Auto-generated constructor stub
+        // TODO Auto-generated constructor stub
     }
 
     @Override
@@ -18,6 +18,4 @@ public class Death extends State {
     protected void setType() {
         this.type = State.Type.DEATH;
     }
-
 }
-

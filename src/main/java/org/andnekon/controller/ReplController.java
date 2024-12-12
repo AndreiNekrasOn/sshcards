@@ -12,4 +12,3 @@ public class ReplController extends AbstractGameController {
         this.reader = new ConsoleReader();
     }
 }
-

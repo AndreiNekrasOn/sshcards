@@ -22,4 +22,3 @@ public enum EnemyType {
     HOMELORD,
     HEART_BUM
 }
-

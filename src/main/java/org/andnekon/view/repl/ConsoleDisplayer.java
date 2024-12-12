@@ -1,10 +1,5 @@
 package org.andnekon.view.repl;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.andnekon.game.GameSession;
 import org.andnekon.game.entity.Player;
 import org.andnekon.game.entity.enemy.Enemy;
@@ -13,9 +8,15 @@ import org.andnekon.view.Displayer;
 import org.andnekon.view.HelpType;
 import org.andnekon.view.Messages;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class ConsoleDisplayer implements Displayer {
 
     protected GameSession session;
+
     /** DisplayOptions */
     protected int settings = 0;
 
@@ -47,7 +48,8 @@ public class ConsoleDisplayer implements Displayer {
                 choice(session.getPlayer().getBattleDeck().toArray());
             }
             default -> throw new IllegalArgumentException("Unexpected value: " + type);
-        };
+        }
+        ;
     }
 
     @Override
@@ -85,7 +87,9 @@ public class ConsoleDisplayer implements Displayer {
         String out = String.format(format, params);
         try {
             baos.write(out.getBytes());
-        } catch (IOException ignored) { }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     protected String transformTemplateString(String format) {
@@ -114,7 +118,7 @@ public class ConsoleDisplayer implements Displayer {
 
     private void helpActions() {
         withSettings(DisplayOptions.MENU.id() | DisplayOptions.UNNUMBERED.id())
-            .choice((Object[]) Messages.BATTLE_OPTIONS);
+                .choice((Object[]) Messages.BATTLE_OPTIONS);
     }
 
     private void helpBattleEnemyIntents() {
@@ -129,14 +133,20 @@ public class ConsoleDisplayer implements Displayer {
         final Player player = session.getPlayer();
         final Enemy enemy = session.getEnemy();
         printf("=== Turn %d ===\n", session.getTurnNumber());
-        printf("""
+        printf(
+                """
                 Player: [energy: %d, hp: %d, defence: %d]
                 %s: [hp: %d, def %d]
-                %s intends to %s.\n""",
-                player.getEnergy(), player.getHp(), player.getDefense(),
-                enemy.display(), enemy.getHp(), enemy.getDefense(),
-                enemy.display(), enemy.displayIntents());
+                %s intends to %s.\n\
+                """,
+                player.getEnergy(),
+                player.getHp(),
+                player.getDefense(),
+                enemy.display(),
+                enemy.getHp(),
+                enemy.getDefense(),
+                enemy.display(),
+                enemy.displayIntents());
         printf("=== GOOD LUCK!  ===\n");
     }
 }
-

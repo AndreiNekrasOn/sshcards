@@ -19,6 +19,7 @@ public abstract class AbstractGameView implements GameView {
             case NAVIGATION -> showNavigation();
             case QUIT -> showQuitConfirm();
             case REWARD -> showReward();
+            default -> throw new UnsupportedOperationException("Unknown game state");
         }
     }
 

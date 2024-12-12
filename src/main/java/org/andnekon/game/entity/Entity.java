@@ -5,7 +5,7 @@ public abstract class Entity {
     protected int hp;
     protected int defense;
 
-    public void takeDamage( int damage ) {
+    public void takeDamage(int damage) {
         if (damage >= this.defense) {
             damage -= this.defense;
             this.hp -= damage;
@@ -43,4 +43,3 @@ public abstract class Entity {
         this.hp = Math.min(this.maxHp, this.hp + value);
     }
 }
-
