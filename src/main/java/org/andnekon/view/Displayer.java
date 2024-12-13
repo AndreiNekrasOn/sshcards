@@ -10,5 +10,6 @@ public interface Displayer {
 
     void choice(Object... options);
 
+    // TODO: good case for decorator pattern
     Displayer withSettings(int options);
 }

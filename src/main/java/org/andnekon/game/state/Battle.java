@@ -90,8 +90,7 @@ public class Battle extends State {
                 session.initTurn();
                 phase = checkBattleEnd(BattleState.PLAYER_TURN_START, player, enemy);
             }
-            case COMPLETE -> {
-            }
+            case COMPLETE -> {}
             default -> throw new UnsupportedOperationException("Unknown battle state");
         }
         logger.info("runBattle end phase {}", phase);

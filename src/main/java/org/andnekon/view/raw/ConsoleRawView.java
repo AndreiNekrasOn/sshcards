@@ -19,13 +19,14 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 
+// TODO: consider making this final
 // Since in this case Reader uses the Screen of the View, I decided
 // to join them in one class. Violates SRP
 public class ConsoleRawView extends ConsoleView implements Reader {
 
     private UnixTerminal terminal;
-    // TODO: RETURN TO PRIVATE, TuiView shouldn't extend ConsoleRawView
-    protected Screen screen;
+
+    private Screen screen;
 
     // to avoid constantly casting to type
     private ConsoleRawDisplayer crdHelper;

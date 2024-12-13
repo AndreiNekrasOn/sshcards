@@ -24,7 +24,11 @@ public class EnemyFactory {
     public static Enemy getRandomEnemy() {
         while (true) { // TODO: remove when all types are supported
             int random = new Random().nextInt(EnemyType.values().length);
-            return getEnemy(EnemyType.values()[random]);
+            try {
+                return getEnemy(EnemyType.values()[random]);
+            } catch (Exception ignored) {
+                // pass, because it's intentional logic
+            }
         }
     }
 }

@@ -53,8 +53,7 @@ public class ConsoleView extends AbstractGameView {
                 helper.help(HelpType.BATTLE_ENEMY_INTENTS);
                 helper.help(HelpType.ACTIONS);
             }
-            case PLAYER_TURN -> {
-            }
+            case PLAYER_TURN -> {}
             case PLAYER_TURN_HELP -> {
                 helper.help(session.getHelpType());
             }
