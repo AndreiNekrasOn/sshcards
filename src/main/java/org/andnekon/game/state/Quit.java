@@ -11,8 +11,15 @@ public class Quit extends State {
 
     @Override
     public State handleInput(String input) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'handleInput'");
+        switch (input) {
+            case "n", "N":
+                return session.getPreviousState();
+            case "q", "y", "Q", "Y":
+                // TODO: Quitting logic
+                throw new UnsupportedOperationException("Quit logic not fully done");
+            default:
+                return this;
+        }
     }
 
     @Override

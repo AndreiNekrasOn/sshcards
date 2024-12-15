@@ -23,17 +23,11 @@ public class TuiController extends AbstractGameController {
     @Override
     public void run() {
         view.welcome(); // should run an animation and be quittable during it
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        view.display(game.getCurrentState());
-        String in = null;
-        while (in != "q") { // TODO: KeyStrokeUtil.isQuit()
+        String in;
+        do {
+            view.display(game.getCurrentState());
             in = reader.read();
             game.handleInput(in);
-            view.display(game.getCurrentState());
-        }
+        } while (in != "q"); // TODO: KeyStrokeUtil.isQuit()
     }
 }

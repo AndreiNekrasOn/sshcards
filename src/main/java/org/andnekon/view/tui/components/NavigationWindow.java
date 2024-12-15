@@ -1,10 +1,12 @@
 package org.andnekon.view.tui.components;
 
-import com.googlecode.lanterna.gui2.GridLayout;
+import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.gui2.Label;
 import com.googlecode.lanterna.gui2.Panel;
+import com.googlecode.lanterna.input.KeyStroke;
 
 import org.andnekon.game.GameSession;
+import org.andnekon.utils.KeyStrokeUtil;
 import org.andnekon.view.tui.StatefulMultiWindowTextGui;
 
 public class NavigationWindow extends AbstractTuiWindow {
@@ -21,24 +23,39 @@ public class NavigationWindow extends AbstractTuiWindow {
 
     @Override
     public void prepare() {
-        leftEnemy.setText(session.getEnemyNavLeft().display());
-        rightEnemy.setText(session.getEnemyNavRight().display());
+        leftEnemy.setText("1. " + session.getEnemyNavLeft().display());
+        rightEnemy.setText("2. " + session.getEnemyNavRight().display());
     }
 
     @Override
     public void setup() {
-        Panel contnet = new Panel(new GridLayout(2));
+        Panel contnet = new Panel();
 
-        Panel choises = new Panel(new GridLayout(2));
+        Panel choises = new Panel();
         contnet.addComponent(choises);
-
-        leftEnemy = new Label("");
-        choises.addComponent(leftEnemy);
-        rightEnemy = new Label("");
-        choises.addComponent(rightEnemy);
 
         Label prompt = new Label("Where do you go?");
         contnet.addComponent(prompt);
+
+        leftEnemy = new Label("");
+        choises.addComponent(leftEnemy);
+        leftEnemy.addStyle(SGR.BOLD);
+        rightEnemy = new Label("");
+        choises.addComponent(rightEnemy);
+
         this.setComponent(contnet);
+    }
+
+    @Override
+    protected void postRead() {
+        for (KeyStroke key : buffer) {
+            if (KeyStrokeUtil.isLeftMotion(key) || KeyStrokeUtil.isUpMotion(key)) {
+                leftEnemy.addStyle(SGR.BOLD);
+                rightEnemy.removeStyle(SGR.BOLD);
+            } else if (KeyStrokeUtil.isRightMotion(key) || KeyStrokeUtil.isDownMotion(key)) {
+                leftEnemy.removeStyle(SGR.BOLD);
+                rightEnemy.addStyle(SGR.BOLD);
+            }
+        }
     }
 }

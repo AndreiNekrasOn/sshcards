@@ -45,14 +45,19 @@ public class GameLogic {
         return currentState;
     }
 
-    public void setCurrentState(State gameState) {
-        this.previousState = this.currentState;
-        this.currentState = gameState;
+    public void setCurrentState(State state) {
+        if (currentState == null || currentState.getType() != State.Type.QUIT) {
+            previousState = currentState;
+            session.setPreviousState(previousState);
+        }
+        currentState = state;
     }
 
     public void handleInput(String input) {
         logger.info("Waiting for input, state {}", currentState.getType());
-        setCurrentState(currentState.handleInput(input));
+        if (input != null) {
+            setCurrentState(currentState.handleInput(input));
+        }
         logger.info("After input {}, state {}", input, currentState.getType());
     }
 

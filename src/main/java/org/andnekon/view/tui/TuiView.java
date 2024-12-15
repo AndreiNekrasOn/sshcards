@@ -6,16 +6,20 @@ import com.googlecode.lanterna.terminal.Terminal;
 import com.googlecode.lanterna.terminal.ansi.UnixTerminal;
 
 import org.andnekon.game.GameSession;
+import org.andnekon.game.state.State;
 import org.andnekon.view.AbstractGameView;
 import org.andnekon.view.Reader;
 import org.andnekon.view.tui.components.MenuWindow;
 import org.andnekon.view.tui.components.NavigationWindow;
+import org.andnekon.view.tui.components.QuitConfirmation;
+import org.andnekon.view.tui.components.SimpleLabelPopupWindow;
 import org.andnekon.view.tui.components.WelcomeWindow;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
+import java.util.Objects;
 
 /**
  * TUI view provides graphical (terminal) enviroment for game logic.<br>
@@ -35,6 +39,11 @@ public class TuiView extends AbstractGameView implements Reader {
     private WelcomeWindow welcomeWindow;
     private MenuWindow menuWindow;
     private NavigationWindow navigationWindow;
+    private QuitConfirmation quitPopup;
+    private SimpleLabelPopupWindow helpPopup;
+    private SimpleLabelPopupWindow deathhPopup;
+    private SimpleLabelPopupWindow rewardPopup;
+    private boolean isHelpShown = false;
 
     public TuiView(GameSession session, InputStream is, OutputStream os) throws IOException {
         this.session = session;
@@ -53,23 +62,30 @@ public class TuiView extends AbstractGameView implements Reader {
         welcomeWindow = new WelcomeWindow(gui);
         menuWindow = new MenuWindow(gui);
         navigationWindow = new NavigationWindow(gui, session);
+        quitPopup = new QuitConfirmation(gui);
+        helpPopup = new SimpleLabelPopupWindow(gui, "Help messsage");
+        deathhPopup = new SimpleLabelPopupWindow(gui, "You died");
+        rewardPopup = new SimpleLabelPopupWindow(gui, "Congrats, good job");
     }
 
     @Override
     public void welcome() {
         welcomeWindow.show();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     protected void showReward() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'showReward'");
+        rewardPopup.show();
     }
 
     @Override
     protected void showQuitConfirm() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'showQuitConfirm'");
+        quitPopup.show();
     }
 
     @Override
@@ -84,24 +100,37 @@ public class TuiView extends AbstractGameView implements Reader {
 
     @Override
     protected void showHelp() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'showHelp'");
+        helpPopup.show();
     }
 
     @Override
     protected void showDeath() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'showDeath'");
+        deathhPopup.show();
     }
 
     @Override
     protected void showBattle() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'showBattle'");
+        // TODO: implementation
     }
 
     @Override
     public String read() {
-        return gui.getCurrentWindow().read();
+        String result = gui.getCurrentWindow().read();
+        if (Objects.equals(result, "?")) {
+            isHelpShown = true;
+            return null;
+        } else if (isHelpShown) {
+            isHelpShown = false;
+            return null;
+        }
+        return result;
+    }
+
+    @Override
+    public void display(State state) {
+        super.display(state);
+        if (isHelpShown) {
+            showHelp();
+        }
     }
 }
