@@ -13,21 +13,16 @@ public class WelcomeWindow extends AbstractTuiWindow {
     }
 
     @Override
-    public void prepare() {
-        // pass
-    }
-
-    @Override
     public void setup() {
-        Panel contentPanel = new Panel(new GridLayout(3));
-        GridLayout gridLayout = (GridLayout) contentPanel.getLayoutManager();
+        Panel content = new Panel(new GridLayout(3));
+        GridLayout gridLayout = (GridLayout) content.getLayoutManager();
         gridLayout.setHorizontalSpacing(3);
 
         Label title = new Label("SUPER SPACE HEROES");
         Label secondTitle = new Label("Or spacecards, haven.t decided on the name yet");
 
-        contentPanel.addComponent(title);
-        contentPanel.addComponent(secondTitle);
-        this.setComponent(contentPanel);
+        content.addComponent(title);
+        content.addComponent(secondTitle);
+        this.setComponent(content);
     }
 }

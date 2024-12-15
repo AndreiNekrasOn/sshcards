@@ -1,7 +1,5 @@
 package org.andnekon.view.tui;
 
-import com.googlecode.lanterna.input.KeyStroke;
-import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.Terminal;
@@ -102,24 +100,8 @@ public class TuiView extends AbstractGameView implements Reader {
         throw new UnsupportedOperationException("Unimplemented method 'showBattle'");
     }
 
-    // TODO: smells, not just bad, but badshit insane.
-    // TODO: copipasta from ConsoleRawView. Maybe a generic reader would be okay
-    // I can inject reader into view...
     @Override
     public String read() {
-        StringBuilder builder = new StringBuilder();
-        KeyStroke keyStroke = null;
-        try {
-            // TODO: rethink that, maybe redraw every character. Maybe no need to redraw at all
-            while (keyStroke == null || keyStroke.getKeyType() != KeyType.Enter) {
-                if (keyStroke != null) {
-                    builder.append(keyStroke.getCharacter());
-                }
-                keyStroke = screen.readInput();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return builder.toString();
+        return gui.getCurrentWindow().read();
     }
 }

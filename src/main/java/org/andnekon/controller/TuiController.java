@@ -4,10 +4,8 @@ import org.andnekon.game.GameLogic;
 import org.andnekon.view.Reader;
 import org.andnekon.view.tui.TuiView;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 
 public class TuiController extends AbstractGameController {
@@ -21,19 +19,21 @@ public class TuiController extends AbstractGameController {
     }
 
     // TODO: Maybe I don't need separate classes for each controller, since
-    // only difference is that this controller also displays welcome?
+    // only difference is that this controller also displays welcome (and constructor ofc)?
     @Override
     public void run() {
         view.welcome(); // should run an animation and be quittable during it
-        // TODO: copipasta
-        try (BufferedReader in = new BufferedReader(new InputStreamReader(is))) {
-            view.display(game.getCurrentState());
-            while (in != null) {
-                game.handleInput(in.readLine());
-                view.display(game.getCurrentState());
-            }
-        } catch (final IOException e) {
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
             e.printStackTrace();
+        }
+        view.display(game.getCurrentState());
+        String in = null;
+        while (in != "q") { // TODO: KeyStrokeUtil.isQuit()
+            in = reader.read();
+            game.handleInput(in);
+            view.display(game.getCurrentState());
         }
     }
 }

@@ -39,5 +39,6 @@ public class NavigationWindow extends AbstractTuiWindow {
 
         Label prompt = new Label("Where do you go?");
         contnet.addComponent(prompt);
+        this.setComponent(contnet);
     }
 }

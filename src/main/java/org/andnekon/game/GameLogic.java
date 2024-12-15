@@ -51,9 +51,9 @@ public class GameLogic {
     }
 
     public void handleInput(String input) {
-        logger.info("Waiting for input, {}", currentState.getType());
+        logger.info("Waiting for input, state {}", currentState.getType());
         setCurrentState(currentState.handleInput(input));
-        logger.info("After input, {}", currentState.getType());
+        logger.info("After input {}, state {}", input, currentState.getType());
     }
 
     public GameSession getSession() {
