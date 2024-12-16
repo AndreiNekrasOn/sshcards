@@ -1,4 +1,4 @@
-package org.andnekon.view.tui.components.impl;
+package org.andnekon.view.tui.windows.impl;
 
 import com.googlecode.lanterna.gui2.GridLayout;
 import com.googlecode.lanterna.gui2.Label;
@@ -9,7 +9,7 @@ import org.andnekon.game.action.Card;
 import org.andnekon.view.Messages;
 import org.andnekon.view.tui.AsciiReaderService;
 import org.andnekon.view.tui.StatefulMultiWindowTextGui;
-import org.andnekon.view.tui.components.ChoicesWindow;
+import org.andnekon.view.tui.windows.ChoicesWindow;
 
 import java.util.List;
 

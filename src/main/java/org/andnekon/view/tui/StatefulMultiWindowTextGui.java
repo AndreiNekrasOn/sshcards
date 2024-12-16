@@ -3,7 +3,7 @@ package org.andnekon.view.tui;
 import com.googlecode.lanterna.gui2.MultiWindowTextGUI;
 import com.googlecode.lanterna.screen.Screen;
 
-import org.andnekon.view.tui.components.TuiWindow;
+import org.andnekon.view.tui.windows.TuiWindow;
 
 // TODO: smells bad
 public class StatefulMultiWindowTextGui extends MultiWindowTextGUI {

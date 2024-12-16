@@ -1,4 +1,4 @@
-package org.andnekon.view.tui.components;
+package org.andnekon.view.tui.windows;
 
 public interface TuiWindow {
 

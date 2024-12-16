@@ -1,4 +1,4 @@
-package org.andnekon.view.tui.components;
+package org.andnekon.view.tui.windows;
 
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.gui2.BasicWindow;

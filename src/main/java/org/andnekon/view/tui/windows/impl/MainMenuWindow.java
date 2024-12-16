@@ -1,9 +1,9 @@
-package org.andnekon.view.tui.components.impl;
+package org.andnekon.view.tui.windows.impl;
 
 import com.googlecode.lanterna.gui2.Panel;
 
 import org.andnekon.view.tui.StatefulMultiWindowTextGui;
-import org.andnekon.view.tui.components.ChoicesWindow;
+import org.andnekon.view.tui.windows.ChoicesWindow;
 
 public class MainMenuWindow extends ChoicesWindow {
 

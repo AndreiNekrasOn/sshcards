@@ -4,7 +4,7 @@
   <groupId>org.andnekon</groupId>
   <artifactId>sshtuigame</artifactId>
   <packaging>jar</packaging>
-  <version>0.1-SNAPSHOT</version>
+  <version>0.1</version>
   <name>sshtuigame</name>
   <url>http://maven.apache.org</url>
   <properties>
