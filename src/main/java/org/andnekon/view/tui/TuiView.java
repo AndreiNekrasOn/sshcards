@@ -9,6 +9,7 @@ import org.andnekon.game.GameSession;
 import org.andnekon.game.state.State;
 import org.andnekon.view.AbstractGameView;
 import org.andnekon.view.Reader;
+import org.andnekon.view.tui.components.BattleWindow;
 import org.andnekon.view.tui.components.MenuWindow;
 import org.andnekon.view.tui.components.NavigationWindow;
 import org.andnekon.view.tui.components.QuitConfirmation;
@@ -44,6 +45,7 @@ public class TuiView extends AbstractGameView implements Reader {
     private SimpleLabelPopupWindow deathhPopup;
     private SimpleLabelPopupWindow rewardPopup;
     private boolean isHelpShown = false;
+    private BattleWindow battleWindow;
 
     public TuiView(GameSession session, InputStream is, OutputStream os) throws IOException {
         this.session = session;
@@ -66,6 +68,7 @@ public class TuiView extends AbstractGameView implements Reader {
         helpPopup = new SimpleLabelPopupWindow(gui, "Help messsage");
         deathhPopup = new SimpleLabelPopupWindow(gui, "You died");
         rewardPopup = new SimpleLabelPopupWindow(gui, "Congrats, good job");
+        battleWindow = new BattleWindow(gui, asciiReaderService, session);
     }
 
     @Override
@@ -110,7 +113,7 @@ public class TuiView extends AbstractGameView implements Reader {
 
     @Override
     protected void showBattle() {
-        // TODO: implementation
+        battleWindow.show();
     }
 
     @Override
