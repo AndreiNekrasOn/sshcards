@@ -1,14 +1,19 @@
 package org.andnekon.controller;
 
 import org.andnekon.game.GameLogic;
+import org.andnekon.server.TcpServer;
 import org.andnekon.view.Reader;
 import org.andnekon.view.tui.TuiView;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
 public class TuiController extends AbstractGameController {
+
+    private static final Logger logger = LoggerFactory.getLogger(TuiController.class);
 
     public TuiController(GameLogic game, InputStream is, OutputStream os) throws IOException {
         this.game = game;
@@ -25,8 +30,11 @@ public class TuiController extends AbstractGameController {
         view.welcome(); // should run an animation and be quittable during it
         String in;
         do {
-            view.display(game.getCurrentState());
+            view.display(game.getCurrentState()); // sends data to the os
             in = reader.read();
+            logger.info(
+                    "bytes written total {}",
+                    ((TcpServer.MonitoredOutputStream) os).getByteCounter());
             game.handleInput(in);
         } while (in != "q"); // TODO: KeyStrokeUtil.isQuit()
     }

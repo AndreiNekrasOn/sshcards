@@ -15,6 +15,8 @@ import org.andnekon.view.tui.components.NavigationWindow;
 import org.andnekon.view.tui.components.QuitConfirmation;
 import org.andnekon.view.tui.components.SimpleLabelPopupWindow;
 import org.andnekon.view.tui.components.WelcomeWindow;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,6 +31,8 @@ import java.util.Objects;
  * navigation keys, displaying help information as a pop-up menu and so on.
  */
 public class TuiView extends AbstractGameView implements Reader {
+
+    private static final Logger logger = LoggerFactory.getLogger(TuiView.class);
 
     private Terminal terminal;
     private Screen screen;
@@ -131,9 +135,11 @@ public class TuiView extends AbstractGameView implements Reader {
 
     @Override
     public void display(State state) {
-        super.display(state);
+        logger.info("Display for {}, gui has {} windows", state, gui.getWindows().size());
         if (isHelpShown) {
             showHelp();
+        } else {
+            super.display(state);
         }
     }
 }

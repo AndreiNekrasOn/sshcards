@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -30,12 +31,47 @@ public class TcpServer {
     }
 
     private static void handleClient(Socket client) throws IOException {
+        MonitoredOutputStream mos = new MonitoredOutputStream(client.getOutputStream());
         GameController controller =
                 GameControllerFactory.createController(
-                        GameControllerFactory.ControllerType.TUI,
-                        client.getInputStream(),
-                        client.getOutputStream());
+                        GameControllerFactory.ControllerType.TUI, client.getInputStream(), mos);
         logger.info("Controller setup done");
-        controller.run();
+        try {
+            controller.run();
+        } finally {
+            logger.info("Total bytes sent: {}", mos.getByteCounter());
+        }
+    }
+
+    public static class MonitoredOutputStream extends OutputStream {
+
+        private final OutputStream os;
+        private int byteCounter;
+
+        public MonitoredOutputStream(OutputStream os) {
+            this.os = os;
+            byteCounter = 0;
+        }
+
+        @Override
+        public void flush() throws IOException {
+            this.os.flush();
+        }
+
+        @Override
+        public void close() throws IOException {
+            this.os.close();
+        }
+
+        // hope other writes just call this one...
+        @Override
+        public void write(int b) throws IOException {
+            byteCounter++;
+            os.write(b);
+        }
+
+        public int getByteCounter() {
+            return byteCounter;
+        }
     }
 }
