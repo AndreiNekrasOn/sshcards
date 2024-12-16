@@ -1,9 +1,10 @@
-package org.andnekon.view.tui.components;
+package org.andnekon.view.tui.components.impl;
 
 import com.googlecode.lanterna.gui2.Label;
 import com.googlecode.lanterna.gui2.Panel;
 
 import org.andnekon.view.tui.StatefulMultiWindowTextGui;
+import org.andnekon.view.tui.components.AbstractTuiWindow;
 
 public class WelcomeWindow extends AbstractTuiWindow {
 

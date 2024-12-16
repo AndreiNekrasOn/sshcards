@@ -52,6 +52,7 @@ public abstract class AbstractTuiWindow extends BasicWindow implements TuiWindow
     }
 
     /** Reads one keystroke from the screens input queue, blocking */
+    @Override
     public String read() {
         buffer.clear();
         KeyStroke key = null;

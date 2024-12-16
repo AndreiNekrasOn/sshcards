@@ -1,5 +1,7 @@
 package org.andnekon.view.tui;
 
+import com.googlecode.lanterna.TextColor;
+import com.googlecode.lanterna.graphics.SimpleTheme;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.Terminal;
@@ -9,12 +11,13 @@ import org.andnekon.game.GameSession;
 import org.andnekon.game.state.State;
 import org.andnekon.view.AbstractGameView;
 import org.andnekon.view.Reader;
-import org.andnekon.view.tui.components.BattleWindow;
-import org.andnekon.view.tui.components.MenuWindow;
-import org.andnekon.view.tui.components.NavigationWindow;
-import org.andnekon.view.tui.components.QuitConfirmation;
 import org.andnekon.view.tui.components.SimpleLabelPopupWindow;
-import org.andnekon.view.tui.components.WelcomeWindow;
+import org.andnekon.view.tui.components.TuiWindow;
+import org.andnekon.view.tui.components.impl.BattleWindow;
+import org.andnekon.view.tui.components.impl.MainMenuWindow;
+import org.andnekon.view.tui.components.impl.NavigationWindow;
+import org.andnekon.view.tui.components.impl.QuitConfirmation;
+import org.andnekon.view.tui.components.impl.WelcomeWindow;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,15 +44,18 @@ public class TuiView extends AbstractGameView implements Reader {
 
     // GUI
 
-    private WelcomeWindow welcomeWindow;
-    private MenuWindow menuWindow;
-    private NavigationWindow navigationWindow;
-    private QuitConfirmation quitPopup;
-    private SimpleLabelPopupWindow helpPopup;
-    private SimpleLabelPopupWindow deathhPopup;
-    private SimpleLabelPopupWindow rewardPopup;
+    private TuiWindow welcomeWindow;
+    private TuiWindow menuWindow;
+    private TuiWindow navigationWindow;
+    private TuiWindow quitPopup;
+    private TuiWindow helpPopup;
+    private TuiWindow deathhPopup;
+    private TuiWindow rewardPopup;
+    private TuiWindow battleWindow;
+
     private boolean isHelpShown = false;
-    private BattleWindow battleWindow;
+
+    private boolean refresh;
 
     public TuiView(GameSession session, InputStream is, OutputStream os) throws IOException {
         this.session = session;
@@ -65,14 +71,18 @@ public class TuiView extends AbstractGameView implements Reader {
 
     private void initializeGui() {
         gui = new StatefulMultiWindowTextGui(screen);
+        TextColor.ANSI none = TextColor.ANSI.DEFAULT; // to not type this out everytime
+        gui.setTheme(SimpleTheme.makeTheme(true, none, none, none, none, none, none, none));
+
         welcomeWindow = new WelcomeWindow(gui);
-        menuWindow = new MenuWindow(gui);
+        menuWindow = new MainMenuWindow(gui);
         navigationWindow = new NavigationWindow(gui, session);
+        battleWindow = new BattleWindow(gui, asciiReaderService, session);
+
         quitPopup = new QuitConfirmation(gui);
-        helpPopup = new SimpleLabelPopupWindow(gui, "Help messsage");
         deathhPopup = new SimpleLabelPopupWindow(gui, "You died");
         rewardPopup = new SimpleLabelPopupWindow(gui, "Congrats, good job");
-        battleWindow = new BattleWindow(gui, asciiReaderService, session);
+        helpPopup = new SimpleLabelPopupWindow(gui, "Help messsage");
     }
 
     @Override
@@ -130,12 +140,20 @@ public class TuiView extends AbstractGameView implements Reader {
             isHelpShown = false;
             return null;
         }
+        if (Objects.equals(result, "r")) {
+            refresh = true;
+            return null;
+        }
         return result;
     }
 
     @Override
     public void display(State state) {
         logger.info("Display for {}, gui has {} windows", state, gui.getWindows().size());
+        if (refresh) {
+            screen.clear();
+            refresh = false;
+        }
         if (isHelpShown) {
             showHelp();
         } else {

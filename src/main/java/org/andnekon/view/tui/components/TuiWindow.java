@@ -7,4 +7,6 @@ public interface TuiWindow {
     public void prepare();
 
     public void show();
+
+    public String read();
 }

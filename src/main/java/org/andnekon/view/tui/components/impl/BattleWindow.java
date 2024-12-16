@@ -1,22 +1,26 @@
-package org.andnekon.view.tui.components;
+package org.andnekon.view.tui.components.impl;
 
 import com.googlecode.lanterna.gui2.GridLayout;
 import com.googlecode.lanterna.gui2.Label;
 import com.googlecode.lanterna.gui2.Panel;
 
 import org.andnekon.game.GameSession;
+import org.andnekon.game.action.Card;
 import org.andnekon.view.Messages;
 import org.andnekon.view.tui.AsciiReaderService;
 import org.andnekon.view.tui.StatefulMultiWindowTextGui;
+import org.andnekon.view.tui.components.ChoicesWindow;
 
-public class BattleWindow extends AbstractTuiWindow {
+import java.util.List;
+
+public class BattleWindow extends ChoicesWindow {
 
     private AsciiReaderService asciiReaderService;
     private GameSession session;
 
     private Label playerData;
     private Label enemyData;
-    private Label playerVisual;
+    private Panel playerVisual;
     private Label enemyVisual;
     private Label deckInfo;
 
@@ -35,6 +39,8 @@ public class BattleWindow extends AbstractTuiWindow {
      */
     @Override
     public void setup() {
+        super.setup();
+
         Panel content = new Panel(new GridLayout(3));
         this.setComponent(content);
 
@@ -56,22 +62,12 @@ public class BattleWindow extends AbstractTuiWindow {
         this.playerData.setText(formPlayerData());
         this.enemyData.setText(formEnemyData());
 
-        this.playerVisual.setText(formPlayerVisual());
         this.enemyVisual.setText(formEnemyVisual());
+        super.prepare();
     }
 
     private String formEnemyVisual() {
         return this.session.getEnemy().displayIntents();
-    }
-
-    private String formPlayerVisual() {
-        StringBuilder sb = new StringBuilder();
-        int i = 0;
-        for (var card : this.session.getPlayer().getBattleDeck()) {
-            sb.append(String.format("%d. %s(%d)\n", i, card.getName(), card.getCost()));
-            i++;
-        }
-        return sb.toString();
     }
 
     private void setupActionsInfo(Panel actionsInfo) {
@@ -90,7 +86,7 @@ public class BattleWindow extends AbstractTuiWindow {
 
     private void setupMainVisual(Panel mainVisual) {
         enemyVisual = new Label("");
-        playerVisual = new Label("");
+        playerVisual = menu;
         Label enemyText = new Label("Enemy is going to:");
         mainVisual.addComponent(enemyText);
         mainVisual.addComponent(enemyVisual);
@@ -146,5 +142,16 @@ public class BattleWindow extends AbstractTuiWindow {
         ;
         res.append(" def\n");
         return res.toString();
+    }
+
+    @Override
+    protected void setMenuOptions() {
+        List<Card> deck = this.session.getPlayer().getBattleDeck();
+
+        this.options = new String[deck.size()];
+        for (int i = 0; i < deck.size(); i++) {
+            this.options[i] =
+                    String.format("%s(%d)\n", deck.get(i).getName(), deck.get(i).getCost());
+        }
     }
 }

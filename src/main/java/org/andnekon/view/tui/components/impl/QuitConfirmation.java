@@ -1,4 +1,4 @@
-package org.andnekon.view.tui.components;
+package org.andnekon.view.tui.components.impl;
 
 import com.googlecode.lanterna.gui2.Label;
 import com.googlecode.lanterna.input.KeyStroke;
@@ -6,6 +6,7 @@ import com.googlecode.lanterna.input.KeyType;
 
 import org.andnekon.utils.KeyStrokeUtil;
 import org.andnekon.view.tui.StatefulMultiWindowTextGui;
+import org.andnekon.view.tui.components.PopupWindow;
 
 public class QuitConfirmation extends PopupWindow {
 
