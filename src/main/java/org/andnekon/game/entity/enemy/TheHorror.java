@@ -1,6 +1,6 @@
 package org.andnekon.game.entity.enemy;
 
-import org.andnekon.game.action.Intent;
+import org.andnekon.game.action.intents.Attack;
 import org.andnekon.game.entity.Player;
 
 public class TheHorror extends Enemy {
@@ -12,13 +12,12 @@ public class TheHorror extends Enemy {
     }
 
     @Override
-    public String display() {
+    public String toString() {
         return "The Horror";
     }
 
     @Override
     public void fillIntents(Player player) {
-        this.currentIntents.add(new Intent(this, Intent.IntentType.ATTACK, 5, player));
-        this.currentIntents.add(new Intent(this, Intent.IntentType.DEFEND, 1, this));
+        this.currentIntents.add(new Attack(this, 5, player));
     }
 }

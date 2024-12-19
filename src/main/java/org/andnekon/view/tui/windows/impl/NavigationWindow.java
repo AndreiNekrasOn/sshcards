@@ -33,7 +33,7 @@ public class NavigationWindow extends ChoicesWindow {
     protected void setMenuOptions() {
         this.options =
                 new String[] {
-                    session.getEnemyNavLeft().display(), session.getEnemyNavRight().display()
+                    session.getEnemyNavLeft().toString(), session.getEnemyNavRight().toString()
                 };
     }
 }

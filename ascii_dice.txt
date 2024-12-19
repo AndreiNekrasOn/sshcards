@@ -458,3 +458,18 @@ Shop is a simple checkout form, that tracks your gold against purchase and also 
 
 There are multiple choise text-events, sometimes multistage, maybe with text input
 
+## Updated thoughts on the gameplay
+
+Your ship has N modules of 3 or 4 types: attack, defence, support +? debuff. So does your deck. You also have consumable-type cards - missles. You can only have X unique missles at the same time.
+Number of modules and starting decks can be the 'character' that the player can choose.
+Each module consists of K units, each unit uses energy and can be used maximum of `unit_resources` times per turn.
+The units are randomized? every turn/fight, so the better your deck is the higher the chance to pull the desired unit.
+After each fight you recieve a reward - a card, a missle with some chance (weighted towards missles you already have), a relic. Relics are slay-the-spire like relics.
+
+So, for implementing this, I need to:
+0) change everything you wanted about Intents
+1) rework Cards system, Battle system, Player design and views for it
+2) implement reward logic
+3) come up with different player-cards and add them to the game
+4) rework enemies to match player's style, implement simple logic for them
+

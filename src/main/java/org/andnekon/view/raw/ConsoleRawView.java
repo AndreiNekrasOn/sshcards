@@ -9,6 +9,8 @@ import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.ansi.UnixTerminal;
 
 import org.andnekon.game.GameSession;
+import org.andnekon.game.action.Card;
+import org.andnekon.game.entity.Player;
 import org.andnekon.game.state.State;
 import org.andnekon.view.HelpType;
 import org.andnekon.view.Reader;
@@ -18,6 +20,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 
 // TODO: consider making this final
 // Since in this case Reader uses the Screen of the View, I decided
@@ -60,7 +64,10 @@ public class ConsoleRawView extends ConsoleView implements Reader {
         crdHelper.reset();
         crdHelper.help(HelpType.BATTLE_INFO);
         crdHelper.help(HelpType.BATTLE_ENEMY_INTENTS);
-        crdHelper.choice(session.getPlayer().getBattleDeck().toArray());
+        Player player = session.getPlayer();
+        List<Card> deck = new ArrayList<>(player.getShotDeck().getInBattle());
+        deck.addAll(player.getArmorDeck().getInBattle());
+        crdHelper.choice(deck);
         crdHelper.help(HelpType.ACTIONS);
         crdHelper.prompt("What do you do?");
     }
@@ -104,7 +111,8 @@ public class ConsoleRawView extends ConsoleView implements Reader {
     @Override
     protected void showNavigation() {
         crdHelper.reset();
-        crdHelper.choice(session.getEnemyNavLeft().display(), session.getEnemyNavRight().display());
+        crdHelper.choice(
+                session.getEnemyNavLeft().toString(), session.getEnemyNavRight().toString());
         crdHelper.prompt("Where do you go?");
     }
 

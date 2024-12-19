@@ -1,6 +1,7 @@
 package org.andnekon.game;
 
 import org.andnekon.game.action.CardFactory;
+import org.andnekon.game.action.CardName;
 import org.andnekon.game.entity.Player;
 import org.andnekon.game.entity.enemy.Enemy;
 import org.andnekon.game.entity.enemy.EnemyFactory;
@@ -48,7 +49,7 @@ public class GameSession {
 
     public void initBattle() {
         this.turn = 1;
-        this.player.setBattleDeck();
+        this.player.initTurn();
     }
 
     public void initTurn() {
@@ -63,10 +64,10 @@ public class GameSession {
 
     public void initializeDefaultDeck() {
         for (int i = 0; i < 4; i++) {
-            player.addCard(CardFactory.getCard(player, "Shoot"));
+            player.addCard(CardFactory.getCard(player, CardName.SHOT));
         }
         for (int i = 0; i < 3; i++) {
-            player.addCard(CardFactory.getCard(player, "Defend"));
+            player.addCard(CardFactory.getCard(player, CardName.ARMORUP));
         }
     }
 

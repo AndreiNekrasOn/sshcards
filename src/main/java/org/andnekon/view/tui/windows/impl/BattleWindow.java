@@ -6,11 +6,13 @@ import com.googlecode.lanterna.gui2.Panel;
 
 import org.andnekon.game.GameSession;
 import org.andnekon.game.action.Card;
+import org.andnekon.game.entity.Player;
 import org.andnekon.view.Messages;
 import org.andnekon.view.tui.AsciiReaderService;
 import org.andnekon.view.tui.StatefulMultiWindowTextGui;
 import org.andnekon.view.tui.windows.ChoicesWindow;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BattleWindow extends ChoicesWindow {
@@ -134,7 +136,7 @@ public class BattleWindow extends ChoicesWindow {
 
     private String formEnemyData() {
         StringBuilder res = new StringBuilder();
-        res.append(session.getEnemy().display());
+        res.append(session.getEnemy().toString());
         res.append("\n");
         res.append(session.getEnemy().getHp());
         res.append(" hp\n");
@@ -146,8 +148,9 @@ public class BattleWindow extends ChoicesWindow {
 
     @Override
     protected void setMenuOptions() {
-        List<Card> deck = this.session.getPlayer().getBattleDeck();
-
+        Player player = this.session.getPlayer();
+        List<Card> deck = new ArrayList<>(player.getShotDeck().getInBattle());
+        deck.addAll(player.getArmorDeck().getInBattle());
         this.options = new String[deck.size()];
         for (int i = 0; i < deck.size(); i++) {
             this.options[i] =

@@ -2,7 +2,8 @@ package org.andnekon.game.state;
 
 import org.andnekon.game.GameSession;
 import org.andnekon.game.action.Card;
-import org.andnekon.game.action.Intent;
+import org.andnekon.game.entity.CardNotInHandException;
+import org.andnekon.game.entity.NotEnoughEnergyException;
 import org.andnekon.game.entity.Player;
 import org.andnekon.game.entity.enemy.Enemy;
 import org.andnekon.view.HelpType;
@@ -76,10 +77,7 @@ public class Battle extends State {
                 phase = checkBattleEnd(BattleState.ENEMY_TURN_START, player, enemy);
             }
             case ENEMY_TURN_START -> {
-                enemy.setDefense(0);
-                for (Intent intent : enemy.getCurrentIntents()) {
-                    intent.execute();
-                }
+                enemy.turn();
                 phase = BattleState.ENEMY_TURN_END;
             }
             case ENEMY_TURN_END -> {
@@ -113,23 +111,27 @@ public class Battle extends State {
         if (state != BattleState.PLAYER_TURN) {
             return state;
         }
-        // play card
-        Card card;
+        // TODO: rn input processing depends on the view, creating too much coupling.
+        // Needs a mediator to transform input into spefic action
         try {
-            int i = Integer.parseInt(input);
-            if (i < 1 || i > player.getBattleDeck().size()) {
-                return BattleState.PLAYER_TURN_HELP;
+            // no bounds checking, throws instead
+            var shotDeck = player.getShotDeck().getInBattle();
+            int shotDeckSize = shotDeck.size();
+            Card card;
+            int cardNum = Integer.parseInt(input) - 1;
+            if (cardNum < shotDeckSize) {
+                card = shotDeck.get(cardNum);
+            } else {
+                card = player.getArmorDeck().getInBattle().get(cardNum - shotDeckSize);
             }
-            card = player.getBattleDeck().get(i - 1);
-        } catch (Exception e) {
-            return BattleState.PLAYER_TURN_HELP;
-        }
-        if (card.getCost() > player.getEnergy()) {
+            player.useCard(card, enemy);
+            return BattleState.PLAYER_TURN;
+        } catch (NumberFormatException | IndexOutOfBoundsException e) {
+            session.setHelpType(HelpType.WRONG_INPUT); // TODO: more HelpTypes? Messages?
+        } catch (NotEnoughEnergyException | CardNotInHandException e) {
             session.setHelpType(HelpType.WRONG_INPUT);
-            return BattleState.PLAYER_TURN_HELP;
         }
-        player.useCard(card, enemy);
-        return BattleState.PLAYER_TURN;
+        return BattleState.PLAYER_TURN_HELP;
     }
 
     private BattleState processBattleInputHelpers(Player player, Enemy enemy, String input) {

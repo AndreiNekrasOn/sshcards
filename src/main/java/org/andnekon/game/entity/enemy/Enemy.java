@@ -15,9 +15,8 @@ public abstract class Enemy extends Entity {
         currentIntents = new ArrayList<>();
     }
 
-    public abstract String display();
-
     public void turn() {
+        setDefense(0);
         for (Intent intent : currentIntents) {
             intent.execute();
         }
@@ -40,4 +39,7 @@ public abstract class Enemy extends Entity {
     public List<Intent> getCurrentIntents() {
         return currentIntents;
     }
+
+    @Override
+    public abstract String toString();
 }

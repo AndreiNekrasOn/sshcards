@@ -29,7 +29,7 @@ public class ConsoleView extends AbstractGameView {
     }
 
     protected void showNavigation() {
-        helper.choice(session.getEnemyNavLeft().display(), session.getEnemyNavRight().display());
+        helper.choice(session.getEnemyNavLeft().toString(), session.getEnemyNavRight().toString());
         helper.prompt("Where do you go?");
     }
 

@@ -1,6 +1,7 @@
 package org.andnekon.view.repl;
 
 import org.andnekon.game.GameSession;
+import org.andnekon.game.action.Card;
 import org.andnekon.game.entity.Player;
 import org.andnekon.game.entity.enemy.Enemy;
 import org.andnekon.view.DisplayOptions;
@@ -10,6 +11,8 @@ import org.andnekon.view.Messages;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -45,7 +48,11 @@ public class ConsoleDisplayer implements Displayer {
             case ACTIONS -> helpActions();
             case TURN_INFO -> {
                 helpBattleInfo();
-                choice(session.getPlayer().getBattleDeck().toArray());
+                List<Card> battleDeck = new ArrayList<>();
+                Player p = session.getPlayer();
+                battleDeck.addAll(p.getShotDeck().getInBattle());
+                battleDeck.addAll(p.getArmorDeck().getInBattle());
+                choice(battleDeck.toArray());
             }
             default -> throw new IllegalArgumentException("Unexpected value: " + type);
         }
@@ -124,7 +131,7 @@ public class ConsoleDisplayer implements Displayer {
     private void helpBattleEnemyIntents() {
         final Enemy enemy = session.getEnemy();
         for (final var intent : enemy.getCurrentIntents()) {
-            printf("%s: %s\n", enemy.display(), intent);
+            printf("%s: %s\n", enemy.toString(), intent);
         }
         printf("\n");
     }
@@ -142,10 +149,10 @@ public class ConsoleDisplayer implements Displayer {
                 player.getEnergy(),
                 player.getHp(),
                 player.getDefense(),
-                enemy.display(),
+                enemy.toString(),
                 enemy.getHp(),
                 enemy.getDefense(),
-                enemy.display(),
+                enemy.toString(),
                 enemy.displayIntents());
         printf("=== GOOD LUCK!  ===\n");
     }
