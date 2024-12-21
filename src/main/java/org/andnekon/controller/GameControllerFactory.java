@@ -1,12 +1,13 @@
 package org.andnekon.controller;
 
 import org.andnekon.game.GameLogic;
+import org.andnekon.game.GameSession;
 import org.andnekon.view.GameView;
 import org.andnekon.view.Reader;
 import org.andnekon.view.raw.ConsoleRawView;
 import org.andnekon.view.repl.ConsoleReader;
 import org.andnekon.view.repl.ConsoleView;
-import org.andnekon.view.tui.TuiView;
+import org.andnekon.view.tui.TuiManager;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,20 +24,22 @@ public class GameControllerFactory {
     public static GameController createController(
             ControllerType type, InputStream is, OutputStream os) throws IOException {
         GameLogic game = new GameLogic();
+        GameSession session = game.getSession();
         GameView view;
         Reader reader;
         switch (type) {
             case RAW -> {
-                view = new ConsoleRawView(game.getSession(), is, os);
+                view = new ConsoleRawView(session, is, os);
                 reader = (ConsoleRawView) view;
             }
             case REPL -> {
-                view = new ConsoleView(game.getSession());
+                view = new ConsoleView(session);
                 reader = new ConsoleReader(); // TODO: IO
             }
             case TUI -> {
-                view = new TuiView(game.getSession(), is, os);
-                reader = (TuiView) view;
+                TuiManager manager = new TuiManager(session, is, os);
+                view = manager.getView();
+                reader = manager.getReader();
             }
             default -> throw new UnsupportedOperationException("ControllerType not implemented");
         }

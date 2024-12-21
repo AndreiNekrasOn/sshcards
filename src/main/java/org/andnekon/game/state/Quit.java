@@ -1,22 +1,22 @@
 package org.andnekon.game.state;
 
+import org.andnekon.game.GameAction;
 import org.andnekon.game.GameSession;
 
 public class Quit extends State {
 
     public Quit(GameSession session) {
         super(session);
-        // TODO Auto-generated constructor stub
     }
 
     @Override
-    public State handleInput(String input) {
-        switch (input) {
-            case "n", "N":
+    public State handleInput(GameAction action) {
+        switch (action.action()) {
+            case REFUSE:
                 return session.getPreviousState();
-            case "q", "y", "Q", "Y":
-                // TODO: Quitting logic
-                throw new UnsupportedOperationException("Quit logic not fully done");
+            case ACCEPT:
+                session.end();
+                return this;
             default:
                 return this;
         }

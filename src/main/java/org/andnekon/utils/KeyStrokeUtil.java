@@ -44,8 +44,7 @@ public class KeyStrokeUtil {
             return false;
         }
         return switch (key.getKeyType()) {
-            case ArrowDown, ArrowLeft, ArrowRight, ArrowUp, Backspace, Delete, Enter, Escape ->
-                    true;
+            case Backspace, Delete, Enter, Escape -> true;
             default -> false;
         };
     }

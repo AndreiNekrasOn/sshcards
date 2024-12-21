@@ -1,5 +1,6 @@
 package org.andnekon.game.state;
 
+import org.andnekon.game.GameAction;
 import org.andnekon.game.GameSession;
 import org.andnekon.game.action.Card;
 import org.andnekon.game.entity.CardNotInHandException;
@@ -23,6 +24,13 @@ public class Battle extends State {
         COMPLETE,
         PLAYER_TURN_HELP,
     }
+
+    private static final List<GameAction.Type> viableActions =
+            List.of(
+                    GameAction.Type.BATTLE_CARD,
+                    GameAction.Type.BATTLE_CHECK,
+                    GameAction.Type.BATTLE_END_TURN,
+                    GameAction.Type.BATTLE_HELP);
 
     private static final List<BattleState> phasesRequiringInput =
             List.of(
@@ -49,10 +57,8 @@ public class Battle extends State {
     }
 
     @Override
-    public State handleInput(String input) {
-        logger.info("In battle recieved {}, phase {}", input, phase);
-        while (runBattle(input)) {}
-        logger.info("After processing input phase {}", phase);
+    public State handleInput(GameAction action) {
+        while (runBattle(action)) {}
 
         if (phase == BattleState.COMPLETE) {
             return nextState;
@@ -65,13 +71,13 @@ public class Battle extends State {
         this.type = State.Type.BATTLE;
     }
 
-    private boolean runBattle(String input) {
+    private boolean runBattle(GameAction action) {
         logger.info("runBattle start phase {}", phase);
         Player player = session.getPlayer();
         Enemy enemy = session.getEnemy();
         switch (phase) {
             case PLAYER_TURN_START, PLAYER_TURN, PLAYER_TURN_HELP -> {
-                phase = processBattleInput(player, enemy, input);
+                phase = processBattleInput(player, enemy, action);
             }
             case PLAYER_TURN_END -> {
                 phase = checkBattleEnd(BattleState.ENEMY_TURN_START, player, enemy);
@@ -105,54 +111,45 @@ public class Battle extends State {
         return nextPhase;
     }
 
-    private BattleState processBattleInput(Player player, Enemy enemy, String input) {
-        BattleState state = processBattleInputHelpers(player, enemy, input);
+    private BattleState processBattleInput(Player player, Enemy enemy, GameAction action) {
+        BattleState state = processBattleInputHelpers(player, enemy, action);
         if (state != BattleState.PLAYER_TURN) {
             return state;
         }
-        // TODO: rn input processing depends on the view, creating too much coupling.
-        // Needs a mediator to transform input into spefic action
+        if (action.action() != GameAction.Type.BATTLE_CARD || action.payload() == null) {
+            throw new UnsupportedOperationException("Unexpexted GameAction in Battle");
+        }
         try {
-            // no bounds checking, throws instead
-            var shotDeck = player.getShotDeck().getHand();
-            int shotDeckSize = shotDeck.size();
-            logger.info(
-                    shotDeck.stream().map(c -> c.toString()).toList().stream()
-                            .map(Object::toString)
-                            .toList()
-                            .toString());
-            Card card;
-            int cardNum = Integer.parseInt(input) - 1;
-            if (cardNum < shotDeckSize) {
-                card = shotDeck.get(cardNum);
-            } else {
-                card = player.getArmorDeck().getHand().get(cardNum - shotDeckSize);
-            }
-            player.useCard(card, enemy);
+            List<Card> hand = chooseDeck(player, action.payload());
+            player.useCard(hand.get(action.id()), enemy);
             return BattleState.PLAYER_TURN;
-        } catch (NumberFormatException | IndexOutOfBoundsException e) {
-            session.setHelpType(HelpType.WRONG_INPUT); // TODO: more HelpTypes? Messages?
+        } catch (IndexOutOfBoundsException e) {
+            session.setHelpType(HelpType.WRONG_INPUT);
         } catch (NotEnoughEnergyException | CardNotInHandException e) {
             session.setHelpType(HelpType.WRONG_INPUT);
         }
         return BattleState.PLAYER_TURN_HELP;
     }
 
-    private BattleState processBattleInputHelpers(Player player, Enemy enemy, String input) {
-        if (input.length() == 0) {
+    private List<Card> chooseDeck(Player player, String type) {
+        return switch (type) {
+            case "shot" -> player.getShotDeck().getHand();
+            case "armor" -> player.getArmorDeck().getHand();
+            default -> throw new UnsupportedOperationException("Unimplemented deck type");
+        };
+    }
+
+    private BattleState processBattleInputHelpers(Player player, Enemy enemy, GameAction action) {
+        if (!viableActions.contains(action.action())) {
             return BattleState.PLAYER_TURN_HELP;
         }
-        return switch (input.charAt(0)) {
-            case 'q' -> {
-                nextState = new Quit(session);
-                yield BattleState.COMPLETE;
-            }
-            case 'e' -> BattleState.PLAYER_TURN_END;
-            case 'h' -> {
+        return switch (action.action()) {
+            case BATTLE_END_TURN -> BattleState.PLAYER_TURN_END;
+            case BATTLE_HELP -> {
                 session.setHelpType(HelpType.ACTIONS);
                 yield BattleState.PLAYER_TURN_HELP;
             }
-            case 'c' -> {
+            case BATTLE_CHECK -> {
                 session.setHelpType(HelpType.TURN_INFO);
                 yield BattleState.PLAYER_TURN_HELP;
             }

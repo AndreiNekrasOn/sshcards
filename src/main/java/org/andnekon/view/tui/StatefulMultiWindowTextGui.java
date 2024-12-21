@@ -10,8 +10,11 @@ public class StatefulMultiWindowTextGui extends MultiWindowTextGUI {
 
     private TuiWindow currentWindow;
 
-    public StatefulMultiWindowTextGui(Screen screen) {
+    private TuiManager manager;
+
+    public StatefulMultiWindowTextGui(Screen screen, TuiManager manager) {
         super(screen);
+        this.manager = manager;
     }
 
     public TuiWindow getCurrentWindow() {
@@ -20,5 +23,9 @@ public class StatefulMultiWindowTextGui extends MultiWindowTextGUI {
 
     public void setCurrentWindow(TuiWindow currentWindow) {
         this.currentWindow = currentWindow;
+    }
+
+    public TuiReader getReader() {
+        return this.manager.getReader();
     }
 }

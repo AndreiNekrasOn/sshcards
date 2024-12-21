@@ -3,14 +3,10 @@ package org.andnekon.view.tui;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.graphics.SimpleTheme;
 import com.googlecode.lanterna.screen.Screen;
-import com.googlecode.lanterna.screen.TerminalScreen;
-import com.googlecode.lanterna.terminal.Terminal;
-import com.googlecode.lanterna.terminal.ansi.UnixTerminal;
 
 import org.andnekon.game.GameSession;
 import org.andnekon.game.state.State;
 import org.andnekon.view.AbstractGameView;
-import org.andnekon.view.Reader;
 import org.andnekon.view.tui.windows.SimpleLabelPopupWindow;
 import org.andnekon.view.tui.windows.TuiWindow;
 import org.andnekon.view.tui.windows.impl.BattleWindow;
@@ -22,10 +18,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.charset.Charset;
-import java.util.Objects;
 
 /**
  * TUI view provides graphical (terminal) enviroment for game logic.<br>
@@ -33,11 +25,12 @@ import java.util.Objects;
  * additional functionality besides standard REPL operations, like choosing specific buttons with
  * navigation keys, displaying help information as a pop-up menu and so on.
  */
-public class TuiView extends AbstractGameView implements Reader {
+public class TuiView extends AbstractGameView {
 
     private static final Logger logger = LoggerFactory.getLogger(TuiView.class);
 
-    private Terminal terminal;
+    TuiManager manager;
+
     private Screen screen;
     private StatefulMultiWindowTextGui gui;
     private AsciiReaderService asciiReaderService;
@@ -53,24 +46,25 @@ public class TuiView extends AbstractGameView implements Reader {
     private TuiWindow rewardPopup;
     private TuiWindow battleWindow;
 
-    private boolean isHelpShown = false;
+    private boolean helpShown = false;
 
     private boolean refresh;
 
-    public TuiView(GameSession session, InputStream is, OutputStream os) throws IOException {
+    // package-private
+    TuiView(GameSession session, TuiManager manager) throws IOException {
         this.session = session;
-        this.terminal = new UnixTerminal(is, os, Charset.defaultCharset());
-        screen = new TerminalScreen(terminal);
+        this.manager = manager;
+        this.gui = manager.getGui();
+        this.screen = gui.getScreen();
         // single threaded is fine, we have 1 gui per client
         screen.startScreen();
 
-        initializeGui();
+        init();
 
         asciiReaderService = new AsciiReaderService();
     }
 
-    private void initializeGui() {
-        gui = new StatefulMultiWindowTextGui(screen);
+    public void init() {
         TextColor.ANSI none = TextColor.ANSI.DEFAULT; // to not type this out everytime
         gui.setTheme(SimpleTheme.makeTheme(true, none, none, none, none, none, none, none));
 
@@ -116,11 +110,6 @@ public class TuiView extends AbstractGameView implements Reader {
     }
 
     @Override
-    protected void showHelp() {
-        helpPopup.show();
-    }
-
-    @Override
     protected void showDeath() {
         deathhPopup.show();
     }
@@ -131,33 +120,27 @@ public class TuiView extends AbstractGameView implements Reader {
     }
 
     @Override
-    public String read() {
-        String result = gui.getCurrentWindow().read();
-        if (Objects.equals(result, "?")) {
-            isHelpShown = true;
-            return null;
-        } else if (isHelpShown) {
-            isHelpShown = false;
-            return null;
-        }
-        if (Objects.equals(result, "r")) {
-            refresh = true;
-            return null;
-        }
-        return result;
-    }
-
-    @Override
     public void display(State state) {
-        logger.info("Display for {}, gui has {} windows", state, gui.getWindows().size());
         if (refresh) {
             screen.clear();
             refresh = false;
         }
-        if (isHelpShown) {
-            showHelp();
+        if (helpShown) {
+            helpPopup.show();
         } else {
             super.display(state);
         }
+    }
+
+    public void setHelpShown(boolean show) {
+        this.helpShown = show;
+    }
+
+    public boolean isHelpShown() {
+        return this.helpShown;
+    }
+
+    public void setRefresh() {
+        this.refresh = true;
     }
 }

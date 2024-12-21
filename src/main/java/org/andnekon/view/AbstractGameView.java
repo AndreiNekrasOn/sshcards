@@ -14,7 +14,6 @@ public abstract class AbstractGameView implements GameView {
         switch (state.getType()) {
             case BATTLE -> showBattle();
             case DEATH -> showDeath();
-            case HELP -> showHelp();
             case MENU -> showMenu();
             case NAVIGATION -> showNavigation();
             case QUIT -> showQuitConfirm();
@@ -30,8 +29,6 @@ public abstract class AbstractGameView implements GameView {
     protected abstract void showNavigation();
 
     protected abstract void showMenu();
-
-    protected abstract void showHelp();
 
     protected abstract void showDeath();
 

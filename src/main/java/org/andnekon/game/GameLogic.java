@@ -2,6 +2,7 @@ package org.andnekon.game;
 
 import org.andnekon.game.entity.Player;
 import org.andnekon.game.state.Menu;
+import org.andnekon.game.state.Quit;
 import org.andnekon.game.state.State;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,12 +54,18 @@ public class GameLogic {
         currentState = state;
     }
 
-    public void handleInput(String input) {
+    public void process(GameAction action) {
         logger.info("Waiting for input, state {}", currentState.getType());
-        if (input != null) {
-            setCurrentState(currentState.handleInput(input));
+        if (action == null) {
+            throw new UnsupportedOperationException("GameAction can't be null");
         }
-        logger.info("After input {}, state {}", input, currentState.getType());
+
+        State newState =
+                (action.action() == GameAction.Type.QUIT)
+                        ? new Quit(session)
+                        : currentState.handleInput(action);
+        setCurrentState(newState);
+        logger.info("After input {}, state {}", action, currentState.getType());
     }
 
     public GameSession getSession() {

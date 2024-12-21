@@ -19,6 +19,8 @@ public class GameSession {
     private HelpType helpType;
     private State previousState;
 
+    private boolean end = false;
+
     public HelpType getHelpType() {
         return helpType;
     }
@@ -96,5 +98,13 @@ public class GameSession {
 
     public State getPreviousState() {
         return previousState;
+    }
+
+    public void end() {
+        this.end = true;
+    }
+
+    public boolean isEnd() {
+        return this.end;
     }
 }

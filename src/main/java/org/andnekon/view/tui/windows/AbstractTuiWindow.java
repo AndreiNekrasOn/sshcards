@@ -1,28 +1,20 @@
 package org.andnekon.view.tui.windows;
 
-import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.gui2.BasicWindow;
 import com.googlecode.lanterna.gui2.Window;
-import com.googlecode.lanterna.input.KeyStroke;
-import com.googlecode.lanterna.screen.Screen;
 
 import org.andnekon.utils.KeyStrokeUtil;
 import org.andnekon.view.tui.StatefulMultiWindowTextGui;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 // Abstract so it's not initialized directly
 public abstract class AbstractTuiWindow extends BasicWindow implements TuiWindow {
 
     protected StatefulMultiWindowTextGui gui;
 
-    protected List<KeyStroke> buffer;
-
     public AbstractTuiWindow(StatefulMultiWindowTextGui gui) {
         this.gui = gui;
-        this.buffer = new ArrayList<>();
         setup();
     }
 
@@ -54,25 +46,9 @@ public abstract class AbstractTuiWindow extends BasicWindow implements TuiWindow
     /** Reads one keystroke from the screens input queue, blocking */
     @Override
     public String read() {
-        buffer.clear();
-        KeyStroke key = null;
-        Screen screen = gui.getScreen();
-        // can't hide cursor over telnet
-        screen.setCursorPosition(new TerminalPosition(0, screen.getTerminalSize().getRows() - 1));
-        try {
-            // while (!KeyStrokeUtil.compareType(key, KeyType.Enter)
-            //         && !KeyStrokeUtil.compareType(key, KeyType.EOF)) {
-            screen.refresh();
-            key = screen.readInput(); // blocks
-            if (key != null) {
-                buffer.add(key);
-            }
-            // }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        gui.getReader().readKeys();
         postRead();
-        return KeyStrokeUtil.keysToString(buffer);
+        return KeyStrokeUtil.keysToString(gui.getReader().getBuffer());
     }
 
     protected void postRead() {

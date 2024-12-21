@@ -37,10 +37,6 @@ public class ConsoleView extends AbstractGameView {
         helper.withSettings(DisplayOptions.MENU.id()).choice((Object[]) Messages.MENU_OPTIONS);
     }
 
-    protected void showHelp() {
-        helper.help(session.getHelpType());
-    }
-
     protected void showDeath() {
         helper.message("YOU ARE DEAD.");
     }
