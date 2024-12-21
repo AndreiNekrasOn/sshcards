@@ -82,7 +82,6 @@ public class Battle extends State {
             }
             case ENEMY_TURN_END -> {
                 enemy.clearIntents();
-                session.incTurn();
                 // we need to init turn in constructor for the better View
                 // so we call initTurn again here, not on PLAYER_TURN_START
                 session.initTurn();
@@ -115,14 +114,19 @@ public class Battle extends State {
         // Needs a mediator to transform input into spefic action
         try {
             // no bounds checking, throws instead
-            var shotDeck = player.getShotDeck().getInBattle();
+            var shotDeck = player.getShotDeck().getHand();
             int shotDeckSize = shotDeck.size();
+            logger.info(
+                    shotDeck.stream().map(c -> c.toString()).toList().stream()
+                            .map(Object::toString)
+                            .toList()
+                            .toString());
             Card card;
             int cardNum = Integer.parseInt(input) - 1;
             if (cardNum < shotDeckSize) {
                 card = shotDeck.get(cardNum);
             } else {
-                card = player.getArmorDeck().getInBattle().get(cardNum - shotDeckSize);
+                card = player.getArmorDeck().getHand().get(cardNum - shotDeckSize);
             }
             player.useCard(card, enemy);
             return BattleState.PLAYER_TURN;

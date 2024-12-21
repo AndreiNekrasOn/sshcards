@@ -149,12 +149,12 @@ public class BattleWindow extends ChoicesWindow {
     @Override
     protected void setMenuOptions() {
         Player player = this.session.getPlayer();
-        List<Card> deck = new ArrayList<>(player.getShotDeck().getInBattle());
-        deck.addAll(player.getArmorDeck().getInBattle());
+        List<Card> deck = new ArrayList<>();
+        deck.addAll(player.getShotDeck().getHand());
+        deck.addAll(player.getArmorDeck().getHand());
         this.options = new String[deck.size()];
         for (int i = 0; i < deck.size(); i++) {
-            this.options[i] =
-                    String.format("%s(%d)\n", deck.get(i).getName(), deck.get(i).getCost());
+            this.options[i] = deck.get(i).toString();
         }
     }
 }

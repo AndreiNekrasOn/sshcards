@@ -65,8 +65,9 @@ public class ConsoleRawView extends ConsoleView implements Reader {
         crdHelper.help(HelpType.BATTLE_INFO);
         crdHelper.help(HelpType.BATTLE_ENEMY_INTENTS);
         Player player = session.getPlayer();
-        List<Card> deck = new ArrayList<>(player.getShotDeck().getInBattle());
-        deck.addAll(player.getArmorDeck().getInBattle());
+        List<Card> deck = new ArrayList<>();
+        deck.addAll(player.getShotDeck().getHand());
+        deck.addAll(player.getArmorDeck().getHand());
         crdHelper.choice(deck);
         crdHelper.help(HelpType.ACTIONS);
         crdHelper.prompt("What do you do?");

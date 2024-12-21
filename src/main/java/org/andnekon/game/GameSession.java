@@ -49,17 +49,13 @@ public class GameSession {
 
     public void initBattle() {
         this.turn = 1;
-        this.player.initTurn();
+        this.player.initBattle();
     }
 
     public void initTurn() {
-        this.player.setEnergy(3);
-        this.player.setDefense(0);
-        this.enemy.fillIntents(this.player);
-    }
-
-    public void incTurn() {
         this.turn++;
+        this.player.initTurn();
+        this.enemy.fillIntents(this.player);
     }
 
     public void initializeDefaultDeck() {
@@ -69,6 +65,7 @@ public class GameSession {
         for (int i = 0; i < 3; i++) {
             player.addCard(CardFactory.getCard(player, CardName.ARMORUP));
         }
+        player.addCard(CardFactory.getCard(player, CardName.LUCKY_SHOT));
     }
 
     public void initNavigation() {

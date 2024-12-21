@@ -72,7 +72,7 @@ public abstract class ChoicesWindow extends AbstractTuiWindow {
             currentIndex++;
             buffer.clear();
         }
-        currentIndex %= menu.getChildCount();
+        currentIndex = menu.getChildCount() == 0 ? 0 : currentIndex % menu.getChildCount();
         focusMenuElement();
     }
 

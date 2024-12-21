@@ -1,7 +1,6 @@
 package org.andnekon.game.entity;
 
 import org.andnekon.game.action.Card;
-import org.andnekon.game.action.Intent;
 import org.andnekon.game.action.cards.Armor;
 import org.andnekon.game.action.cards.Shot;
 
@@ -13,8 +12,8 @@ public class Player extends Entity {
     // private int numInBattleSupport;
     // private int numMissles; // TODO: add missles-logic
 
-    private Deck<Shot> shotDeck;
-    private Deck<Armor> armorDeck;
+    private Deck shotDeck;
+    private Deck armorDeck;
     // private Set<Effect> effectDeck;
 
     private int energy;
@@ -27,8 +26,8 @@ public class Player extends Entity {
         numInBattleAttacks = 2;
         numInBattleDeffence = 1;
 
-        shotDeck = new Deck<>(numInBattleAttacks);
-        armorDeck = new Deck<>(numInBattleDeffence);
+        shotDeck = new Deck(numInBattleAttacks);
+        armorDeck = new Deck(numInBattleDeffence);
     }
 
     public int getEnergy() {
@@ -49,31 +48,39 @@ public class Player extends Entity {
 
     /** Modifies player's deck for each type of Card */
     public void initTurn() {
-        shotDeck.initInBattle();
-        armorDeck.initInBattle();
+        shotDeck.initHand();
+        armorDeck.initHand();
         energy = 3;
         defense = 0;
     }
 
-    public void useCard(Card card, Entity target)
-            throws NotEnoughEnergyException, CardNotInHandException {
-        if (!shotDeck.getInBattle().contains(card) && !armorDeck.getInBattle().contains(card)) {
-            throw new CardNotInHandException();
-        }
-        for (Intent intent : card.getIntents()) {
-            intent.execute(target);
-        }
-        if (card.getCost() > this.energy) {
-            throw new NotEnoughEnergyException();
-        }
-        this.energy -= card.getCost();
+    public void initBattle() {
+        shotDeck.initBattle();
+        armorDeck.initBattle();
     }
 
-    public Deck<Shot> getShotDeck() {
+    public void useCard(Card card, Entity target)
+            throws NotEnoughEnergyException, CardNotInHandException {
+        if (card.getCost() > energy) {
+            throw new NotEnoughEnergyException();
+        }
+        // it's cheap enough to check this
+        if (shotDeck.getHand().contains(card)) {
+            shotDeck.useCard(card);
+        } else if (armorDeck.getHand().contains(card)) {
+            armorDeck.useCard(card);
+        } else {
+            throw new CardNotInHandException();
+        }
+        card.use(target);
+        energy -= card.getCost();
+    }
+
+    public Deck getShotDeck() {
         return shotDeck;
     }
 
-    public Deck<Armor> getArmorDeck() {
+    public Deck getArmorDeck() {
         return armorDeck;
     }
 

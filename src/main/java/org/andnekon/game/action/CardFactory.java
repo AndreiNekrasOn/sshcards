@@ -14,6 +14,8 @@ public class CardFactory {
         return switch (name) {
             case SHOT -> new Shot("Shot", 1, new Attack(player, 1));
             case ARMORUP -> new Armor("Armor Up!", 1, new Defence(player, 1, player));
+            case LUCKY_SHOT ->
+                    new Shot("Luck Shot", 2, new Attack(player, 4), new Attack(player, 1, player));
             default -> throw new IllegalStateException("Unexpected value: " + name);
         };
     }

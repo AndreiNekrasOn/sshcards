@@ -50,8 +50,8 @@ public class ConsoleDisplayer implements Displayer {
                 helpBattleInfo();
                 List<Card> battleDeck = new ArrayList<>();
                 Player p = session.getPlayer();
-                battleDeck.addAll(p.getShotDeck().getInBattle());
-                battleDeck.addAll(p.getArmorDeck().getInBattle());
+                battleDeck.addAll(p.getShotDeck().getHand());
+                battleDeck.addAll(p.getArmorDeck().getHand());
                 choice(battleDeck.toArray());
             }
             default -> throw new IllegalArgumentException("Unexpected value: " + type);
