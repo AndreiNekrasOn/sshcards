@@ -4,4 +4,8 @@ public enum CardName {
     SHOT,
     ARMORUP,
     LUCKY_SHOT,
+    TRIPPLE_SHOT,
+    OVERDRIVE,
+    BETTERARMOR,
+    THORNSARMOR,
 }

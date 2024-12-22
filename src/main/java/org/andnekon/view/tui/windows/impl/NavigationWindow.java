@@ -5,10 +5,10 @@ import com.googlecode.lanterna.gui2.Panel;
 
 import org.andnekon.game.GameSession;
 import org.andnekon.view.tui.StatefulMultiWindowTextGui;
-import org.andnekon.view.tui.windows.AbstractTuiWindow;
+import org.andnekon.view.tui.windows.MainWindow;
 import org.andnekon.view.tui.windows.MenuComponent;
 
-public class NavigationWindow extends AbstractTuiWindow {
+public class NavigationWindow extends MainWindow {
 
     private GameSession session;
 
@@ -21,15 +21,13 @@ public class NavigationWindow extends AbstractTuiWindow {
 
     @Override
     public void setup() {
-        Panel contnet = new Panel();
+        content = new Panel();
 
         Label prompt = new Label("Where do you go?");
-        contnet.addComponent(prompt);
+        content.addComponent(prompt);
 
         menu = new MenuComponent();
-        contnet.addComponent(menu);
-
-        this.setComponent(contnet);
+        content.addComponent(menu);
     }
 
     @Override

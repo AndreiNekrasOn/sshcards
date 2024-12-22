@@ -12,6 +12,14 @@ public class Attack extends Intent {
 
     @Override
     public void execute(Entity... targets) {
+        if (this.targets != null && !this.targets.isEmpty()) { // attacks can target yourself?
+            doDamage(this.targets.toArray(Entity[]::new));
+        } else {
+            doDamage(targets);
+        }
+    }
+
+    private void doDamage(Entity... targets) {
         for (Entity target : targets) {
             target.takeDamage(value);
         }

@@ -9,7 +9,6 @@ import org.andnekon.view.Reader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class TuiReader implements Reader {
 
@@ -24,15 +23,24 @@ public class TuiReader implements Reader {
     @Override
     public String read() {
         String result = this.manager.getGui().getCurrentWindow().read();
-        if (Objects.equals(result, "?")) {
+
+        // TODO: mess -> should be in the controller
+        if ("?".equals(result)) {
             this.manager.getView().setHelpShown(true);
             return null;
         } else if (this.manager.getView().isHelpShown()) {
             this.manager.getView().setHelpShown(false);
             return null;
         }
-        if (Objects.equals(result, "r")) {
+        if ("r".equals(result)) {
             this.manager.getView().setRefresh();
+            return null;
+        }
+        if ("c".equals(result)) {
+            this.manager.getView().setCheck(true);
+            return null;
+        } else if (this.manager.getView().isCheck()) {
+            this.manager.getView().setCheck(false);
             return null;
         }
         return result;

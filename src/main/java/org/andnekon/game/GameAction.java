@@ -65,9 +65,7 @@ public class GameAction {
         if (payload != null) {
             builder.append(", with payload ").append(payload);
         }
-        if (id != 0) {
-            builder.append(", with value ").append(id);
-        }
+        builder.append(", with value ").append(id);
         return builder.toString();
     }
 }

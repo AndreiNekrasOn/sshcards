@@ -1,5 +1,6 @@
 package org.andnekon.game;
 
+import org.andnekon.game.action.Card;
 import org.andnekon.game.action.CardFactory;
 import org.andnekon.game.action.CardName;
 import org.andnekon.game.entity.Player;
@@ -8,18 +9,28 @@ import org.andnekon.game.entity.enemy.EnemyFactory;
 import org.andnekon.game.state.State;
 import org.andnekon.view.HelpType;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class GameSession {
 
     private Enemy enemy;
     private Player player;
     private int turn;
+
+    // TODO: manager for each state
     private Enemy enemyNavRight;
     private Enemy enemyNavLeft;
+
+    private List<Card> rewardOptions = new ArrayList<>();
+    private int rewardOptionsSize = 3;
+
     private boolean navigationInit;
     private HelpType helpType;
     private State previousState;
 
     private boolean end = false;
+    private boolean rewardInit;
 
     public HelpType getHelpType() {
         return helpType;
@@ -106,5 +117,25 @@ public class GameSession {
 
     public boolean isEnd() {
         return this.end;
+    }
+
+    public void initReward() {
+        rewardOptions.clear();
+        for (int i = 0; i < rewardOptionsSize; i++) {
+            rewardOptions.add(CardFactory.getRandomCard(player));
+        }
+        this.rewardInit = true;
+    }
+
+    public boolean isRewardInit() {
+        return this.rewardInit;
+    }
+
+    public void setRewardInit(boolean rewardInit) {
+        this.rewardInit = rewardInit;
+    }
+
+    public List<Card> getRewardOptions() {
+        return this.rewardOptions;
     }
 }

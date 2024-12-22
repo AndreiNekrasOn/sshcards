@@ -10,9 +10,9 @@ import java.io.IOException;
 public abstract class PopupWindow extends AbstractTuiWindow {
 
     public PopupWindow(StatefulMultiWindowTextGui gui) {
-        super(gui);
+        super(gui); // setup is called here
         TerminalSize size = gui.getScreen().getTerminalSize();
-        setFixedSize(new TerminalSize(size.getColumns() / 4, size.getRows() / 4));
+        setFixedSize(new TerminalSize(size.getColumns() / 3, size.getRows() / 4));
         setCloseWindowWithEscape(true);
     }
 
@@ -23,7 +23,6 @@ public abstract class PopupWindow extends AbstractTuiWindow {
         if (current != null && current instanceof PopupWindow) {
             gui.removeWindow(current); // do not nest popups
         }
-        // TODO: copypaste
         gui.addWindow(this);
         gui.setCurrentWindow(this);
         gui.setActiveWindow(this);

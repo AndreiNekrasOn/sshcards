@@ -3,10 +3,10 @@ package org.andnekon.view.tui.windows.impl;
 import com.googlecode.lanterna.gui2.Panel;
 
 import org.andnekon.view.tui.StatefulMultiWindowTextGui;
-import org.andnekon.view.tui.windows.AbstractTuiWindow;
+import org.andnekon.view.tui.windows.MainWindow;
 import org.andnekon.view.tui.windows.MenuComponent;
 
-public class MainMenuWindow extends AbstractTuiWindow {
+public class MainMenuWindow extends MainWindow {
 
     private MenuComponent menu;
 
@@ -26,9 +26,8 @@ public class MainMenuWindow extends AbstractTuiWindow {
 
     @Override
     public void setup() {
-        final Panel content = new Panel();
+        content = new Panel();
         menu = new MenuComponent();
         content.addComponent(menu);
-        this.setComponent(content);
     }
 }

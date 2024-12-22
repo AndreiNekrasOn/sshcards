@@ -469,7 +469,9 @@ After each fight you recieve a reward - a card, a missle with some chance (weigh
 So, for implementing this, I need to:
 0) change everything you wanted about Intents
 1) rework Cards system, Battle system, Player design and views for it
-2) implement reward logic
-3) come up with different player-cards and add them to the game
+2) come up with different player-cards and add them to the game
+3) implement reward logic
+3.1) finalize help system, maybe add warnings?
+3.2) adapt ConsoleView and ConsoleRawView for new features
 4) rework enemies to match player's style, implement simple logic for them
 

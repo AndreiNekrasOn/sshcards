@@ -81,8 +81,9 @@ public class GameController {
     }
 
     public GameAction mapInputtoAction(String key) {
+        // TODO: TuiReader steals '?' input <- move special keys handling from the TuiReader here
         if (key == null) {
-            return new GameAction(Type.PASS); // TODO: TuiReader steals '?' input
+            return new GameAction(Type.PASS);
         }
         if (globalActions.containsKey(key)) {
             return globalActions.get(key);

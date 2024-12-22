@@ -4,9 +4,9 @@ import com.googlecode.lanterna.gui2.Label;
 import com.googlecode.lanterna.gui2.Panel;
 
 import org.andnekon.view.tui.StatefulMultiWindowTextGui;
-import org.andnekon.view.tui.windows.AbstractTuiWindow;
+import org.andnekon.view.tui.windows.PopupWindow;
 
-public class WelcomeWindow extends AbstractTuiWindow {
+public class WelcomeWindow extends PopupWindow {
 
     public WelcomeWindow(StatefulMultiWindowTextGui gui) {
         super(gui);

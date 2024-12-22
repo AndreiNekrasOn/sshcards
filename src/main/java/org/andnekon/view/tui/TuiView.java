@@ -10,9 +10,11 @@ import org.andnekon.view.AbstractGameView;
 import org.andnekon.view.tui.windows.SimpleLabelPopupWindow;
 import org.andnekon.view.tui.windows.TuiWindow;
 import org.andnekon.view.tui.windows.impl.BattleWindow;
+import org.andnekon.view.tui.windows.impl.CheckWindow;
 import org.andnekon.view.tui.windows.impl.MainMenuWindow;
 import org.andnekon.view.tui.windows.impl.NavigationWindow;
 import org.andnekon.view.tui.windows.impl.QuitConfirmation;
+import org.andnekon.view.tui.windows.impl.RewardWindow;
 import org.andnekon.view.tui.windows.impl.WelcomeWindow;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,10 +47,13 @@ public class TuiView extends AbstractGameView {
     private TuiWindow deathhPopup;
     private TuiWindow rewardPopup;
     private TuiWindow battleWindow;
+    private TuiWindow checkPopup;
 
     private boolean helpShown = false;
 
     private boolean refresh;
+
+    private boolean check;
 
     // package-private
     TuiView(GameSession session, TuiManager manager) throws IOException {
@@ -68,15 +73,16 @@ public class TuiView extends AbstractGameView {
         TextColor.ANSI none = TextColor.ANSI.DEFAULT; // to not type this out everytime
         gui.setTheme(SimpleTheme.makeTheme(true, none, none, none, none, none, none, none));
 
-        welcomeWindow = new WelcomeWindow(gui);
         menuWindow = new MainMenuWindow(gui);
         navigationWindow = new NavigationWindow(gui, session);
         battleWindow = new BattleWindow(gui, asciiReaderService, session);
 
+        welcomeWindow = new WelcomeWindow(gui);
+        rewardPopup = new RewardWindow(gui, session);
         quitPopup = new QuitConfirmation(gui);
         deathhPopup = new SimpleLabelPopupWindow(gui, "You died");
-        rewardPopup = new SimpleLabelPopupWindow(gui, "Congrats, good job");
         helpPopup = new SimpleLabelPopupWindow(gui, "Help messsage");
+        checkPopup = new CheckWindow(gui, session);
     }
 
     @Override
@@ -123,10 +129,13 @@ public class TuiView extends AbstractGameView {
     public void display(State state) {
         if (refresh) {
             screen.clear();
+            gui.getWindows().forEach(w -> w.invalidate());
             refresh = false;
         }
         if (helpShown) {
             helpPopup.show();
+        } else if (check) {
+            checkPopup.show();
         } else {
             super.display(state);
         }
@@ -142,5 +151,13 @@ public class TuiView extends AbstractGameView {
 
     public void setRefresh() {
         this.refresh = true;
+    }
+
+    public void setCheck(boolean check) {
+        this.check = check;
+    }
+
+    public boolean isCheck() {
+        return this.check;
     }
 }

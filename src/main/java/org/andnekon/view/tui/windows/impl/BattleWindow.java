@@ -11,10 +11,9 @@ import org.andnekon.game.GameSession;
 import org.andnekon.game.action.Card;
 import org.andnekon.game.action.Intent;
 import org.andnekon.utils.KeyStrokeUtil;
-import org.andnekon.view.Messages;
 import org.andnekon.view.tui.AsciiReaderService;
 import org.andnekon.view.tui.StatefulMultiWindowTextGui;
-import org.andnekon.view.tui.windows.AbstractTuiWindow;
+import org.andnekon.view.tui.windows.MainWindow;
 import org.andnekon.view.tui.windows.MenuComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +27,7 @@ import java.util.List;
  * <br>
  * To exit this selection, user can press `Return`
  */
-public class BattleWindow extends AbstractTuiWindow {
+public class BattleWindow extends MainWindow {
 
     private static final Logger logger = LoggerFactory.getLogger(BattleWindow.class);
 
@@ -59,8 +58,7 @@ public class BattleWindow extends AbstractTuiWindow {
      */
     @Override
     public void setup() {
-        Panel content = new Panel(new GridLayout(3));
-        this.setComponent(content);
+        content = new Panel(new GridLayout(2));
 
         Panel battleInfo = new Panel();
         setupBattleInfo(battleInfo);
@@ -69,10 +67,6 @@ public class BattleWindow extends AbstractTuiWindow {
         Panel mainVisual = new Panel(new GridLayout(2)); // first column - ships, second - dice
         setupMainVisual(mainVisual);
         content.addComponent(mainVisual);
-
-        Panel deckInfo = new Panel();
-        setupActionsInfo(deckInfo);
-        content.addComponent(deckInfo);
     }
 
     @Override
@@ -119,17 +113,6 @@ public class BattleWindow extends AbstractTuiWindow {
             builder.append(intent.toString()).append("\n");
         }
         return builder.toString();
-    }
-
-    private void setupActionsInfo(Panel actionsInfo) {
-        Label helpMessage = new Label("");
-        StringBuilder helpText = new StringBuilder();
-        for (String msg : Messages.BATTLE_OPTIONS) {
-            helpText.append(msg);
-            helpText.append('\n');
-        }
-        helpMessage.setText(helpText.toString());
-        actionsInfo.addComponent(helpMessage);
     }
 
     private void setupMainVisual(Panel mainVisual) {

@@ -24,6 +24,10 @@ public abstract class AbstractTuiWindow extends BasicWindow implements TuiWindow
         // default pass
     }
 
+    /**
+     * Default implementation, that removes the current active window and adds this to the gui<br>
+     * BUG: catches SocketException
+     */
     public void show() {
         prepare();
         Window current = gui.getActiveWindow();

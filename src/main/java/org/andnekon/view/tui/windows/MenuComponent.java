@@ -24,7 +24,7 @@ public class MenuComponent extends Panel {
             addComponent(new Label(name));
         }
         // update if number of children decreased
-        currentIndex = Math.min(currentIndex, getChildCount());
+        currentIndex = Math.max(0, Math.min(currentIndex, getChildCount() - 1));
         focusMenuElement();
     }
 
@@ -72,8 +72,9 @@ public class MenuComponent extends Panel {
             buffer.clear();
         }
 
-        if (getChildCount() > 1) {
-            currentIndex %= getChildCount();
+        int n = getChildCount();
+        if (n > 1) {
+            currentIndex = ((currentIndex % n) + n) % n;
         } else {
             currentIndex = 0;
         }
