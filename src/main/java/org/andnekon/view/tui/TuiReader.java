@@ -23,26 +23,7 @@ public class TuiReader implements Reader {
     @Override
     public String read() {
         String result = this.manager.getGui().getCurrentWindow().read();
-
-        // TODO: mess -> should be in the controller
-        if ("?".equals(result)) {
-            this.manager.getView().setHelpShown(true);
-            return null;
-        } else if (this.manager.getView().isHelpShown()) {
-            this.manager.getView().setHelpShown(false);
-            return null;
-        }
-        if ("r".equals(result)) {
-            this.manager.getView().setRefresh();
-            return null;
-        }
-        if ("c".equals(result)) {
-            this.manager.getView().setCheck(true);
-            return null;
-        } else if (this.manager.getView().isCheck()) {
-            this.manager.getView().setCheck(false);
-            return null;
-        }
+        this.manager.processSpecialInput(result);
         return result;
     }
 
