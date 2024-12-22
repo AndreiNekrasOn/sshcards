@@ -29,7 +29,7 @@ public class Reward extends State {
             session.setHelpType(HelpType.WRONG_INPUT);
             return this;
         }
-        session.getPlayer().addCard(rewardOptions.get(actionId));
+        session.getCardManager().addCard(rewardOptions.get(actionId));
         return new Navigation(session);
     }
 

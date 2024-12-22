@@ -1,4 +1,4 @@
-package org.andnekon.game.state.manage;
+package org.andnekon.game.manage;
 
 import org.andnekon.game.entity.enemy.Enemy;
 import org.andnekon.game.entity.enemy.EnemyFactory;

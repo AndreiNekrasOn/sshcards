@@ -24,4 +24,9 @@ public class Attack extends Intent {
             target.takeDamage(value);
         }
     }
+
+    @Override
+    public String getName() {
+        return "Attack";
+    }
 }

@@ -1,12 +1,11 @@
 package org.andnekon.game;
 
-import org.andnekon.game.action.CardFactory;
-import org.andnekon.game.action.CardName;
 import org.andnekon.game.entity.Player;
+import org.andnekon.game.manage.BattleManager;
+import org.andnekon.game.manage.CardManager;
+import org.andnekon.game.manage.NavigationManager;
+import org.andnekon.game.manage.RewardManager;
 import org.andnekon.game.state.State;
-import org.andnekon.game.state.manage.BattleManager;
-import org.andnekon.game.state.manage.NavigationManager;
-import org.andnekon.game.state.manage.RewardManager;
 import org.andnekon.view.HelpType;
 
 public class GameSession {
@@ -16,6 +15,7 @@ public class GameSession {
     private NavigationManager navigationManager;
     private RewardManager rewardManager;
     private BattleManager battleManager;
+    private CardManager cardManager;
 
     private HelpType helpType;
     private State previousState;
@@ -26,16 +26,11 @@ public class GameSession {
         this.navigationManager = new NavigationManager();
         this.rewardManager = new RewardManager(player);
         this.battleManager = new BattleManager(player);
+        this.cardManager = new CardManager(player);
     }
 
-    public void initializeDefaultDeck() {
-        for (int i = 0; i < 4; i++) {
-            player.addCard(CardFactory.getCard(player, CardName.SHOT));
-        }
-        for (int i = 0; i < 3; i++) {
-            player.addCard(CardFactory.getCard(player, CardName.ARMORUP));
-        }
-        player.addCard(CardFactory.getCard(player, CardName.LUCKY_SHOT));
+    public CardManager getCardManager() {
+        return cardManager;
     }
 
     public NavigationManager getNavigationManager() {

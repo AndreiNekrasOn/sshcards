@@ -6,42 +6,47 @@ import org.andnekon.game.action.intents.Attack;
 import org.andnekon.game.action.intents.Defence;
 import org.andnekon.game.entity.Entity;
 
+import java.util.List;
+
 public class CardFactory {
 
     private CardFactory() {}
 
-    public static Card getCard(Entity player, CardName name) {
+    public static final List<String> SHOTS = List.of("Shot", "Lucky Shot", "Triple Shot");
+
+    public static final List<String> ARMORS =
+            List.of("Armor Up", "Better Armor", "Thorns Armor", "Overdrive");
+
+    public static Card getCard(Entity player, String name) {
         return switch (name) {
-            case SHOT -> new Shot("Shot", 1, new Attack(player, 1));
-            case LUCKY_SHOT ->
-                    new Shot("Luck Shot", 2, new Attack(player, 4), new Attack(player, 1, player));
-            case TRIPPLE_SHOT ->
+            case "Shot" -> new Shot(name, 1, new Attack(player, 1));
+            case "Lucky Shot" ->
+                    new Shot(name, 2, new Attack(player, 4), new Attack(player, 1, player));
+            case "Triple Shot" ->
                     new Shot(
-                            "Triple Shot",
+                            name,
                             3,
                             new Attack(player, 1),
                             new Attack(player, 1),
                             new Attack(player, 1));
-            case OVERDRIVE -> new Shot("Explode", -2, new Attack(player, 5, player));
-            case ARMORUP -> new Armor("Armor Up!", 1, new Defence(player, 1, player));
-            case BETTERARMOR ->
+            case "Overdrive" -> new Shot(name, -2, new Attack(player, 5, player));
+            case "Armor Up" -> new Armor(name, 1, new Defence(player, 1, player));
+            case "Better Armor" ->
                     new Armor(
-                            "Better Armor!",
-                            2,
-                            new Attack(player, 1, player),
-                            new Defence(player, 5, player));
-            case THORNSARMOR ->
-                    new Armor(
-                            "Thorns Armor!",
-                            1,
-                            new Defence(player, 2, player),
-                            new Attack(player, 1));
+                            name, 2, new Attack(player, 1, player), new Defence(player, 5, player));
+            case "Thorns Armor" ->
+                    new Armor(name, 1, new Defence(player, 2, player), new Attack(player, 1));
             default -> throw new IllegalStateException("Unexpected value: " + name);
         };
     }
 
     public static Card getRandomCard(Entity player) {
-        int rndIdx = (int) (Math.random() * CardName.values().length);
-        return getCard(player, CardName.values()[rndIdx]);
+        int total = SHOTS.size() + ARMORS.size();
+        int random = (int) (Math.random() * total);
+        if (random < SHOTS.size()) {
+            return getCard(player, SHOTS.get(random));
+        } else {
+            return getCard(player, ARMORS.get(random - SHOTS.size()));
+        }
     }
 }

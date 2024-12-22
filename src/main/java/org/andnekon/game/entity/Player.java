@@ -1,20 +1,15 @@
 package org.andnekon.game.entity;
 
 import org.andnekon.game.action.Card;
-import org.andnekon.game.action.cards.Armor;
-import org.andnekon.game.action.cards.Shot;
 
 /** Player model. */
 public class Player extends Entity {
 
     private int numInBattleAttacks;
     private int numInBattleDeffence;
-    // private int numInBattleSupport;
-    // private int numMissles; // TODO: add missles-logic
 
     private Deck shotDeck;
     private Deck armorDeck;
-    // private Set<Effect> effectDeck;
 
     private int energy;
 
@@ -32,18 +27,6 @@ public class Player extends Entity {
 
     public int getEnergy() {
         return energy;
-    }
-
-    // TODO: instanceof is a code smell. There's a problem with design.
-    public void addCard(Card card) {
-        if (card instanceof Shot) {
-            shotDeck.add((Shot) card);
-        } else if (card instanceof Armor) {
-            armorDeck.add((Armor) card);
-        } else {
-            throw new UnsupportedOperationException(
-                    "Card type not supported" + card.getClass().getName());
-        }
     }
 
     /** Modifies player's deck for each type of Card */

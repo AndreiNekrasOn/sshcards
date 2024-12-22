@@ -1,4 +1,4 @@
-package org.andnekon.game.state.manage;
+package org.andnekon.game.manage;
 
 /** StateManager */
 public interface StateManager {

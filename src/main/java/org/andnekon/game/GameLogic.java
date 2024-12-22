@@ -36,7 +36,7 @@ public class GameLogic {
 
     public GameLogic() {
         session = new GameSession(new Player());
-        session.initializeDefaultDeck();
+        session.getCardManager().initializeDefaultDeck();
         setCurrentState(new Menu(session));
     }
 

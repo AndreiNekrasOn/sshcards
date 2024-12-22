@@ -1,4 +1,4 @@
-package org.andnekon.game.state.manage;
+package org.andnekon.game.manage;
 
 import org.andnekon.game.action.Card;
 import org.andnekon.game.action.CardFactory;

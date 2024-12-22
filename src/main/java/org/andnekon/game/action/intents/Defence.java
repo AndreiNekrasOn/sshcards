@@ -16,4 +16,9 @@ public class Defence extends Intent {
             target.setDefense(target.getDefense() + value);
         }
     }
+
+    @Override
+    public String getName() {
+        return "Defence";
+    }
 }

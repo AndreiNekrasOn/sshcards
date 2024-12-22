@@ -26,11 +26,12 @@ public abstract class Intent {
 
     public abstract void execute(Entity... targets);
 
-    // TODO: add descriptions to all intents...
+    public abstract String getName();
+
     @Override
     public String toString() {
         StringBuilder s = new StringBuilder();
-        s.append(String.format("[%s for %d on ", this.getClass().getSimpleName(), value));
+        s.append(String.format("[%s for %d on ", getName(), value));
         for (Entity target : targets) {
             s.append(target.toString() + ", ");
         }

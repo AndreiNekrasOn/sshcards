@@ -16,4 +16,9 @@ public class Support extends Intent {
             target.heal(value); // TODO: apply effect instead
         }
     }
+
+    @Override
+    public String getName() {
+        return "Support";
+    }
 }

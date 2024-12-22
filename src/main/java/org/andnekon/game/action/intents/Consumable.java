@@ -15,4 +15,9 @@ public class Consumable extends Intent {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'execute'");
     }
+
+    @Override
+    public String getName() {
+        return "Consumable";
+    }
 }
