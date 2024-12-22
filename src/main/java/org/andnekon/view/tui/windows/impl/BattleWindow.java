@@ -20,7 +20,10 @@ import org.andnekon.view.tui.windows.MenuComponent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.IntStream;
 
 /**
  * Main content - two {@code ChoicesWindow} menus, with {@code postRead} being called only for the
@@ -33,16 +36,30 @@ public class BattleWindow extends MainWindow {
 
     private static final Logger logger = LoggerFactory.getLogger(BattleWindow.class);
 
+    private class MenuComponentSelection {
+
+        public MenuComponent menu;
+        public boolean selected;
+
+        public MenuComponentSelection(MenuComponent menu) {
+            this.menu = menu;
+            selected = false;
+        }
+    }
+
     private AsciiReaderService asciiReaderService;
     private GameSession session;
-
-    private MenuComponent shotMenu;
-    private MenuComponent armorMenu;
 
     private Label playerStats;
     private Label enemyStats;
     private Label enemyVisual;
-    private boolean shotMenuSelected;
+
+    private MenuComponent shotMenu;
+    private MenuComponent armorMenu;
+
+    private List<MenuComponentSelection> menus;
+
+    /** Selecting menu itself, rather than specific card within the menu */
     private boolean menuMode;
 
     public BattleWindow(
@@ -52,6 +69,13 @@ public class BattleWindow extends MainWindow {
         super(gui);
         this.asciiReaderService = asciiReaderService;
         this.session = session;
+
+        menus = new ArrayList<>();
+        menus.add(new MenuComponentSelection(shotMenu));
+        menus.add(new MenuComponentSelection(armorMenu));
+
+        menus.get(0).selected = true;
+        menuMode = false;
     }
 
     /**
@@ -75,9 +99,7 @@ public class BattleWindow extends MainWindow {
     public void prepare() {
         this.enemyStats.setText(formEnemyStats());
         this.playerStats.setText(formPlayerStats());
-
         this.enemyVisual.setText(formEnemyVisual());
-
         prepareMenus();
         colorMenus();
     }
@@ -88,24 +110,33 @@ public class BattleWindow extends MainWindow {
 
         List<Card> armorHand = session.getPlayer().getArmorDeck().getHand();
         armorMenu.prepare(armorHand.stream().map(Card::toString).toArray(String[]::new));
+
+        adjustEmptySelection();
+    }
+
+    /** If selected menu is empty, select first non-empty one or do nothing */
+    private void adjustEmptySelection() {
+        boolean nonEmptySelected =
+                menus.stream()
+                        .filter(ms -> ms.menu.getChildCount() > 0)
+                        .anyMatch(ms -> ms.selected);
+        if (!nonEmptySelected) {
+            logger.info("no menu selected");
+            Optional<MenuComponentSelection> candidate =
+                    menus.stream().filter(ms -> ms.menu.getChildCount() > 0).findFirst();
+            if (candidate.isPresent()) {
+                menus.stream().forEach(ms -> ms.selected = false);
+                candidate.get().selected = true;
+            }
+        }
     }
 
     private void colorMenus() {
-        MenuComponent selected;
-        MenuComponent unselected;
-        if (shotMenuSelected) {
-            selected = shotMenu;
-            unselected = armorMenu;
-        } else {
-            selected = armorMenu;
-            unselected = shotMenu;
-        }
-        selected.setTheme(gui.getTheme());
-        unselected.setTheme(gui.getTheme());
-        unselected.unfocus();
+        SimpleTheme hlTheme = new SimpleTheme(TextColor.ANSI.RED, TextColor.ANSI.DEFAULT);
+        menus.stream().forEach(ms -> ms.menu.setTheme(gui.getTheme()));
+        menus.stream().filter(ms -> !ms.selected).forEach(ms -> ms.menu.unfocus());
         if (!menuMode) {
-            selected.unfocus();
-            selected.setTheme(new SimpleTheme(TextColor.ANSI.RED, TextColor.ANSI.DEFAULT));
+            menus.stream().filter(ms -> ms.selected).forEach(ms -> ms.menu.setTheme(hlTheme));
         }
     }
 
@@ -197,9 +228,13 @@ public class BattleWindow extends MainWindow {
         if (buffer.size() != 1) {
             return;
         }
-        logger.info("recieved input, menu {}, shot {}", menuMode, shotMenuSelected);
+        KeyStroke key = buffer.get(0);
+        logger.info(
+                "recieved input, menu {}, shot {}",
+                menuMode,
+                menus.stream().filter(ms -> ms.selected).findFirst().orElseThrow().menu);
         if (menuMode) {
-            if (KeyStrokeUtil.isControl(buffer.get(0))) {
+            if (KeyStrokeUtil.isControl(key)) {
                 menuMode = false;
                 buffer.clear();
                 return;
@@ -208,31 +243,52 @@ public class BattleWindow extends MainWindow {
             return;
         }
 
-        KeyStroke key = buffer.get(0);
-        if (KeyStrokeUtil.isLeftMotion(key)) { // TODO: proper cycling
-            shotMenuSelected = true;
+        if (KeyStrokeUtil.isLeftMotion(key)) {
+            cycleMenu(-1);
             buffer.clear();
         } else if (KeyStrokeUtil.isRightMotion(key)) {
-            shotMenuSelected = false;
+            cycleMenu(1);
             buffer.clear();
-        } else if (KeyStrokeUtil.compareChar(key, 'i') || KeyStrokeUtil.compareChar(key, 'I')) {
+        } else if (KeyStrokeUtil.compareChars(key, "iI ")) {
             menuMode = true;
             buffer.clear();
         }
     }
 
     private void processAsMenu(List<KeyStroke> buffer) {
-        MenuComponent currentMenu;
-        String suffix;
-        if (shotMenuSelected) {
-            currentMenu = shotMenu;
+        String suffix = "";
+        MenuComponentSelection selected =
+                menus.stream().filter(m -> m.selected).findFirst().orElseThrow();
+        if (selected.menu == shotMenu) {
             suffix = "s";
-        } else {
-            currentMenu = armorMenu;
+        } else if (selected.menu == armorMenu) {
             suffix = "a";
         }
-        if (currentMenu.processInput(buffer)) {
+        if (selected.menu.processInput(buffer)) {
             buffer.add(0, KeyStroke.fromString(suffix));
+        }
+    }
+
+    /**
+     * Updates {@code menus} by changing selected menu element according to the given direction.
+     *
+     * @param direction negative for left, positive for right
+     */
+    private void cycleMenu(int direction) {
+        int index =
+                IntStream.range(0, menus.size())
+                        .filter(i -> menus.get(i).selected)
+                        .findFirst()
+                        .orElse(-1);
+        if (index == -1) { // no menu selected
+            logger.info("no menu selected");
+            menus.get(0).selected = true;
+            return;
+        }
+        index = (index + direction + menus.size()) % menus.size();
+        logger.info("updated index: {}", index);
+        for (int i = 0; i < menus.size(); i++) {
+            menus.get(i).selected = i == index;
         }
     }
 }

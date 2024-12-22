@@ -10,29 +10,27 @@ public class KeyStrokeUtil {
     private KeyStrokeUtil() {}
 
     public static boolean isLeftMotion(KeyStroke key) {
-        return compareType(key, KeyType.ArrowLeft)
-                || compareChar(key, 'h')
-                || compareChar(key, 'a');
+        return compareType(key, KeyType.ArrowLeft) || compareChars(key, "ha");
     }
 
     public static boolean isDownMotion(KeyStroke key) {
-        return compareType(key, KeyType.ArrowDown)
-                || compareChar(key, 'j')
-                || compareChar(key, 's');
+        return compareType(key, KeyType.ArrowDown) || compareChars(key, "js");
     }
 
     public static boolean isUpMotion(KeyStroke key) {
-        return compareType(key, KeyType.ArrowUp) || compareChar(key, 'k') || compareChar(key, 'w');
+        return compareType(key, KeyType.ArrowUp) || compareChars(key, "kw");
     }
 
     public static boolean isRightMotion(KeyStroke key) {
-        return compareType(key, KeyType.ArrowRight)
-                || compareChar(key, 'l')
-                || compareChar(key, 'd');
+        return compareType(key, KeyType.ArrowRight) || compareChars(key, "ld");
     }
 
     public static boolean compareChar(KeyStroke key, char c) {
         return key != null && compareType(key, KeyType.Character) && key.getCharacter().equals(c);
+    }
+
+    public static boolean compareChars(KeyStroke key, String s) {
+        return s.chars().anyMatch(c -> compareChar(key, (char) c));
     }
 
     public static boolean compareType(KeyStroke key, KeyType type) {
@@ -49,7 +47,7 @@ public class KeyStrokeUtil {
         };
     }
 
-    public static boolean isInput(KeyStroke key) {
+    public static boolean isCharacter(KeyStroke key) {
         if (key == null) {
             return false;
         }
@@ -59,7 +57,7 @@ public class KeyStrokeUtil {
     public static String keysToString(List<KeyStroke> keys) {
         StringBuilder sb = new StringBuilder();
         for (var key : keys) {
-            if (isInput(key)) {
+            if (isCharacter(key)) {
                 sb.append(key.getCharacter());
             } else if (key.getKeyType() == KeyType.Enter) {
                 sb.append('\n');

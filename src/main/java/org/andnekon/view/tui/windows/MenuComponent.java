@@ -60,7 +60,7 @@ public class MenuComponent extends Panel {
             buffer.add(KeyStroke.fromString(String.valueOf(currentIndex + 1)));
             return true;
         }
-        if (isKeyDigit(key)) {
+        if (KeyStrokeUtil.compareChars(key, "0123456789")) { // if key is a digit
             // no need to reset buffer here
             return true;
         }
@@ -79,14 +79,5 @@ public class MenuComponent extends Panel {
             currentIndex = 0;
         }
         return buffer.isEmpty();
-    }
-
-    private boolean isKeyDigit(KeyStroke key) {
-        for (int i = 0; i <= 9; i++) {
-            if (KeyStrokeUtil.compareChar(key, (char) ('0' + i))) {
-                return true;
-            }
-        }
-        return false;
     }
 }

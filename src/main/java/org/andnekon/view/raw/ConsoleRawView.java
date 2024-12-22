@@ -12,6 +12,7 @@ import org.andnekon.game.GameSession;
 import org.andnekon.game.action.Card;
 import org.andnekon.game.entity.Player;
 import org.andnekon.game.state.State;
+import org.andnekon.utils.KeyStrokeUtil;
 import org.andnekon.view.HelpType;
 import org.andnekon.view.Reader;
 import org.andnekon.view.repl.ConsoleView;
@@ -23,9 +24,7 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO: consider making this final
-// Since in this case Reader uses the Screen of the View, I decided
-// to join them in one class. Violates SRP
+// TODO: separate from Reader
 public class ConsoleRawView extends ConsoleView implements Reader {
 
     private UnixTerminal terminal;
@@ -94,9 +93,8 @@ public class ConsoleRawView extends ConsoleView implements Reader {
             e.printStackTrace();
         }
         try {
-            // TODO: rethink that, maybe redraw every character. Maybe no need to redraw at all
-            while (keyStroke == null || keyStroke.getKeyType() != KeyType.Enter) {
-                if (keyStroke != null) {
+            while (keyStroke == null || KeyStrokeUtil.compareType(keyStroke, KeyType.Enter)) {
+                if (KeyStrokeUtil.isCharacter(keyStroke)) {
                     builder.append(keyStroke.getCharacter());
                     drawInput(keyStroke.getCharacter(), inputSize++);
                 }
@@ -128,12 +126,7 @@ public class ConsoleRawView extends ConsoleView implements Reader {
         crdHelper.message("Congrats, reward");
     }
 
-    // TODO: c can be null if in telnet you press return without input.
-    // What should we do with it?
-    private void drawInput(Character c, int inputSize) throws IOException {
-        if (c == null) {
-            return;
-        }
+    private void drawInput(char c, int inputSize) throws IOException {
         TerminalPosition inPos = new TerminalPosition(inputSize, 30);
         screen.setCharacter(inPos, TextCharacter.fromCharacter(c)[0]);
         screen.setCursorPosition(inPos.withRelativeColumn(1));

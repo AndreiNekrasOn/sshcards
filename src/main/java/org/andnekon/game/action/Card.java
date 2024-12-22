@@ -4,7 +4,7 @@ import org.andnekon.game.entity.Entity;
 
 public abstract class Card {
 
-    private static long allId = 0; // TODO: concurrency check, overflow check
+    private static long allId = 0; // TODO: remove ids? Cards are not used with sets
     private String name;
     private int cost;
     Intent[] intents;
@@ -38,23 +38,5 @@ public abstract class Card {
     @Override
     public String toString() {
         return String.format("%s (%d) [id=%d]", name, cost, id);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null || !(obj instanceof Card)) {
-            return false;
-        }
-        return this.getId() == ((Card) obj).getId();
-    }
-
-    private long getId() {
-        return this.id;
-    }
-
-    @Override
-    public int hashCode() {
-        // TODO: think if this ever will be a problem
-        return (int) (this.id % Integer.MAX_VALUE);
     }
 }
