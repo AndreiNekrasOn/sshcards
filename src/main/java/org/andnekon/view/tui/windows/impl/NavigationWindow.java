@@ -37,6 +37,6 @@ public class NavigationWindow extends MainWindow {
 
     @Override
     public void prepare() {
-        menu.prepare(session.getEnemyNavLeft().toString(), session.getEnemyNavRight().toString());
+        menu.prepare(session.getNavigationManager().getNavigationOptionsArray());
     }
 }

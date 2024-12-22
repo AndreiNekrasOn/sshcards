@@ -48,8 +48,8 @@ public class Battle extends State {
     public Battle(GameSession session) {
         super(session);
         phase = BattleState.PLAYER_TURN_START;
-        session.initBattle();
-        session.initTurn();
+        session.getBattleManager().init();
+        session.getBattleManager().initTurn();
     }
 
     public BattleState getPhase() {
@@ -74,7 +74,7 @@ public class Battle extends State {
     private boolean runBattle(GameAction action) {
         logger.info("runBattle start phase {}", phase);
         Player player = session.getPlayer();
-        Enemy enemy = session.getEnemy();
+        Enemy enemy = session.getBattleManager().getEnemy();
         switch (phase) {
             case PLAYER_TURN_START, PLAYER_TURN, PLAYER_TURN_HELP -> {
                 phase = processBattleInput(player, enemy, action);
@@ -90,7 +90,7 @@ public class Battle extends State {
                 enemy.clearIntents();
                 // we need to init turn in constructor for the better View
                 // so we call initTurn again here, not on PLAYER_TURN_START
-                session.initTurn();
+                session.getBattleManager().initTurn();
                 phase = checkBattleEnd(BattleState.PLAYER_TURN_START, player, enemy);
             }
             case COMPLETE -> {}

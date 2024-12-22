@@ -21,7 +21,8 @@ public class ConsoleView extends AbstractGameView {
     public void welcome() {}
 
     protected void showReward() {
-        helper.message("YOU WON! Number of turns: %d\n", session.getTurnNumber());
+        helper.message(
+                "YOU WON! Number of turns: %d\n", session.getBattleManager().getTurnNumber());
     }
 
     protected void showQuitConfirm() {
@@ -29,7 +30,7 @@ public class ConsoleView extends AbstractGameView {
     }
 
     protected void showNavigation() {
-        helper.choice(session.getEnemyNavLeft().toString(), session.getEnemyNavRight().toString());
+        helper.choice((Object[]) session.getNavigationManager().getNavigationOptionsArray());
         helper.prompt("Where do you go?");
     }
 

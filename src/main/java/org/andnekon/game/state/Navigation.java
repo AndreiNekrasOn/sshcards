@@ -5,12 +5,14 @@ import org.andnekon.game.GameSession;
 import org.andnekon.game.entity.enemy.Enemy;
 import org.andnekon.view.HelpType;
 
+import java.util.List;
+
 public class Navigation extends State {
 
     public Navigation(GameSession session) {
         super(session);
-        if (!session.isNavigationInit()) {
-            session.initNavigation();
+        if (!session.getNavigationManager().isInit()) {
+            session.getNavigationManager().init();
         }
     }
 
@@ -19,20 +21,14 @@ public class Navigation extends State {
         if (action.action() != GameAction.Type.NAVIGATION) {
             throw new UnsupportedOperationException("Wrong action for Navigation state");
         }
-        Enemy firstEnemy = session.getEnemyNavLeft();
-        Enemy secondEnemy = session.getEnemyNavRight();
-        switch (action.id()) {
-            case 1:
-                session.setEnemy(firstEnemy);
-                break;
-            case 2:
-                session.setEnemy(secondEnemy);
-                break;
-            default:
-                session.setHelpType(HelpType.WRONG_INPUT);
-                return this;
+        int actionId = action.id() - 1;
+        List<Enemy> navigationOptions = session.getNavigationManager().getNavigationOptions();
+        if (actionId < 0 || actionId >= navigationOptions.size()) {
+            session.setHelpType(HelpType.WRONG_INPUT);
+            return this;
         }
-        session.setNavigationInit(false);
+        session.getBattleManager().setEnemy(navigationOptions.get(actionId));
+        session.getNavigationManager().setInit(false);
         return new Battle(session);
     }
 

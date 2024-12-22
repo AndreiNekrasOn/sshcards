@@ -35,10 +35,8 @@ public class GameLogic {
     GameSession session;
 
     public GameLogic() {
-        session = new GameSession();
-        session.setPlayer(new Player());
+        session = new GameSession(new Player());
         session.initializeDefaultDeck();
-        session.setNavigationInit(false);
         setCurrentState(new Menu(session));
     }
 

@@ -32,7 +32,9 @@ public class RewardWindow extends PopupWindow {
     @Override
     public void prepare() {
         menu.prepare(
-                session.getRewardOptions().stream().map(Card::toString).toArray(String[]::new));
+                session.getRewardManager().getRewardOptions().stream()
+                        .map(Card::toString)
+                        .toArray(String[]::new));
     }
 
     @Override

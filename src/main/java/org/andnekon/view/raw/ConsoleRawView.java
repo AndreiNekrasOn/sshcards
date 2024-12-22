@@ -112,8 +112,7 @@ public class ConsoleRawView extends ConsoleView implements Reader {
     @Override
     protected void showNavigation() {
         crdHelper.reset();
-        crdHelper.choice(
-                session.getEnemyNavLeft().toString(), session.getEnemyNavRight().toString());
+        crdHelper.choice((Object[]) session.getNavigationManager().getNavigationOptionsArray());
         crdHelper.prompt("Where do you go?");
     }
 

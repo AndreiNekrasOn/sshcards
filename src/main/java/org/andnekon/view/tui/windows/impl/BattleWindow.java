@@ -10,6 +10,8 @@ import com.googlecode.lanterna.input.KeyStroke;
 import org.andnekon.game.GameSession;
 import org.andnekon.game.action.Card;
 import org.andnekon.game.action.Intent;
+import org.andnekon.game.entity.Player;
+import org.andnekon.game.entity.enemy.Enemy;
 import org.andnekon.utils.KeyStrokeUtil;
 import org.andnekon.view.tui.AsciiReaderService;
 import org.andnekon.view.tui.StatefulMultiWindowTextGui;
@@ -109,7 +111,7 @@ public class BattleWindow extends MainWindow {
 
     private String formEnemyVisual() {
         StringBuilder builder = new StringBuilder();
-        for (Intent intent : this.session.getEnemy().getCurrentIntents()) {
+        for (Intent intent : this.session.getBattleManager().getEnemy().getCurrentIntents()) {
             builder.append(intent.toString()).append("\n");
         }
         return builder.toString();
@@ -166,26 +168,27 @@ public class BattleWindow extends MainWindow {
     }
 
     private String formPlayerStats() {
+        Player player = session.getPlayer();
         StringBuilder res = new StringBuilder();
-        res.append(session.getPlayer().getHp());
-        res.append(" hp\n");
-        res.append(session.getPlayer().getDefense());
-        res.append(" def\n");
-        res.append(session.getPlayer().getEnergy());
-        res.append(" energy\n");
-        return res.toString();
+        return res.append(player.getHp())
+                .append(" hp\n")
+                .append(player.getDefense())
+                .append(" def\n")
+                .append(player.getEnergy())
+                .append(" energy\n")
+                .toString();
     }
 
     private String formEnemyStats() {
+        Enemy enemy = session.getBattleManager().getEnemy();
         StringBuilder res = new StringBuilder();
-        res.append(session.getEnemy().toString());
-        res.append("\n");
-        res.append(session.getEnemy().getHp());
-        res.append(" hp\n");
-        res.append(session.getEnemy().getDefense());
-        ;
-        res.append(" def\n");
-        return res.toString();
+        return res.append(enemy.toString())
+                .append("\n")
+                .append(enemy.getHp())
+                .append(" hp\n")
+                .append(enemy.getDefense())
+                .append(" def\n")
+                .toString();
     }
 
     @Override
