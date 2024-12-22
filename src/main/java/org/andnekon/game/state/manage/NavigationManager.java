@@ -29,6 +29,7 @@ public class NavigationManager implements StateManager {
 
     @Override
     public void init() {
+        navigationOptions.clear();
         for (int i = 0; i < navigationOptionsSize; i++) {
             navigationOptions.add(EnemyFactory.getRandomEnemy());
         }

@@ -23,11 +23,13 @@ public class Reward extends State {
             throw new UnsupportedOperationException("Wrong input for Reward state");
         }
         List<Card> rewardOptions = session.getRewardManager().getRewardOptions();
-        if (action.id() >= rewardOptions.size()) {
+        int actionId = action.id() - 1;
+
+        if (actionId >= rewardOptions.size()) {
             session.setHelpType(HelpType.WRONG_INPUT);
             return this;
         }
-        session.getPlayer().addCard(rewardOptions.get(action.id()));
+        session.getPlayer().addCard(rewardOptions.get(actionId));
         return new Navigation(session);
     }
 
