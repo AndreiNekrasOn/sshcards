@@ -30,6 +30,7 @@ public class Reward extends State {
             return this;
         }
         session.getCardManager().addCard(rewardOptions.get(actionId));
+        session.getRewardManager().setInit(false);
         return new Navigation(session);
     }
 
