@@ -11,6 +11,7 @@ import org.andnekon.view.Messages;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -20,6 +21,8 @@ public class ConsoleDisplayer implements Displayer {
 
     protected GameSession session;
 
+    protected OutputStream os;
+
     /** DisplayOptions */
     protected int settings = 0;
 
@@ -28,15 +31,17 @@ public class ConsoleDisplayer implements Displayer {
     protected static final String SEPARATOR = "\\{SEPARATOR\\}";
     protected static final String NUMBER = "\\{NUMBER (\\d+)\\}";
 
-    private static ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    private ByteArrayOutputStream baos;
 
-    public ConsoleDisplayer(final GameSession session) {
-        this.session = session;
+    public ConsoleDisplayer(final GameSession session, final OutputStream os) {
+        this(session, os, 0);
     }
 
-    public ConsoleDisplayer(final GameSession session, final int settings) {
+    public ConsoleDisplayer(final GameSession session, final OutputStream os, final int settings) {
         this.session = session;
         this.settings = settings;
+        this.os = os;
+        this.baos = new ByteArrayOutputStream();
     }
 
     @Override
@@ -86,7 +91,16 @@ public class ConsoleDisplayer implements Displayer {
 
     @Override
     public Displayer withSettings(final int settings) {
-        return new ConsoleDisplayer(session, settings);
+        return new ConsoleDisplayer(session, os, settings);
+    }
+
+    @Override
+    public void flush() {
+        try {
+            os.write(baos.toString().getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     protected void printf(String format, final Object... params) {

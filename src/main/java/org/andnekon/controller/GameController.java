@@ -73,7 +73,8 @@ public class GameController {
             GameAction.Type actionType = action.action();
             if (actionType != Type.PASS
                     && actionType != Type.HELP
-                    && actionType != Type.BATTLE_CHECK) { // let view handle those
+                    && actionType != Type.BATTLE_CHECK) {
+                // TODO: letting view handle these assumes coupled logic with reader
                 game.process(action);
             }
         } while (!game.getSession().isEnd());

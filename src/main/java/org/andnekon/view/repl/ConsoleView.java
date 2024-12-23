@@ -8,13 +8,15 @@ import org.andnekon.view.Displayer;
 import org.andnekon.view.HelpType;
 import org.andnekon.view.Messages;
 
+import java.io.OutputStream;
+
 public class ConsoleView extends AbstractGameView {
 
     protected Displayer helper;
 
-    public ConsoleView(GameSession session) {
+    public ConsoleView(GameSession session, OutputStream os) {
         this.session = session;
-        this.helper = new ConsoleDisplayer(session);
+        this.helper = new ConsoleDisplayer(session, os);
     }
 
     @Override
@@ -23,23 +25,29 @@ public class ConsoleView extends AbstractGameView {
     protected void showReward() {
         helper.message(
                 "YOU WON! Number of turns: %d\n", session.getBattleManager().getTurnNumber());
+        helper.flush();
     }
 
     protected void showQuitConfirm() {
         helper.prompt("Are you sure you want to quit? [y/n]");
+        helper.flush();
     }
 
     protected void showNavigation() {
         helper.choice((Object[]) session.getNavigationManager().getNavigationOptionsArray());
         helper.prompt("Where do you go?");
+        helper.flush();
     }
 
     protected void showMenu() {
-        helper.withSettings(DisplayOptions.MENU.id()).choice((Object[]) Messages.MENU_OPTIONS);
+        Displayer menuHelper = helper.withSettings(DisplayOptions.MENU.id());
+        menuHelper.choice((Object[]) Messages.MENU_OPTIONS);
+        menuHelper.flush();
     }
 
     protected void showDeath() {
         helper.message("YOU ARE DEAD.");
+        helper.flush();
     }
 
     protected void showBattle() {
@@ -58,5 +66,6 @@ public class ConsoleView extends AbstractGameView {
             default -> throw new IllegalStateException("Unexpected value: " + phase);
         }
         helper.prompt("What do you do?");
+        helper.flush();
     }
 }

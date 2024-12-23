@@ -278,6 +278,6 @@ public class BattleWindow extends MainWindow {
     @Override
     protected String getControls() {
         return "<Tab> to cycle selected \"hand\", [1-3] - choose a card, j/k/w/s/arrows -"
-                   + " navigation";
+                + " navigation";
     }
 }

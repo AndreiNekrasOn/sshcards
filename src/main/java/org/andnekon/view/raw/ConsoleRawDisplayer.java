@@ -7,12 +7,16 @@ import com.googlecode.lanterna.screen.Screen;
 import org.andnekon.game.GameSession;
 import org.andnekon.view.repl.ConsoleDisplayer;
 
+import java.io.IOException;
+import java.io.OutputStream;
+
 public class ConsoleRawDisplayer extends ConsoleDisplayer {
 
     public static class ConsoleRawDisplayerBuilder {
 
         Screen screen;
         GameSession session;
+        OutputStream os;
 
         public ConsoleRawDisplayerBuilder(GameSession session) {
             this.session = session;
@@ -26,6 +30,11 @@ public class ConsoleRawDisplayer extends ConsoleDisplayer {
             this.screen = screen;
             return this;
         }
+
+        public ConsoleRawDisplayerBuilder os(OutputStream os) {
+            this.os = os;
+            return this;
+        }
     }
 
     private static TerminalPosition printPos = new TerminalPosition(0, 0);
@@ -36,23 +45,27 @@ public class ConsoleRawDisplayer extends ConsoleDisplayer {
 
     private Screen screen;
 
-    public ConsoleRawDisplayer(GameSession session, int settings, Screen screen) {
-        super(session, settings);
+    public ConsoleRawDisplayer(GameSession session, OutputStream os, int settings, Screen screen) {
+        super(session, os, settings);
         this.screen = screen;
     }
 
-    private ConsoleRawDisplayer(GameSession session) {
-        super(session);
+    private ConsoleRawDisplayer(ConsoleRawDisplayerBuilder builder) {
+        this(builder.session, builder.os, 0, builder.screen);
     }
 
-    private ConsoleRawDisplayer(ConsoleRawDisplayerBuilder builder) {
-        super(builder.session);
-        this.screen = builder.screen;
+    @Override
+    public void flush() {
+        try {
+            this.screen.refresh();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public ConsoleRawDisplayer withSettings(int settings) {
-        ConsoleRawDisplayer displayer = new ConsoleRawDisplayer(session, settings, screen);
+        ConsoleRawDisplayer displayer = new ConsoleRawDisplayer(session, os, settings, screen);
         return displayer;
     }
 

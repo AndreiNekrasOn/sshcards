@@ -34,16 +34,12 @@ public class ConsoleRawView extends ConsoleView implements Reader {
     // to avoid constantly casting to type
     private ConsoleRawDisplayer crdHelper;
 
-    private ConsoleRawView(GameSession session) throws IOException {
-        super(session);
-    }
-
     public ConsoleRawView(GameSession session, InputStream is, OutputStream os) throws IOException {
-        super(session);
+        super(session, os);
         this.terminal = new UnixTerminal(is, os, Charset.defaultCharset());
         screen = new TerminalScreen(terminal);
         screen.startScreen();
-        crdHelper = ConsoleRawDisplayer.builder(session).screen(screen).build();
+        crdHelper = ConsoleRawDisplayer.builder(session).screen(screen).os(os).build();
         helper = crdHelper;
     }
 
