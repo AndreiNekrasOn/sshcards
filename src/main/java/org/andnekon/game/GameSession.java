@@ -21,14 +21,6 @@ public class GameSession {
     private State previousState;
     private boolean end = false;
 
-    public GameSession(Player player) {
-        this.player = player;
-        this.navigationManager = new NavigationManager();
-        this.rewardManager = new RewardManager(player);
-        this.battleManager = new BattleManager(player);
-        this.cardManager = new CardManager(player);
-    }
-
     public CardManager getCardManager() {
         return cardManager;
     }
@@ -75,5 +67,14 @@ public class GameSession {
 
     public boolean isEnd() {
         return this.end;
+    }
+
+    public void reset() {
+        this.player = new Player();
+        this.navigationManager = new NavigationManager();
+        this.rewardManager = new RewardManager(player);
+        this.battleManager = new BattleManager(player);
+        this.cardManager = new CardManager(player);
+        cardManager.initializeDefaultDeck();
     }
 }

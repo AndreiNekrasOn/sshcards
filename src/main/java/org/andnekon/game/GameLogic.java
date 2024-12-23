@@ -1,6 +1,5 @@
 package org.andnekon.game;
 
-import org.andnekon.game.entity.Player;
 import org.andnekon.game.state.Menu;
 import org.andnekon.game.state.Quit;
 import org.andnekon.game.state.State;
@@ -35,8 +34,7 @@ public class GameLogic {
     GameSession session;
 
     public GameLogic() {
-        session = new GameSession(new Player());
-        session.getCardManager().initializeDefaultDeck();
+        session = new GameSession();
         setCurrentState(new Menu(session));
     }
 

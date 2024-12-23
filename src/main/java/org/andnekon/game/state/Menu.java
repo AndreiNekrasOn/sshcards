@@ -15,7 +15,10 @@ public class Menu extends State {
             throw new UnsupportedOperationException("Wrong action for state");
         }
         return switch (action.id()) {
-            case 1 -> new Navigation(session);
+            case 1 -> {
+                session.reset();
+                yield new Navigation(session);
+            }
             case 4 -> new Quit(session);
             default -> this;
         };

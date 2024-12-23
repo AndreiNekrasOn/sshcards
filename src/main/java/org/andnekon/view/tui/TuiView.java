@@ -80,7 +80,7 @@ public class TuiView extends AbstractGameView {
         welcomeWindow = new WelcomeWindow(gui);
         rewardPopup = new RewardWindow(gui, session);
         quitPopup = new QuitConfirmation(gui);
-        deathhPopup = new SimpleLabelPopupWindow(gui, "You died");
+        deathhPopup = new SimpleLabelPopupWindow(gui, "You died. Continue? [y/n]");
         helpPopup = new SimpleLabelPopupWindow(gui, "Help messsage");
         checkPopup = new CheckWindow(gui, session);
     }

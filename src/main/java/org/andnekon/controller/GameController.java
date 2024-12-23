@@ -86,7 +86,7 @@ public class GameController {
         }
         return switch (game.getCurrentState().getType()) {
             case BATTLE -> choose(battleActions, key);
-            case DEATH -> choose(navActions, key);
+            case DEATH -> choose(confirmActions, key);
             case MENU -> choose(navActions, key);
             case NAVIGATION -> choose(navActions, key);
             case QUIT -> {

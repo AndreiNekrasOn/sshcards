@@ -13,12 +13,11 @@ public class Death extends State {
     public State handleInput(GameAction action) {
         switch (action.action()) {
             case REFUSE:
-                session.end();
-                return this;
+                return new Quit(session);
             case ACCEPT:
                 return new Menu(session);
             default:
-                return new Quit(session);
+                throw new IllegalStateException("Incorrect GameAction for State Death: " + action);
         }
     }
 

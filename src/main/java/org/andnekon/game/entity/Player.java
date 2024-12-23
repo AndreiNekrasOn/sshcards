@@ -1,9 +1,8 @@
 package org.andnekon.game.entity;
 
+import org.andnekon.game.action.Card;
 
 import java.util.HashMap;
-
-import org.andnekon.game.action.Card;
 
 /** Player model. */
 public class Player extends Entity {
