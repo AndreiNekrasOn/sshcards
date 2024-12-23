@@ -1,14 +1,19 @@
 package org.andnekon.game.entity.enemy;
 
 import org.andnekon.game.action.intents.Attack;
+import org.andnekon.game.action.intents.Support;
 import org.andnekon.game.entity.Player;
 
+/**
+ * RegularShip scales exponentially with each turn and has a lot of hp, but also takes damage with
+ * each attack
+ */
 public class RegularShip extends Enemy {
 
     public RegularShip() {
         super();
-        this.hp = 5;
-        this.maxHp = 5;
+        this.hp = 15;
+        this.maxHp = 15;
     }
 
     @Override
@@ -18,8 +23,9 @@ public class RegularShip extends Enemy {
 
     @Override
     public void fillIntents(Player player) {
-        this.currentIntents.add(new Attack(this, 1, player));
-        this.currentIntents.add(new Attack(this, 1, player));
-        this.currentIntents.add(new Attack(this, 1, player));
+        int attackValue = (int) Math.pow(2, 1 + turnNumber);
+        this.currentIntents.add(new Attack(this, attackValue, player));
+        this.currentIntents.add(new Attack(this, attackValue, player));
+        this.currentIntents.add(new Support(this, -attackValue, this));
     }
 }

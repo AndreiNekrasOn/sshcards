@@ -9,13 +9,17 @@ import java.util.List;
 
 public abstract class Enemy extends Entity {
 
-    List<Intent> currentIntents;
+    protected List<Intent> currentIntents;
 
-    Enemy() {
+    protected int turnNumber;
+
+    public Enemy() {
         currentIntents = new ArrayList<>();
+        turnNumber = 0;
     }
 
     public void turn() {
+        turnNumber++;
         setDefense(0);
         for (Intent intent : currentIntents) {
             intent.execute();
