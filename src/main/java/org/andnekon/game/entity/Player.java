@@ -1,5 +1,8 @@
 package org.andnekon.game.entity;
 
+
+import java.util.HashMap;
+
 import org.andnekon.game.action.Card;
 
 /** Player model. */
@@ -9,6 +12,7 @@ public class Player extends Entity {
     private int numInBattleDeffence;
 
     private Deck shotDeck;
+    // TODO: armorDeck contains statuses as well - is this what I want?
     private Deck armorDeck;
 
     private int energy;
@@ -18,8 +22,8 @@ public class Player extends Entity {
         this.maxHp = 50;
         this.defense = 0;
 
-        numInBattleAttacks = 2;
-        numInBattleDeffence = 1;
+        numInBattleAttacks = 3;
+        numInBattleDeffence = 3;
 
         shotDeck = new Deck(numInBattleAttacks);
         armorDeck = new Deck(numInBattleDeffence);
@@ -30,14 +34,17 @@ public class Player extends Entity {
     }
 
     /** Modifies player's deck for each type of Card */
-    public void initTurn() {
+    @Override
+    public void onTurnBegin(Entity... targets) {
         shotDeck.initHand();
         armorDeck.initHand();
         energy = 3;
         defense = 0;
+        super.onTurnBegin(targets);
     }
 
     public void initBattle() {
+        this.effectCounter = new HashMap<>();
         shotDeck.initBattle();
         armorDeck.initBattle();
     }

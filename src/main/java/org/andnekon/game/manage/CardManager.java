@@ -27,9 +27,11 @@ public class CardManager {
         if (CardFactory.SHOTS.contains(name)) {
             player.getShotDeck().add(card);
             return;
-        } else if (CardFactory.ARMORS.contains(name)) {
+        } else if (CardFactory.ARMORS.contains(name) || CardFactory.STATUSES.contains(name)) {
             player.getArmorDeck().add(card);
             return;
+            // } else if (CardFactory.STATUSES.contains(name)) {
+            //     player.getStatusDeck().add(card);
         }
         throw new IllegalStateException("Unknown card: " + name);
     }

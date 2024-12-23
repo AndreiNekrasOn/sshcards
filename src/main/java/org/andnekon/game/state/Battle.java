@@ -83,7 +83,7 @@ public class Battle extends State {
                 phase = checkBattleEnd(BattleState.ENEMY_TURN_START, player, enemy);
             }
             case ENEMY_TURN_START -> {
-                enemy.turn();
+                enemy.onTurnBegin();
                 phase = BattleState.ENEMY_TURN_END;
             }
             case ENEMY_TURN_END -> {

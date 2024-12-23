@@ -1,11 +1,28 @@
 package org.andnekon.game.entity;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public abstract class Entity {
     protected int maxHp;
     protected int hp;
     protected int defense;
 
+    // TODO: use decorator here?
+    public Map<String, Integer> effectCounter = new HashMap<>();
+
+    public void onTurnBegin(Entity... targets) {
+        this.hp += effectCounter.getOrDefault("Heal", 0);
+        this.hp -= effectCounter.getOrDefault("Poison", 0);
+
+        effectCounter.put("Heal", 0);
+        for (String effectName : effectCounter.keySet()) {
+            effectCounter.put(effectName, effectCounter.get(effectName) - 1);
+        }
+    }
+
     public void takeDamage(int damage) {
+        damage = modifyDamage(damage);
         if (damage >= this.defense) {
             damage -= this.defense;
             this.hp -= damage;
@@ -13,6 +30,11 @@ public abstract class Entity {
         } else {
             this.defense -= damage;
         }
+    }
+
+    private int modifyDamage(int damage) {
+        int vuln = effectCounter.getOrDefault("Vulnurable", 0);
+        return damage + vuln;
     }
 
     public int getMaxHp() {

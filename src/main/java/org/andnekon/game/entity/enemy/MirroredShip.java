@@ -1,7 +1,7 @@
 package org.andnekon.game.entity.enemy;
 
 import org.andnekon.game.action.intents.Attack;
-import org.andnekon.game.action.intents.Support;
+import org.andnekon.game.action.intents.Effect;
 import org.andnekon.game.entity.Player;
 
 /**
@@ -12,8 +12,8 @@ public class MirroredShip extends Enemy {
 
     public MirroredShip() {
         super();
-        this.hp = 5;
-        this.maxHp = 5;
+        this.hp = 10;
+        this.maxHp = 20;
     }
 
     @Override
@@ -24,6 +24,6 @@ public class MirroredShip extends Enemy {
     @Override
     public void fillIntents(Player player) {
         this.currentIntents.add(new Attack(this, (int) Math.pow(2, turnNumber), player));
-        this.currentIntents.add(new Support(this, (int) Math.pow(2, turnNumber), this));
+        this.currentIntents.add(new Effect(this, "Heal", (int) Math.pow(2, turnNumber), this));
     }
 }

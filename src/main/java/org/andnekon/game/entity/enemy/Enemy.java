@@ -18,7 +18,9 @@ public abstract class Enemy extends Entity {
         turnNumber = 0;
     }
 
-    public void turn() {
+    @Override
+    public void onTurnBegin(Entity... targets) {
+        super.onTurnBegin(targets);
         turnNumber++;
         setDefense(0);
         for (Intent intent : currentIntents) {

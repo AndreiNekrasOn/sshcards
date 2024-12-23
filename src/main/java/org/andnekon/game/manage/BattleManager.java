@@ -41,7 +41,7 @@ public class BattleManager implements StateManager {
 
     public void initTurn() {
         this.turn++;
-        this.player.initTurn();
+        this.player.onTurnBegin();
         this.enemy.fillIntents(this.player);
     }
 

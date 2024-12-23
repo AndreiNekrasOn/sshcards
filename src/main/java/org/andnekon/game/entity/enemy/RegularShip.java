@@ -1,7 +1,7 @@
 package org.andnekon.game.entity.enemy;
 
 import org.andnekon.game.action.intents.Attack;
-import org.andnekon.game.action.intents.Support;
+import org.andnekon.game.action.intents.Effect;
 import org.andnekon.game.entity.Player;
 
 /**
@@ -26,6 +26,6 @@ public class RegularShip extends Enemy {
         int attackValue = (int) Math.pow(2, 1 + turnNumber);
         this.currentIntents.add(new Attack(this, attackValue, player));
         this.currentIntents.add(new Attack(this, attackValue, player));
-        this.currentIntents.add(new Support(this, -attackValue, this));
+        this.currentIntents.add(new Effect(this, "Poison", 3, this));
     }
 }
