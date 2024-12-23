@@ -1,6 +1,5 @@
 package org.andnekon.view.tui.windows.impl;
 
-import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.gui2.GridLayout;
 import com.googlecode.lanterna.gui2.Label;
 import com.googlecode.lanterna.gui2.Panel;
@@ -22,8 +21,8 @@ public class CheckWindow extends PopupWindow {
     public CheckWindow(StatefulMultiWindowTextGui gui, GameSession session) {
         super(gui);
         // overrides size from PopupWindow
-        TerminalSize size = gui.getScreen().getTerminalSize();
-        setFixedSize(new TerminalSize(size.getColumns() / 3, size.getRows()));
+        // TerminalSize size = gui.getScreen().getTerminalSize();
+        // setFixedSize(new TerminalSize(size.getColumns() / 3, size.getRows()));
         this.session = session;
     }
 

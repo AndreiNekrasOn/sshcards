@@ -17,7 +17,7 @@ public abstract class Entity {
 
         effectCounter.put("Heal", 0);
         for (String effectName : effectCounter.keySet()) {
-            effectCounter.put(effectName, effectCounter.get(effectName) - 1);
+            effectCounter.put(effectName, Math.max(0, effectCounter.get(effectName) - 1));
         }
     }
 

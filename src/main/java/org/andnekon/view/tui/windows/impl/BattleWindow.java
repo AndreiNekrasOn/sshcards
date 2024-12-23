@@ -1,11 +1,10 @@
 package org.andnekon.view.tui.windows.impl;
 
-import com.googlecode.lanterna.TextColor;
-import com.googlecode.lanterna.graphics.SimpleTheme;
 import com.googlecode.lanterna.gui2.GridLayout;
 import com.googlecode.lanterna.gui2.Label;
 import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.input.KeyStroke;
+import com.googlecode.lanterna.input.KeyType;
 
 import org.andnekon.game.GameSession;
 import org.andnekon.game.action.Card;
@@ -69,13 +68,6 @@ public class BattleWindow extends MainWindow {
         super(gui);
         this.asciiReaderService = asciiReaderService;
         this.session = session;
-
-        menus = new ArrayList<>();
-        menus.add(new MenuComponentSelection(shotMenu));
-        menus.add(new MenuComponentSelection(armorMenu));
-
-        menus.get(0).selected = true;
-        menuMode = false;
     }
 
     /**
@@ -93,6 +85,11 @@ public class BattleWindow extends MainWindow {
         Panel mainVisual = new Panel(new GridLayout(2)); // first column - ships, second - dice
         setupMainVisual(mainVisual);
         content.addComponent(mainVisual);
+
+        menus = new ArrayList<>();
+        menus.add(new MenuComponentSelection(shotMenu));
+        menus.add(new MenuComponentSelection(armorMenu));
+        menus.get(0).selected = true;
     }
 
     @Override
@@ -132,12 +129,7 @@ public class BattleWindow extends MainWindow {
     }
 
     private void colorMenus() {
-        SimpleTheme hlTheme = new SimpleTheme(TextColor.ANSI.RED, TextColor.ANSI.DEFAULT);
-        menus.stream().forEach(ms -> ms.menu.setTheme(gui.getTheme()));
         menus.stream().filter(ms -> !ms.selected).forEach(ms -> ms.menu.unfocus());
-        if (!menuMode) {
-            menus.stream().filter(ms -> ms.selected).forEach(ms -> ms.menu.setTheme(hlTheme));
-        }
     }
 
     private String formEnemyVisual() {
@@ -230,29 +222,14 @@ public class BattleWindow extends MainWindow {
         }
         KeyStroke key = buffer.get(0);
         logger.info(
-                "recieved input, menu {}, shot {}",
-                menuMode,
+                "recieved input, selected {}",
                 menus.stream().filter(ms -> ms.selected).findFirst().orElseThrow().menu);
-        if (menuMode) {
-            if (KeyStrokeUtil.isControl(key)) {
-                menuMode = false;
-                buffer.clear();
-                return;
-            }
-            processAsMenu(buffer);
-            return;
-        }
-
-        if (KeyStrokeUtil.isLeftMotion(key)) {
-            cycleMenu(-1);
-            buffer.clear();
-        } else if (KeyStrokeUtil.isRightMotion(key)) {
+        if (KeyStrokeUtil.compareType(key, KeyType.Tab)) { // tab selects menu
             cycleMenu(1);
             buffer.clear();
-        } else if (KeyStrokeUtil.compareChars(key, "iI ")) {
-            menuMode = true;
-            buffer.clear();
+            return;
         }
+        processAsMenu(buffer);
     }
 
     private void processAsMenu(List<KeyStroke> buffer) {
@@ -288,7 +265,19 @@ public class BattleWindow extends MainWindow {
         index = (index + direction + menus.size()) % menus.size();
         logger.info("updated index: {}", index);
         for (int i = 0; i < menus.size(); i++) {
-            menus.get(i).selected = i == index;
+            MenuComponentSelection ms = menus.get(i);
+            if (i == index) {
+                ms.selected = true;
+                ms.menu.setCurrentIndex(0);
+            } else {
+                ms.selected = false;
+            }
         }
+    }
+
+    @Override
+    protected String getControls() {
+        return "<Tab> to cycle selected \"hand\", [1-3] - choose a card, j/k/w/s/arrows -"
+                   + " navigation";
     }
 }

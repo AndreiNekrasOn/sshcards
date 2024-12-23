@@ -17,6 +17,10 @@ public class MenuComponent extends Panel {
 
     private int currentIndex = 0;
 
+    public void setCurrentIndex(int currentIndex) {
+        this.currentIndex = currentIndex;
+    }
+
     public void prepare(String... options) {
         removeAllComponents();
         for (int i = 0; i < options.length; i++) {

@@ -18,7 +18,7 @@ public class QuitConfirmation extends PopupWindow {
 
     @Override
     public void setup() {
-        Label sure = new Label("Are you shure you want to quit?");
+        Label sure = new Label("Are you sure you want to quit? [y/n]");
         this.setComponent(sure);
     }
 

@@ -70,7 +70,10 @@ public class GameController {
             String in = reader.read();
             GameAction action = mapInputtoAction(in);
             logger.info("transformed input [{}] to action {}", in, action);
-            if (action.action() != Type.PASS) {
+            GameAction.Type actionType = action.action();
+            if (actionType != Type.PASS
+                    && actionType != Type.HELP
+                    && actionType != Type.BATTLE_CHECK) { // let view handle those
                 game.process(action);
             }
         } while (!game.getSession().isEnd());
