@@ -4,7 +4,7 @@
   <groupId>org.andnekon</groupId>
   <artifactId>sshtuigame</artifactId>
   <packaging>jar</packaging>
-  <version>0.2-SNAPSHOT</version>
+  <version>0.2</version>
   <name>sshtuigame</name>
   <url>http://maven.apache.org</url>
   <properties>
@@ -16,7 +16,7 @@
 
   <profiles>
     <profile>
-      <id>socket-server</id>
+      <id>server</id>
       <properties>
         <mainClass>org.andnekon.server.TcpServer</mainClass>
       </properties>

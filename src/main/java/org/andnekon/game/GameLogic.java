@@ -3,8 +3,11 @@ package org.andnekon.game;
 import org.andnekon.game.state.Menu;
 import org.andnekon.game.state.Quit;
 import org.andnekon.game.state.State;
+import org.andnekon.game.state.State.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.util.List;
 
 /**
  * Turn-based game that takes user input, provides a Slay-the-spire like interaction in the
@@ -54,6 +57,16 @@ public class GameLogic {
         logger.info("Waiting for input, state {}", currentState.getType());
         if (action == null) {
             throw new UnsupportedOperationException("GameAction can't be null");
+        }
+        GameAction.Type actionType = action.action();
+        if (actionType == GameAction.Type.PASS) {
+            return;
+        }
+        // TODO: remove when all support HELP, or handle this differently
+        List<State.Type> supportHelp = List.of(Type.BATTLE, Type.QUIT);
+        if (actionType == GameAction.Type.HELP && !supportHelp.contains(currentState.getType())) {
+            logger.info("Help action not supported for {}", currentState);
+            return;
         }
 
         State newState =

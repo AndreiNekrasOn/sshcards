@@ -1,9 +1,7 @@
 package org.andnekon.view.raw;
 
 import com.googlecode.lanterna.TerminalPosition;
-import com.googlecode.lanterna.TextCharacter;
 import com.googlecode.lanterna.input.KeyStroke;
-import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.ansi.UnixTerminal;
@@ -12,7 +10,9 @@ import org.andnekon.game.GameSession;
 import org.andnekon.game.action.Card;
 import org.andnekon.game.entity.Player;
 import org.andnekon.game.state.State;
+import org.andnekon.game.state.State.Type;
 import org.andnekon.utils.KeyStrokeUtil;
+import org.andnekon.view.DisplayOptions;
 import org.andnekon.view.HelpType;
 import org.andnekon.view.Reader;
 import org.andnekon.view.repl.ConsoleView;
@@ -47,11 +47,7 @@ public class ConsoleRawView extends ConsoleView implements Reader {
     public void display(State state) {
         screen.clear();
         super.display(state);
-        try {
-            screen.refresh();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        helper.flush();
     }
 
     @Override
@@ -63,7 +59,7 @@ public class ConsoleRawView extends ConsoleView implements Reader {
         List<Card> deck = new ArrayList<>();
         deck.addAll(player.getShotDeck().getHand());
         deck.addAll(player.getArmorDeck().getHand());
-        crdHelper.choice(deck);
+        crdHelper.withSettings(DisplayOptions.MENU.id()).choice(deck.toArray());
         crdHelper.help(HelpType.ACTIONS);
         crdHelper.prompt("What do you do?");
     }
@@ -74,33 +70,36 @@ public class ConsoleRawView extends ConsoleView implements Reader {
         super.welcome();
     }
 
-    /** Reader * */
+    /** Reader */
     @Override
     public String read() {
-        KeyStroke keyStroke = null;
-        StringBuilder builder = new StringBuilder();
-        int inputSize = 0;
-        // screen.setCursorPosition(new TerminalPosition(crdHelper.getPrintCol(),
-        // crdHelper.getPrintRow()));
-        screen.setCursorPosition(new TerminalPosition(0, 30));
+        screen.setCursorPosition(new TerminalPosition(0, screen.getTerminalSize().getRows() - 1));
+        helper.flush();
         try {
-            screen.refresh();
+            KeyStroke key = screen.readInput();
+            return KeyStrokeUtil.isCharacter(key) ? modifyInput(key.getCharacter()) : null;
         } catch (IOException e) {
             e.printStackTrace();
+            return null;
         }
-        try {
-            while (keyStroke == null || KeyStrokeUtil.compareType(keyStroke, KeyType.Enter)) {
-                if (KeyStrokeUtil.isCharacter(keyStroke)) {
-                    builder.append(keyStroke.getCharacter());
-                    drawInput(keyStroke.getCharacter(), inputSize++);
+    }
+
+    /**
+     * Modifies recieved input character to match the controller's needs. In {@code TuiView} this is
+     * hidden in {@code TuiWindow} processing their input before passing it through
+     */
+    private String modifyInput(char c) {
+        if (state.getType() == Type.BATTLE) {
+            if ('0' <= c && c <= '9') {
+                int i = c - '0';
+                int shotHandSize = session.getPlayer().getShotDeck().getHand().size();
+                if (i <= shotHandSize) {
+                    return "s" + i;
                 }
-                keyStroke = screen.readInput();
+                return "a" + (i - shotHandSize);
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-        crdHelper.reset();
-        return builder.toString().strip();
+        return String.valueOf(c);
     }
 
     @Override
@@ -120,16 +119,9 @@ public class ConsoleRawView extends ConsoleView implements Reader {
     protected void showReward() {
         crdHelper.reset();
         crdHelper.message("Congrats, reward");
-    }
-
-    private void drawInput(char c, int inputSize) throws IOException {
-        TerminalPosition inPos = new TerminalPosition(inputSize, 30);
-        screen.setCharacter(inPos, TextCharacter.fromCharacter(c)[0]);
-        screen.setCursorPosition(inPos.withRelativeColumn(1));
-        try {
-            screen.refresh();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        crdHelper
+                .withSettings(DisplayOptions.MENU.id())
+                .choice(session.getRewardManager().getRewardOptions().toArray());
+        crdHelper.prompt("Choose a card");
     }
 }

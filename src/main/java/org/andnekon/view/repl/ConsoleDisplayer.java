@@ -59,9 +59,11 @@ public class ConsoleDisplayer implements Displayer {
                 battleDeck.addAll(p.getArmorDeck().getHand());
                 choice(battleDeck.toArray());
             }
+            case NONE -> {}
             default -> throw new IllegalArgumentException("Unexpected value: " + type);
         }
         ;
+        session.setHelpType(HelpType.NONE);
     }
 
     @Override
@@ -98,6 +100,7 @@ public class ConsoleDisplayer implements Displayer {
     public void flush() {
         try {
             os.write(baos.toString().getBytes());
+            baos = new ByteArrayOutputStream();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -168,6 +171,6 @@ public class ConsoleDisplayer implements Displayer {
                 enemy.getDefense(),
                 enemy.toString(),
                 enemy.displayIntents());
-        printf("=== GOOD LUCK!  ===\n");
+        printf("=== GOOD LUCK! ===\n");
     }
 }

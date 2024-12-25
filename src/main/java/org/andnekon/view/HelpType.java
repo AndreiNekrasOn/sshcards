@@ -6,4 +6,5 @@ public enum HelpType {
     BATTLE_ENEMY_INTENTS,
     TURN_INFO,
     ACTIONS,
+    NONE,
 }

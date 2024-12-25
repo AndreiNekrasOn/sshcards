@@ -34,7 +34,7 @@ public class GameControllerFactory {
             }
             case REPL -> {
                 view = new ConsoleView(session, os);
-                reader = new ConsoleReader(is); // TODO: IO
+                reader = new ConsoleReader(is);
             }
             case TUI -> {
                 TuiManager manager = new TuiManager(session, is, os);

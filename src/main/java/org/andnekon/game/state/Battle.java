@@ -30,7 +30,7 @@ public class Battle extends State {
                     GameAction.Type.BATTLE_CARD,
                     GameAction.Type.BATTLE_CHECK,
                     GameAction.Type.BATTLE_END_TURN,
-                    GameAction.Type.BATTLE_HELP);
+                    GameAction.Type.HELP);
 
     private static final List<BattleState> phasesRequiringInput =
             List.of(
@@ -145,7 +145,7 @@ public class Battle extends State {
         }
         return switch (action.action()) {
             case BATTLE_END_TURN -> BattleState.PLAYER_TURN_END;
-            case BATTLE_HELP -> {
+            case HELP -> {
                 session.setHelpType(HelpType.ACTIONS);
                 yield BattleState.PLAYER_TURN_HELP;
             }
