@@ -14,12 +14,13 @@ import java.util.List;
 public abstract class MainWindow extends AbstractTuiWindow {
 
     protected Panel content;
+    protected Panel container;
 
     public MainWindow(StatefulMultiWindowTextGui gui) {
         super(gui); // setup is called here
         setHints(List.of(Hint.FIT_TERMINAL_WINDOW, Hint.CENTERED, Hint.FULL_SCREEN));
 
-        Panel container = new Panel();
+        container = new Panel();
 
         Panel messages = new Panel();
         messages.addComponent(new Label("Super Space Heros!"));
