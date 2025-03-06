@@ -482,3 +482,73 @@ So, for implementing this, I need to:
 3) MainMenu: about page, switching back, continue
 4) MOAR CARDS
 5) fix annoying server bug where I can't stop it, allow for multiple clients
+6) Pretty display as described below
+
+I wan to create a real UI. First of all, I need to force a specific screen "resolution".
+Then I want to have "widgets" for everything - starting from select-style menus, to cards in battle.
+I want the battle window to be prettier.
+Next 40 rows are to display what I want the battle window to look like. So the field is 150x38 - a bit weird?
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------||-
+|[PLAYER]|    ---------------------|    ---------------------|                                | Description of actions
+|[NAME  ]|     name*               |     name                |                                | Name:
+|{act}   |     hp 300; def 99      |     hp 300; def 99      |                                | - Attack for 1 on Player
+|[LEVEL] |     status:             |     status:             |                                | - Apply 2 Poison to <Other>
+|________|    _______________________   _______________________                              || Other:
+||_______|    )      (}  (|    )        )      (}  (|    )                                   || - Steal 2$ from Player
+||       |    (      ((  <)    ()       (      ((  <)    ()                                  || - Give 2 charge for Name
+||hull   |     ()    ((         )(       ()    ((         )(                                 ||
+||30.....|      )               (/        )               (/                                 ||
+||shield.|                      |                         |                                  || Description for cards in hands:
+||15.....|                     /\                        /\                                  || Skills:
+||_______|    /^\                                                                            || - Better armor: Gain 2 block
+||systems|                            ________ ________ ________ ________ ________ ________  ||
+||-------|                           |   _   ||   _   ||   _   ||   _   ||   _   ||   _   |  ||
+||o2   5 |          ____             |  |*|  ||  |*|  ||  |*|  ||  |*|  ||  |*|  ||  |*|  |  ||
+||wpn  5 |         /    \\           |  \_/  ||  \_/  ||  \_/  ||  \_/  ||  \_/  ||  \_/  |  ||
+||eng  5 |        |  _   ||          |_______||_______||_______||_______||_______||_______|  ||
+||wrp  5 |        | |_|  ||           ________ ________ ________ ________ ________ ________  ||
+||scn  5 |        |      ||          |   _   ||   _  1||   _  2||   _ 13||   _  4||   _  8|  ||
+||shl  5 |    -  /|      |\| -       |  |*|  ||  |*|  ||  |*|  ||  |*|  ||  |*|  ||  |*|  |  ||
+||-------|    - / |      | \\-       |  \_/  ||  \_/  ||  \_/  ||  \_/  ||  \_/  ||  \_/  |  || Optionally this window can be tabbed? Description of
+||       |    -/  |      |  \\       |_______||_______||_______||_______||_______||_______|  || actions, cards, artifacts, enemies, rules and so on
+||       |                                                                                   ||
+||    30$|                                                                                   ||
+|____________________________________________________________________________________________||____________________________________________||___
+|____________________________________________________________________________________________________________________________________________________||___
+|[Skill]  ____________                                                   |[Shots]  ____________   | [hidden by default missile hand, that takes over all]
+|[Hand*] |Better Armor|                                                  |[Hand ] |Better Armor|  |
+|        |------------|                                                  |        |------------|  |
+|        |Gain block. |                                                  |        |Gain block. |  |
+|        |2b        2e|                                                  |        |3w        1e|  |
+|        |____________|                                                  |        |____________|  |
+|        [1] (number shown only if deck selected)                        |
+
+
+[RED IMPORTANT MESSAGE, dissappears on next key press, is stored in log?]
+-----------------------------------------------------------------------------------------------------------------------------------------------------||---
+Navigation: "q":quit; "?":help; "Tab":switch hands; "m":toggle missile; "1-5":play card; "d":view cards; "w":change target, "a":view artifacts       ||
+-----------------------------------------------------------------------------------------------------------------------------------------------------||-
+
+Note, that selection should have several indications: bold text, *-symbol, displayed numbers/displayed arrow
+
+
+For artifacts maybe I can come up with ascii-art like for dice? It's also an option to make artifacts swappable instead of constant bonuses.
+
+ ________ this one gives stronger shields
+|   _   |
+|  |*|  |
+|  \_/  |
+|_______|
+ ________ this one adds [err] missile to the hand
+|       |
+| [err] |
+|       |
+|_______|
+ ________ this one heals for 3 after each fight
+|   +   |
+| ++3++ |
+|   +   |
+|_______|
+
+Then, for better decoupling of logic from UI, I need to represent each state as a (text/serializable) object. This would make API muh simpler, and the controller wouldn't have to know anything about the UI. Right now GameController needs to convert between different UIs, which is not right. Having View+Reader in GameController factory is also bad design. In fact, I need to visualize the design better - uml diagram, but by hand. And then change it to a sane one.

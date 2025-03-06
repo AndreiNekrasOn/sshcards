@@ -1,7 +1,5 @@
 package org.andnekon.view.tui;
 
-import com.googlecode.lanterna.TextColor;
-import com.googlecode.lanterna.graphics.SimpleTheme;
 import com.googlecode.lanterna.screen.Screen;
 
 import org.andnekon.game.GameSession;
@@ -55,7 +53,6 @@ public class TuiView extends AbstractGameView {
 
     private boolean check;
 
-    // package-private
     TuiView(GameSession session, TuiManager manager) throws IOException {
         this.session = session;
         this.manager = manager;
@@ -70,9 +67,6 @@ public class TuiView extends AbstractGameView {
     }
 
     public void init() {
-        TextColor.ANSI none = TextColor.ANSI.DEFAULT; // to not type this out everytime
-        gui.setTheme(SimpleTheme.makeTheme(true, none, none, none, none, none, none, none));
-
         menuWindow = new MainMenuWindow(gui);
         navigationWindow = new NavigationWindow(gui, session);
         battleWindow = new BattleWindow(gui, asciiReaderService, session);
@@ -129,7 +123,6 @@ public class TuiView extends AbstractGameView {
     public void display(State state) {
         if (refresh) {
             screen.clear();
-            gui.getWindows().forEach(w -> w.invalidate());
             refresh = false;
         }
         if (helpShown) {
