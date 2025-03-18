@@ -4,6 +4,7 @@ import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.screen.Screen;
 
+import org.andnekon.utils.KeyStrokeUtil;
 import org.andnekon.view.Reader;
 
 import java.io.IOException;
@@ -22,7 +23,9 @@ public class TuiReader implements Reader {
 
     @Override
     public String read() {
-        String result = this.manager.getScreenName();
+        readKeys();
+        String result = KeyStrokeUtil.keysToString(buffer);
+        buffer.clear();
         this.manager.processSpecialInput(result);
         return result;
     }
@@ -36,7 +39,6 @@ public class TuiReader implements Reader {
         // can't hide cursor over telnet
         screen.setCursorPosition(new TerminalPosition(0, screen.getTerminalSize().getRows() - 1));
         try {
-            screen.refresh();
             KeyStroke key = screen.readInput(); // blocks
             if (key != null) {
                 buffer.add(key);

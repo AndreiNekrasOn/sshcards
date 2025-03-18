@@ -5,6 +5,7 @@ import com.googlecode.lanterna.screen.Screen;
 import org.andnekon.game.GameSession;
 import org.andnekon.game.state.State;
 import org.andnekon.view.AbstractGameView;
+import org.andnekon.view.tui.buffers.WelcomeBuffer;
 import org.andnekon.view.tui.windows.SimpleLabelPopupWindow;
 import org.andnekon.view.tui.windows.TuiWindow;
 import org.andnekon.view.tui.windows.impl.BattleWindow;
@@ -69,12 +70,7 @@ public class TuiView extends AbstractGameView {
 
     @Override
     public void welcome() {
-        welcomeWindow.show();
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        WelcomeBuffer wb = new WelcomeBuffer(screen.getTerminalSize());
     }
 
     @Override
@@ -94,7 +90,8 @@ public class TuiView extends AbstractGameView {
 
     @Override
     protected void showMenu() {
-        menuWindow.show();
+        WelcomeBuffer wb = new WelcomeBuffer(screen.getTerminalSize());
+        wb.draw(screen);
     }
 
     @Override
@@ -110,7 +107,7 @@ public class TuiView extends AbstractGameView {
     @Override
     public void display(State state) {
         if (refresh) {
-            screen.clear();
+            // screen.clear();
             refresh = false;
         }
         if (helpShown) {

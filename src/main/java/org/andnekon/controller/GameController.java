@@ -64,13 +64,14 @@ public class GameController {
     }
 
     public void run() {
-        view.welcome();
+        // view.welcome();
         do {
-            view.display(game.getCurrentState()); // sends data to the os
+            this.view.welcome();
+            // view.display(game.getCurrentState()); // sends data to the os
             String in = reader.read();
             GameAction action = mapInputtoAction(in);
             logger.info("transformed input [{}] to action {}", in, action);
-            game.process(action);
+            // game.process(action);
         } while (!game.getSession().isEnd());
     }
 
