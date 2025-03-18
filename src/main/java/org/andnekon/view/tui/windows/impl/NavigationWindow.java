@@ -7,7 +7,6 @@ import com.googlecode.lanterna.input.KeyType;
 
 import org.andnekon.game.GameSession;
 import org.andnekon.utils.KeyStrokeUtil;
-import org.andnekon.view.tui.StatefulMultiWindowTextGui;
 import org.andnekon.view.tui.windows.MainWindow;
 import org.andnekon.view.tui.windows.MenuComponent;
 
@@ -21,8 +20,8 @@ public class NavigationWindow extends MainWindow {
 
     private Panel emptyContent;
 
-    public NavigationWindow(StatefulMultiWindowTextGui gui, GameSession session) {
-        super(gui);
+    public NavigationWindow(GameSession session) {
+        super();
         this.session = session;
     }
 
@@ -41,20 +40,20 @@ public class NavigationWindow extends MainWindow {
 
     @Override
     protected void postRead() {
-        List<KeyStroke> buffer = gui.getReader().getBuffer();
-        if (buffer == null || buffer.isEmpty()) {
-            return;
-        }
-        KeyStroke key = buffer.get(0);
-        if (KeyStrokeUtil.compareType(key, KeyType.Tab)) {
-            if (getComponent().equals(container)) {
-                setComponent(emptyContent);
-            } else {
-                setComponent(container);
-            }
-            buffer.clear();
-        }
-        menu.processInput(gui.getReader().getBuffer());
+        // List<KeyStroke> buffer = gui.getReader().getBuffer();
+        // if (buffer == null || buffer.isEmpty()) {
+        //     return;
+        // }
+        // KeyStroke key = buffer.get(0);
+        // if (KeyStrokeUtil.compareType(key, KeyType.Tab)) {
+        //     if (getComponent().equals(container)) {
+        //         setComponent(emptyContent);
+        //     } else {
+        //         setComponent(container);
+        //     }
+        //     buffer.clear();
+        // }
+        // menu.processInput(gui.getReader().getBuffer());
     }
 
     @Override

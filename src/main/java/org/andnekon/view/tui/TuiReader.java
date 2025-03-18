@@ -22,7 +22,7 @@ public class TuiReader implements Reader {
 
     @Override
     public String read() {
-        String result = this.manager.getGui().getCurrentWindow().read();
+        String result = this.manager.getScreenName();
         this.manager.processSpecialInput(result);
         return result;
     }
@@ -32,7 +32,7 @@ public class TuiReader implements Reader {
      */
     public void readKeys() {
         buffer.clear();
-        Screen screen = this.manager.getGui().getScreen();
+        Screen screen = this.manager.getScreen();
         // can't hide cursor over telnet
         screen.setCursorPosition(new TerminalPosition(0, screen.getTerminalSize().getRows() - 1));
         try {

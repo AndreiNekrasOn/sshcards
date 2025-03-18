@@ -17,19 +17,23 @@ public class TuiManager {
 
     private TuiReader reader;
 
-    StatefulMultiWindowTextGui gui;
+    private Screen screen;
+
+    private String screenName;
 
     public TuiManager(GameSession session, InputStream is, OutputStream os) throws IOException {
         UnixTerminal terminal = new UnixTerminal(is, os, Charset.defaultCharset());
-        Screen screen = new TerminalScreen(terminal);
-
-        this.gui = new StatefulMultiWindowTextGui(screen, this);
+        this.screen = new TerminalScreen(terminal);
         this.view = new TuiView(session, this);
         this.reader = new TuiReader(this);
     }
 
-    public StatefulMultiWindowTextGui getGui() {
-        return this.gui;
+    public Screen getScreen() {
+        return this.screen;
+    }
+
+    public String getScreenName() {
+        return this.screenName;
     }
 
     public TuiReader getReader() {

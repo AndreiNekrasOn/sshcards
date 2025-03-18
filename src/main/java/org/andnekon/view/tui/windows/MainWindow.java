@@ -6,8 +6,6 @@ import com.googlecode.lanterna.gui2.Label;
 import com.googlecode.lanterna.gui2.Panel;
 import com.googlecode.lanterna.gui2.Separator;
 
-import org.andnekon.view.tui.StatefulMultiWindowTextGui;
-
 import java.util.List;
 
 /** Window with a status line on the top, {@code content}, and a help line on the bottom */
@@ -16,8 +14,8 @@ public abstract class MainWindow extends AbstractTuiWindow {
     protected Panel content;
     protected Panel container;
 
-    public MainWindow(StatefulMultiWindowTextGui gui) {
-        super(gui); // setup is called here
+    public MainWindow() {
+        super(); // setup is called here
         setHints(List.of(Hint.FIT_TERMINAL_WINDOW, Hint.CENTERED, Hint.FULL_SCREEN));
 
         container = new Panel();

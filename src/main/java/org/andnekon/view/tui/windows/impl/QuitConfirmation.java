@@ -5,15 +5,14 @@ import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.input.KeyType;
 
 import org.andnekon.utils.KeyStrokeUtil;
-import org.andnekon.view.tui.StatefulMultiWindowTextGui;
 import org.andnekon.view.tui.windows.PopupWindow;
 
 import java.util.List;
 
 public class QuitConfirmation extends PopupWindow {
 
-    public QuitConfirmation(StatefulMultiWindowTextGui gui) {
-        super(gui);
+    public QuitConfirmation() {
+        super();
     }
 
     @Override
@@ -24,13 +23,13 @@ public class QuitConfirmation extends PopupWindow {
 
     @Override
     protected void postRead() {
-        List<KeyStroke> buffer = gui.getReader().getBuffer();
-        for (KeyStroke key : buffer) {
-            if (KeyStrokeUtil.compareType(key, KeyType.Escape)) {
-                buffer.clear();
-                buffer.add(KeyStroke.fromString("n"));
-                return;
-            }
-        }
+        // List<KeyStroke> buffer = gui.getReader().getBuffer();
+        // for (KeyStroke key : buffer) {
+        //     if (KeyStrokeUtil.compareType(key, KeyType.Escape)) {
+        //         buffer.clear();
+        //         buffer.add(KeyStroke.fromString("n"));
+        //         return;
+        //     }
+        // }
     }
 }

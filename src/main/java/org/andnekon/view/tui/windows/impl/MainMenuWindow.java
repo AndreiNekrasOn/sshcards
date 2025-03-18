@@ -2,7 +2,6 @@ package org.andnekon.view.tui.windows.impl;
 
 import com.googlecode.lanterna.gui2.Panel;
 
-import org.andnekon.view.tui.StatefulMultiWindowTextGui;
 import org.andnekon.view.tui.windows.MainWindow;
 import org.andnekon.view.tui.windows.MenuComponent;
 
@@ -10,13 +9,13 @@ public class MainMenuWindow extends MainWindow {
 
     private MenuComponent menu;
 
-    public MainMenuWindow(final StatefulMultiWindowTextGui gui) {
-        super(gui);
+    public MainMenuWindow() {
+        super();
     }
 
     @Override
     protected void postRead() {
-        menu.processInput(gui.getReader().getBuffer());
+        // menu.processInput(gui.getReader().getBuffer());
     }
 
     @Override

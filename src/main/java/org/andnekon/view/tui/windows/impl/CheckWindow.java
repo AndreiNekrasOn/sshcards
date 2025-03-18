@@ -6,7 +6,6 @@ import com.googlecode.lanterna.gui2.Panel;
 
 import org.andnekon.game.GameSession;
 import org.andnekon.game.action.Card;
-import org.andnekon.view.tui.StatefulMultiWindowTextGui;
 import org.andnekon.view.tui.windows.PopupWindow;
 
 import java.util.List;
@@ -18,8 +17,8 @@ public class CheckWindow extends PopupWindow {
     private Label shotCards;
     private Label armorCards;
 
-    public CheckWindow(StatefulMultiWindowTextGui gui, GameSession session) {
-        super(gui);
+    public CheckWindow(GameSession session) {
+        super();
         // overrides size from PopupWindow
         // TerminalSize size = gui.getScreen().getTerminalSize();
         // setFixedSize(new TerminalSize(size.getColumns() / 3, size.getRows()));

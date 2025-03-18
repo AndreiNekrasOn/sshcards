@@ -13,7 +13,6 @@ import org.andnekon.game.entity.Player;
 import org.andnekon.game.entity.enemy.Enemy;
 import org.andnekon.utils.KeyStrokeUtil;
 import org.andnekon.view.tui.AsciiReaderService;
-import org.andnekon.view.tui.StatefulMultiWindowTextGui;
 import org.andnekon.view.tui.windows.MainWindow;
 import org.andnekon.view.tui.windows.MenuComponent;
 import org.slf4j.Logger;
@@ -61,11 +60,8 @@ public class BattleWindow extends MainWindow {
     /** Selecting menu itself, rather than specific card within the menu */
     private boolean menuMode;
 
-    public BattleWindow(
-            StatefulMultiWindowTextGui gui,
-            AsciiReaderService asciiReaderService,
-            GameSession session) {
-        super(gui);
+    public BattleWindow(AsciiReaderService asciiReaderService, GameSession session) {
+        super();
         this.asciiReaderService = asciiReaderService;
         this.session = session;
     }
@@ -216,20 +212,20 @@ public class BattleWindow extends MainWindow {
 
     @Override
     protected void postRead() {
-        List<KeyStroke> buffer = gui.getReader().getBuffer();
-        if (buffer.size() != 1) {
-            return;
-        }
-        KeyStroke key = buffer.get(0);
-        logger.info(
-                "recieved input, selected {}",
-                menus.stream().filter(ms -> ms.selected).findFirst().orElseThrow().menu);
-        if (KeyStrokeUtil.compareType(key, KeyType.Tab)) { // tab selects menu
-            cycleMenu(1);
-            buffer.clear();
-            return;
-        }
-        processAsMenu(buffer);
+        // List<KeyStroke> buffer = gui.getReader().getBuffer();
+        // if (buffer.size() != 1) {
+        //     return;
+        // }
+        // KeyStroke key = buffer.get(0);
+        // logger.info(
+        //         "recieved input, selected {}",
+        //         menus.stream().filter(ms -> ms.selected).findFirst().orElseThrow().menu);
+        // if (KeyStrokeUtil.compareType(key, KeyType.Tab)) { // tab selects menu
+        //     cycleMenu(1);
+        //     buffer.clear();
+        //     return;
+        // }
+        // processAsMenu(buffer);
     }
 
     private void processAsMenu(List<KeyStroke> buffer) {

@@ -5,7 +5,6 @@ import com.googlecode.lanterna.gui2.Panel;
 
 import org.andnekon.game.GameSession;
 import org.andnekon.game.action.Card;
-import org.andnekon.view.tui.StatefulMultiWindowTextGui;
 import org.andnekon.view.tui.windows.MenuComponent;
 import org.andnekon.view.tui.windows.PopupWindow;
 
@@ -14,8 +13,8 @@ public class RewardWindow extends PopupWindow {
     private GameSession session;
     private MenuComponent menu;
 
-    public RewardWindow(StatefulMultiWindowTextGui gui, GameSession session) {
-        super(gui);
+    public RewardWindow(GameSession session) {
+        super();
         this.session = session;
     }
 
@@ -39,6 +38,6 @@ public class RewardWindow extends PopupWindow {
 
     @Override
     public void postRead() {
-        menu.processInput(gui.getReader().getBuffer());
+        // menu.processInput(gui.getReader().getBuffer());
     }
 }

@@ -32,7 +32,6 @@ public class TuiView extends AbstractGameView {
     TuiManager manager;
 
     private Screen screen;
-    private StatefulMultiWindowTextGui gui;
     private AsciiReaderService asciiReaderService;
 
     // GUI
@@ -56,8 +55,7 @@ public class TuiView extends AbstractGameView {
     TuiView(GameSession session, TuiManager manager) throws IOException {
         this.session = session;
         this.manager = manager;
-        this.gui = manager.getGui();
-        this.screen = gui.getScreen();
+        this.screen = manager.getScreen();
         // single threaded is fine, we have 1 gui per client
         screen.startScreen();
 
@@ -67,16 +65,6 @@ public class TuiView extends AbstractGameView {
     }
 
     public void init() {
-        menuWindow = new MainMenuWindow(gui);
-        navigationWindow = new NavigationWindow(gui, session);
-        battleWindow = new BattleWindow(gui, asciiReaderService, session);
-
-        welcomeWindow = new WelcomeWindow(gui);
-        rewardPopup = new RewardWindow(gui, session);
-        quitPopup = new QuitConfirmation(gui);
-        deathhPopup = new SimpleLabelPopupWindow(gui, "You died. Continue? [y/n]");
-        helpPopup = new SimpleLabelPopupWindow(gui, "Help messsage");
-        checkPopup = new CheckWindow(gui, session);
     }
 
     @Override
