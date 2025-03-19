@@ -1,11 +1,14 @@
-package org.andnekon.view.tui;
+package org.andnekon.view.tui.buffers;
 
 import java.util.List;
 import java.util.function.BiFunction;
+
+import org.andnekon.view.tui.TerminalRegion;
+import org.andnekon.view.tui.widgets.Widget;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
-import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.screen.Screen;
 
@@ -14,12 +17,10 @@ import com.googlecode.lanterna.screen.Screen;
   */
 public abstract class Buffer implements Widget {
 
-    protected TerminalPosition topLeft;
-    protected TerminalPosition bottomRight;
+    protected TerminalRegion region;
 
-    public Buffer(TerminalPosition topLeft, TerminalPosition bottomRight) {
-        this.topLeft = topLeft;
-        this.bottomRight = bottomRight;
+    public Buffer(TerminalRegion region) {
+        this.region = region;
     }
 
     protected abstract List<Widget> widgets();
@@ -44,18 +45,7 @@ public abstract class Buffer implements Widget {
     }
 
     @Override
-    public TerminalPosition getTopLeftPos() {
-        return topLeft;
-    }
-
-    @Override
-    public TerminalPosition getBottomRightPos() {
-        return bottomRight;
-    }
-
-    private static boolean isOverlap(TerminalPosition first, TerminalPosition second,
-            BiFunction<Integer, Integer, Boolean> cmp) {
-        return cmp.apply(first.getRow(), second.getRow())
-            && cmp.apply(first.getColumn(), second.getColumn());
+    public TerminalRegion getRegion() {
+        return region;
     }
 }

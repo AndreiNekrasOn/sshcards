@@ -1,6 +1,7 @@
-package org.andnekon.view.tui;
+package org.andnekon.view.tui.widgets;
 
-import com.googlecode.lanterna.TerminalPosition;
+import org.andnekon.view.tui.TerminalRegion;
+
 import com.googlecode.lanterna.screen.Screen;
 
 /**
@@ -12,7 +13,5 @@ public interface Widget {
     /** Draw widget on the set position on the screen */
     void draw(Screen screen);
 
-    TerminalPosition getTopLeftPos();
-
-    TerminalPosition getBottomRightPos();
+    TerminalRegion getRegion();
 }
