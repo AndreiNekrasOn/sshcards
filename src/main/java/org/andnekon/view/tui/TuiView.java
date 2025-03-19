@@ -63,8 +63,8 @@ public class TuiView extends AbstractGameView {
 
     @Override
     public void welcome() {
-        // WelcomeBuffer wb = new WelcomeBuffer(screen.getTerminalSize());
-        // wb.draw(screen);
+        WelcomeBuffer wb = new WelcomeBuffer(screen.getTerminalSize());
+        wb.draw(screen);
     }
 
     @Override
@@ -101,7 +101,7 @@ public class TuiView extends AbstractGameView {
     @Override
     public void display(State state) {
         // TODO: make smarter with BufferManager
-        screen.clear();
+        // screen.clear();
         if (refresh) {
             refresh = false;
         }

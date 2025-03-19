@@ -20,7 +20,7 @@ public class Border implements Widget {
         this.component = component;
         TerminalRegion r = this.component.getRegion();
         this.region = new TerminalRegion(r.topLeftCol() - 1, r.topLeftRow() - 1,
-                r.botRightCol(), r.botRightRow() + 1); // why botRightCol +0?
+                r.botRightCol() + 1, r.botRightRow() + 1); // why botRightCol +0?
     }
 
     @Override
@@ -47,9 +47,6 @@ public class Border implements Widget {
         screen.setCharacter(region.botRightCol(), region.botRightRow(), corner[0]);
 
         component.draw(screen);
-        try {
-            screen.refresh();
-        } catch (IOException e) { e.printStackTrace(); }
     }
 
     @Override

@@ -17,7 +17,7 @@ public class SingleLine implements Widget {
     public SingleLine(String text, TerminalPosition topLeft) {
         this.text = text;
         this.region = new TerminalRegion(topLeft.getColumn(), topLeft.getRow(),
-                topLeft.getColumn() + text.length(), topLeft.getRow());
+                topLeft.getColumn() + text.length() - 1, topLeft.getRow());
     }
 
     @Override

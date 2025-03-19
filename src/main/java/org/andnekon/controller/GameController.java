@@ -64,10 +64,11 @@ public class GameController {
     }
 
     public void run() {
-        // view.welcome();
+        view.welcome();
+        String in = reader.read();
         do {
             view.display(game.getCurrentState()); // sends data to the os
-            String in = reader.read();
+            in = reader.read();
             GameAction action = mapInputtoAction(in);
             logger.info("transformed input [{}] to action {}", in, action);
             game.process(action);

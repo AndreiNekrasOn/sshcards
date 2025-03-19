@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.andnekon.view.tui.TerminalRegion;
 import org.andnekon.view.tui.widgets.Border;
+import org.andnekon.view.tui.widgets.SelectList;
 import org.andnekon.view.tui.widgets.SingleLine;
 import org.andnekon.view.tui.widgets.Widget;
 
@@ -22,7 +23,19 @@ public class MainMenu extends Buffer {
         Widget title = new SingleLine("Menu",
                 new TerminalPosition(size.getColumns() / 2, size.getRows() / 3));
         Widget borderWrap = new Border(title);
+
+        // Widget menuList = new SelectList(borderWrap.getRegion().botRightRow(), title.getRegion().topLeftCol(), new String[]{
+        //     "1. Hello",
+        //     "2. Goodbye"
+        // });
+        Widget menuList = new SelectList(title.getRegion().topLeftCol(),
+                borderWrap.getRegion().botRightRow() + 1, new String[]{
+            "1. Hello",
+            "2. Goodbye",
+        });
+        Widget borderMenu = new Border(menuList);
         this.widgets.add(borderWrap);
+        this.widgets.add(borderMenu);
     }
 
     @Override

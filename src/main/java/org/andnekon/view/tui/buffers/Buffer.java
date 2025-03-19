@@ -31,7 +31,7 @@ public abstract class Buffer implements Widget {
         screen.clear();
         List<Widget> widgets = widgets();
         for (Widget w : widgets) {
-            System.err.println("Trying to draw widget?");
+            System.err.println("Trying to draw widget? " + w.getClass().getName());
             // TODO: fix; warning instead of error
             // if (isOverlap(topLeft, w.getTopLeftPos(), (f,s) -> f < s) ||
             //         isOverlap(bottomRight, w.getBottomRightPos(), (f,s) -> f < s)) {
