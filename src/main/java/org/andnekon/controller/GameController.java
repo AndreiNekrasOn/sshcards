@@ -66,8 +66,7 @@ public class GameController {
     public void run() {
         // view.welcome();
         do {
-            this.view.welcome();
-            // view.display(game.getCurrentState()); // sends data to the os
+            view.display(game.getCurrentState()); // sends data to the os
             String in = reader.read();
             GameAction action = mapInputtoAction(in);
             logger.info("transformed input [{}] to action {}", in, action);

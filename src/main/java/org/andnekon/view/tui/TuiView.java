@@ -5,6 +5,7 @@ import com.googlecode.lanterna.screen.Screen;
 import org.andnekon.game.GameSession;
 import org.andnekon.game.state.State;
 import org.andnekon.view.AbstractGameView;
+import org.andnekon.view.tui.buffers.MainMenu;
 import org.andnekon.view.tui.buffers.WelcomeBuffer;
 import org.andnekon.view.tui.windows.TuiWindow;
 import org.slf4j.Logger;
@@ -62,8 +63,8 @@ public class TuiView extends AbstractGameView {
 
     @Override
     public void welcome() {
-        WelcomeBuffer wb = new WelcomeBuffer(screen.getTerminalSize());
-        wb.draw(screen);
+        // WelcomeBuffer wb = new WelcomeBuffer(screen.getTerminalSize());
+        // wb.draw(screen);
     }
 
     @Override
@@ -83,8 +84,8 @@ public class TuiView extends AbstractGameView {
 
     @Override
     protected void showMenu() {
-        WelcomeBuffer wb = new WelcomeBuffer(screen.getTerminalSize());
-        wb.draw(screen);
+        MainMenu mb = new MainMenu(screen.getTerminalSize());
+        mb.draw(screen);
     }
 
     @Override
