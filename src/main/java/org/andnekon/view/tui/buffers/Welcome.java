@@ -13,11 +13,11 @@ import com.googlecode.lanterna.TerminalSize;
 /**
  * WelcomeBuffer
  */
-public class WelcomeBuffer extends Buffer {
+public class Welcome extends Buffer {
 
     private List<Widget> widgets = new ArrayList<>();
 
-    public WelcomeBuffer(TerminalSize size) {
+    public Welcome(TerminalSize size) {
         super(new TerminalRegion(0, 0, size.getColumns(), size.getRows()));
         String title = "SSH Heroes (temporary title)";;
         this.widgets.add(new SingleLine(title, TerminalPosition.TOP_LEFT_CORNER));
