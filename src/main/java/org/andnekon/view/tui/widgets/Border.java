@@ -26,13 +26,7 @@ public class Border implements Widget {
         int length = bottom.getColumn() - top.getColumn() + 1;
         int height = bottom.getRow() - top.getRow()  + 1;
 
-        TextCharacter[] debug = TextCharacter.fromString(bottom.toString() + " " + top.toString());
-        for (int i = 0; i < debug.length; i++) {
-            screen.setCharacter(i, 0, debug[i]);
-        }
-
-        component.draw(screen);
-        TextCharacter[] lineHorizontal = TextCharacter.fromString("_".repeat(length));
+        TextCharacter[] lineHorizontal = TextCharacter.fromString("-".repeat(length));
         TextCharacter[] lineVertical = TextCharacter.fromString("|".repeat(height));
         TextCharacter[] corner = TextCharacter.fromCharacter('*');
 
@@ -44,10 +38,13 @@ public class Border implements Widget {
             screen.setCharacter(top.getColumn() + i, top.getRow(), lineHorizontal[i]);
             screen.setCharacter(top.getColumn() + i, bottom.getRow(), lineHorizontal[i]);
         }
+
         screen.setCharacter(top.getColumn(), top.getRow(), corner[0]);
         screen.setCharacter(top.getColumn(), bottom.getRow(), corner[0]);
         screen.setCharacter(bottom.getColumn(), top.getRow(), corner[0]);
         screen.setCharacter(bottom.getColumn(), bottom.getRow(), corner[0]);
+
+        component.draw(screen);
         try {
             screen.refresh();
         } catch (IOException e) { e.printStackTrace(); }
@@ -62,9 +59,7 @@ public class Border implements Widget {
     @Override
     public TerminalPosition getBottomRightPos() {
         TerminalPosition p = this.component.getBottomRightPos();
-        return new TerminalPosition(p.getColumn() + 1, p.getRow() + 1);
-    }
-
-    private void drawHorizontalLine(Screen screen, int column, int row, int n) {
+        // why column +0 works?
+        return new TerminalPosition(p.getColumn(), p.getRow() + 1);
     }
 }

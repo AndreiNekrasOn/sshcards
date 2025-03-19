@@ -100,8 +100,9 @@ public class TuiView extends AbstractGameView {
 
     @Override
     public void display(State state) {
+        // TODO: make smarter with BufferManager
+        screen.clear();
         if (refresh) {
-            // screen.clear();
             refresh = false;
         }
         if (helpShown) {

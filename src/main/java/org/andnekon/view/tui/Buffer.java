@@ -39,8 +39,8 @@ public abstract class Buffer implements Widget {
             w.draw(screen);
         }
         try {
-			screen.refresh();
-		} catch (IOException e) { e.printStackTrace(); }
+            screen.refresh();
+        } catch (IOException e) { e.printStackTrace(); }
     }
 
     @Override

@@ -70,7 +70,7 @@ public class GameController {
             String in = reader.read();
             GameAction action = mapInputtoAction(in);
             logger.info("transformed input [{}] to action {}", in, action);
-            // game.process(action);
+            game.process(action);
         } while (!game.getSession().isEnd());
     }
 
