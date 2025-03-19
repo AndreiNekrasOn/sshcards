@@ -2,6 +2,7 @@ package org.andnekon.view.tui;
 
 import java.util.List;
 import java.util.function.BiFunction;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import com.googlecode.lanterna.TerminalPosition;
@@ -34,6 +35,9 @@ public abstract class Buffer implements Widget {
             }
             w.draw(screen);
         }
+        try {
+			screen.refresh();
+		} catch (IOException e) { e.printStackTrace(); }
     }
 
     @Override

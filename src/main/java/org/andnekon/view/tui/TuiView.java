@@ -6,15 +6,7 @@ import org.andnekon.game.GameSession;
 import org.andnekon.game.state.State;
 import org.andnekon.view.AbstractGameView;
 import org.andnekon.view.tui.buffers.WelcomeBuffer;
-import org.andnekon.view.tui.windows.SimpleLabelPopupWindow;
 import org.andnekon.view.tui.windows.TuiWindow;
-import org.andnekon.view.tui.windows.impl.BattleWindow;
-import org.andnekon.view.tui.windows.impl.CheckWindow;
-import org.andnekon.view.tui.windows.impl.MainMenuWindow;
-import org.andnekon.view.tui.windows.impl.NavigationWindow;
-import org.andnekon.view.tui.windows.impl.QuitConfirmation;
-import org.andnekon.view.tui.windows.impl.RewardWindow;
-import org.andnekon.view.tui.windows.impl.WelcomeWindow;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -71,6 +63,7 @@ public class TuiView extends AbstractGameView {
     @Override
     public void welcome() {
         WelcomeBuffer wb = new WelcomeBuffer(screen.getTerminalSize());
+        wb.draw(screen);
     }
 
     @Override

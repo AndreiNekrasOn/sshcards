@@ -27,9 +27,10 @@ public class SingleLineWidget implements Widget {
         TextCharacter[] tcs = TextCharacter.fromString(text);
         for (int i = 0; i < text.length(); i++) {
             System.err.println("drawing single line");
-            screen.setCharacter(topLeft.getColumn() + i + 1, 20, tcs[i]);
-            screen.setCursorPosition(new TerminalPosition(topLeft.getColumn() + 1, 20));
+            screen.setCharacter(topLeft.getColumn() + i, topLeft.getRow(), tcs[i]);
         }
+        screen.setCursorPosition(new TerminalPosition(topLeft.getColumn() + text.length(),
+                    topLeft.getRow()));
     }
 
     @Override
