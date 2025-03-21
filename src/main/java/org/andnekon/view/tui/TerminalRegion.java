@@ -45,5 +45,10 @@ public class TerminalRegion {
         return bottomRight.getRow();
     }
 
+	@Override
+	public String toString() {
+		return "TerminalRegion [topLeft=" + topLeft + ", bottomRight=" + bottomRight + "]";
+	}
+
     // TODO: isOverlapping here?
 }

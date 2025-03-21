@@ -17,7 +17,7 @@ public class AsciiReaderService {
                 sb.append(line);
                 sb.append('\n');
             }
-            return sb.toString();
+            return sb.toString().strip();
         }
     }
 }

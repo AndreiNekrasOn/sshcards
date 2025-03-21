@@ -105,8 +105,8 @@ public class TuiView extends AbstractGameView {
 
     @Override
     protected void showBattle() {
-        rewardPopup = new Reward(new TerminalRegion(screen.getTerminalSize()),
-                new String[]{"tui/cards/Strike", "tui/cards/Defend"}, asciiReaderService);
+        rewardPopup = new Reward(new TerminalRegion(20, 20, 20, 20),
+                new String[]{"tui/cards/Strike", "tui/cards/Defend", "tui/cards/Strike"}, asciiReaderService);
         rewardPopup.draw(screen);
     }
 

@@ -1,5 +1,8 @@
 package org.andnekon.view.tui.widgets;
 
+import java.util.function.BiFunction;
+import java.util.function.Function;
+
 import org.andnekon.utils.StringUtil;
 import org.andnekon.view.tui.TerminalRegion;
 
@@ -17,30 +20,23 @@ public class Card implements Widget {
     private Widget costWidget;
     private Widget descWidget;
 
+    private Function<Widget, Integer> startCol = w -> w.getRegion().topLeftCol();
+    private Function<Widget, Integer> endRow = w -> w.getRegion().botRightRow();
 
     // TODO: replace parameters with cardInfoService
     public Card(TerminalPosition topLeft, String art, int cost, String description) {
-        art = StringUtil.wrap(art, CARD_WIDTH - 2); // border
-        cost = cost;
-        description = StringUtil.wrap(description, CARD_WIDTH - 2);
+        art = StringUtil.wrap(art, CARD_WIDTH); // border
+        description = StringUtil.wrap(description, CARD_WIDTH);
 
-        int height = StringUtil.countChar(art, '\n');
-        height += 1; // cost
-        height += StringUtil.countChar(description, '\n');
-        // height += 2 + 2 + 2; // border
 
-        TerminalRegion region = new TerminalRegion(topLeft.getColumn(), topLeft.getRow(),
-                // topLeft.getColumn() + 2 + CARD_WIDTH, topLeft.getRow() + height);
-                topLeft.getColumn() + CARD_WIDTH, topLeft.getRow() + height);
-        artWidget = new MultiLine(region.topLeftCol(), region.topLeftRow(), art);
-        artWidget = new Border(artWidget);
+        artWidget = new MultiLine(topLeft.getColumn(), topLeft.getRow(), art);
         costWidget = new SingleLine(String.valueOf(cost),
-                new TerminalPosition(artWidget.getRegion().botRightRow() + 1,
-                    artWidget.getRegion().topLeftRow()));
-        costWidget = new Border(costWidget);
-        descWidget = new MultiLine(costWidget.getRegion().topLeftCol(),
-                costWidget.getRegion().botRightRow() + 1, description);
-        descWidget = new Border(descWidget);
+                new TerminalPosition(startCol.apply(artWidget), 1 + endRow.apply(artWidget)));
+        descWidget = new MultiLine(startCol.apply(costWidget), 1 + endRow.apply(costWidget), description);
+
+        System.err.println(artWidget.getRegion());
+        System.err.println(costWidget.getRegion());
+        System.err.println(descWidget.getRegion());
     }
 
     @Override
@@ -52,7 +48,7 @@ public class Card implements Widget {
 
     @Override
     public TerminalRegion getRegion() {
-        return new TerminalRegion(artWidget.getRegion().topLeftCol(), artWidget.getRegion().topLeftCol(),
+        return new TerminalRegion(artWidget.getRegion().topLeftCol(), artWidget.getRegion().topLeftRow(),
                 descWidget.getRegion().botRightCol(), descWidget.getRegion().botRightRow());
     }
 }
