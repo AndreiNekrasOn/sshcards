@@ -6,6 +6,7 @@ import org.andnekon.game.GameSession;
 import org.andnekon.game.manage.NavigationManager;
 import org.andnekon.game.state.State;
 import org.andnekon.view.AbstractGameView;
+import org.andnekon.view.tui.buffers.Buffer;
 import org.andnekon.view.tui.buffers.MainMenu;
 import org.andnekon.view.tui.buffers.Navigation;
 import org.andnekon.view.tui.buffers.Welcome;
@@ -33,15 +34,15 @@ public class TuiView extends AbstractGameView {
 
     // GUI
 
-    private TuiWindow welcomeWindow;
-    private TuiWindow menuWindow;
-    private TuiWindow navigationWindow;
-    private TuiWindow quitPopup;
-    private TuiWindow helpPopup;
-    private TuiWindow deathhPopup;
-    private TuiWindow rewardPopup;
-    private TuiWindow battleWindow;
-    private TuiWindow checkPopup;
+    private Buffer welcomeWindow;
+    private Buffer menuWindow;
+    private Buffer navigationWindow;
+    private Buffer quitPopup;
+    private Buffer helpPopup;
+    private Buffer deathhPopup;
+    private Buffer rewardPopup;
+    private Buffer battleWindow;
+    private Buffer checkPopup;
 
     private boolean helpShown = false;
 
@@ -66,18 +67,16 @@ public class TuiView extends AbstractGameView {
 
     @Override
     public void welcome() {
-        Welcome wb = new Welcome(screen.getTerminalSize(), asciiReaderService);
-        wb.draw(screen);
+        welcomeWindow = new Welcome(screen.getTerminalSize(), asciiReaderService);
+        welcomeWindow.draw(screen);
     }
 
     @Override
     protected void showReward() {
-        rewardPopup.show();
     }
 
     @Override
     protected void showQuitConfirm() {
-        quitPopup.show();
     }
 
     @Override
@@ -88,24 +87,22 @@ public class TuiView extends AbstractGameView {
         for (int i = 0; i < options.length; i++) {
             options[i] = String.format("%d. %s", i, options[i]);
         }
-        Navigation nb = new Navigation(fullScreen, options);
-        nb.draw(screen);
+        navigationWindow = new Navigation(fullScreen, options);
+        navigationWindow.draw(screen);
     }
 
     @Override
     protected void showMenu() {
-        MainMenu mb = new MainMenu(screen.getTerminalSize());
-        mb.draw(screen);
+        menuWindow = new MainMenu(screen.getTerminalSize());
+        menuWindow.draw(screen);
     }
 
     @Override
     protected void showDeath() {
-        deathhPopup.show();
     }
 
     @Override
     protected void showBattle() {
-        battleWindow.show();
     }
 
     @Override
@@ -116,9 +113,9 @@ public class TuiView extends AbstractGameView {
             refresh = false;
         }
         if (helpShown) {
-            helpPopup.show();
+            // helpPopup.show();
         } else if (check) {
-            checkPopup.show();
+            // checkPopup.show();
         } else {
             super.display(state);
         }
