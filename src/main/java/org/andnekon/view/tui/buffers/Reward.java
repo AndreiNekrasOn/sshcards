@@ -22,7 +22,11 @@ public class Reward extends Buffer {
     public Reward(TerminalRegion region, String[] cardResources, AsciiReaderService service) {
         super(region);
 
-        TerminalRegion prevCardRegion = this.region;
+        // TODO: CardHandWidget
+        // TODO: this is bad...
+        // single-point region so the card placement works correctly
+        TerminalRegion prevCardRegion = new TerminalRegion(region.topLeftCol(), region.topLeftRow(),
+                region.topLeftCol(), region.topLeftRow());
         for (int i = 0; i < cardResources.length; i++) {
             String[] info;
             try {
@@ -34,13 +38,15 @@ public class Reward extends Buffer {
             int cost = Integer.valueOf(info[0]);
             String description = info[1];
             String ascii = info[2];
-            // col + 2 is for border, +3 - padding
-            Widget card = new Card(new TerminalPosition(prevCardRegion.topLeftCol(),
+            // col + 2 is for border, +6 - padding
+            Widget card = new Card(new TerminalPosition(prevCardRegion.botRightCol() + 6,
                         prevCardRegion.topLeftRow()), ascii, cost, description);
-            card = new Border(card);
             prevCardRegion = card.getRegion();
             this.widgets.add(card);
         }
+
+        // didn't figure out how to position cards better
+        this.widgets = this.widgets.stream().map(w -> (Widget) new Border(w)).toList();
     }
 
     @Override
