@@ -1,5 +1,6 @@
 package org.andnekon.view.tui;
 
+import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.screen.Screen;
 
 import org.andnekon.game.GameSession;
@@ -9,6 +10,7 @@ import org.andnekon.view.AbstractGameView;
 import org.andnekon.view.tui.buffers.Buffer;
 import org.andnekon.view.tui.buffers.MainMenu;
 import org.andnekon.view.tui.buffers.Navigation;
+import org.andnekon.view.tui.buffers.Reward;
 import org.andnekon.view.tui.buffers.Welcome;
 import org.andnekon.view.tui.windows.TuiWindow;
 import org.slf4j.Logger;
@@ -73,6 +75,9 @@ public class TuiView extends AbstractGameView {
 
     @Override
     protected void showReward() {
+        rewardPopup = new Reward(new TerminalRegion(screen.getTerminalSize()),
+                new String[]{"cards/Strike", "cards/Defend"}, asciiReaderService);
+        rewardPopup.draw(screen);
     }
 
     @Override
@@ -103,6 +108,9 @@ public class TuiView extends AbstractGameView {
 
     @Override
     protected void showBattle() {
+        rewardPopup = new Reward(new TerminalRegion(screen.getTerminalSize()),
+                new String[]{"tui/cards/Strike", "tui/cards/Defend"}, asciiReaderService);
+        rewardPopup.draw(screen);
     }
 
     @Override
