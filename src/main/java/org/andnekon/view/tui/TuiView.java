@@ -1,7 +1,6 @@
 package org.andnekon.view.tui;
 
-import com.googlecode.lanterna.TerminalPosition;
-import com.googlecode.lanterna.screen.Screen;
+import java.io.IOException;
 
 import org.andnekon.game.GameSession;
 import org.andnekon.game.manage.NavigationManager;
@@ -12,12 +11,10 @@ import org.andnekon.view.tui.buffers.MainMenu;
 import org.andnekon.view.tui.buffers.Navigation;
 import org.andnekon.view.tui.buffers.Reward;
 import org.andnekon.view.tui.buffers.Welcome;
-import org.andnekon.view.tui.windows.TuiWindow;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.Arrays;
+import com.googlecode.lanterna.screen.Screen;
 
 /**
  * TUI view provides graphical (terminal) enviroment for game logic.<br>
