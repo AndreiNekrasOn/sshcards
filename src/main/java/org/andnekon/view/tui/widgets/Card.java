@@ -33,10 +33,6 @@ public class Card implements Widget {
         costWidget = new SingleLine(String.valueOf(cost),
                 new TerminalPosition(startCol.apply(artWidget), 1 + endRow.apply(artWidget)));
         descWidget = new MultiLine(startCol.apply(costWidget), 1 + endRow.apply(costWidget), description);
-
-        System.err.println(artWidget.getRegion());
-        System.err.println(costWidget.getRegion());
-        System.err.println(descWidget.getRegion());
     }
 
     @Override

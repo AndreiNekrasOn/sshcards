@@ -1,11 +1,16 @@
 package org.andnekon.view.tui;
 
 import java.io.IOException;
+import java.util.stream.Collectors;
 
 import org.andnekon.game.GameSession;
+import org.andnekon.game.action.Card;
+import org.andnekon.game.manage.CardManager;
 import org.andnekon.game.manage.NavigationManager;
+import org.andnekon.game.manage.RewardManager;
 import org.andnekon.game.state.State;
 import org.andnekon.view.AbstractGameView;
+import org.andnekon.view.tui.buffers.Battle;
 import org.andnekon.view.tui.buffers.Buffer;
 import org.andnekon.view.tui.buffers.MainMenu;
 import org.andnekon.view.tui.buffers.Navigation;
@@ -29,7 +34,7 @@ public class TuiView extends AbstractGameView {
     TuiManager manager;
 
     private Screen screen;
-    private AsciiReaderService asciiReaderService;
+    private AsciiReaderService arSerivce;
 
     // GUI
 
@@ -58,7 +63,7 @@ public class TuiView extends AbstractGameView {
 
         init();
 
-        asciiReaderService = new AsciiReaderService();
+        arSerivce = new AsciiReaderService();
     }
 
     public void init() {
@@ -66,14 +71,16 @@ public class TuiView extends AbstractGameView {
 
     @Override
     public void welcome() {
-        welcomeWindow = new Welcome(screen.getTerminalSize(), asciiReaderService);
+        welcomeWindow = new Welcome(screen.getTerminalSize(), arSerivce);
         welcomeWindow.draw(screen);
     }
 
     @Override
     protected void showReward() {
-        rewardPopup = new Reward(new TerminalRegion(screen.getTerminalSize()),
-                new String[]{"cards/Strike", "cards/Defend"}, asciiReaderService);
+        RewardManager rewardManager = session.getRewardManager();
+        String[] resources = rewardManager.getRewardOptions().stream()
+            .map(Card::getName).toList().toArray(String[]::new);
+        rewardPopup = new Reward(new TerminalRegion(20, 20, 20, 20), resources, arSerivce);
         rewardPopup.draw(screen);
     }
 
@@ -105,9 +112,8 @@ public class TuiView extends AbstractGameView {
 
     @Override
     protected void showBattle() {
-        rewardPopup = new Reward(new TerminalRegion(20, 20, 20, 20),
-                new String[]{"tui/cards/Strike", "tui/cards/Defend", "tui/cards/Strike"}, asciiReaderService);
-        rewardPopup.draw(screen);
+        battleWindow = new Battle(arSerivce, new TerminalRegion(screen.getTerminalSize()), session.getBattleManager());
+        battleWindow.draw(screen);
     }
 
     @Override

@@ -28,7 +28,6 @@ public class SelectList implements ActiveWidget {
 
     @Override
     public void draw(Screen screen) {
-        System.err.printf("%d %d %d\n", items.length, region.topLeftCol(), region.botRightRow());
         for (int i = 0; i < items.length; i++) {
             if (isActive() && i == selectedIndex) {
                 drawLine(screen, TextColor.ANSI.GREEN, region.topLeftCol(), region.topLeftRow() + i, items[i]);
