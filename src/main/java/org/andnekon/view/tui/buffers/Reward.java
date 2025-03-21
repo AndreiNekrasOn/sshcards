@@ -10,6 +10,7 @@ import org.andnekon.view.tui.AsciiReaderService;
 import org.andnekon.view.tui.TerminalRegion;
 import org.andnekon.view.tui.widgets.Border;
 import org.andnekon.view.tui.widgets.Card;
+import org.andnekon.view.tui.widgets.SingleLine;
 import org.andnekon.view.tui.widgets.Widget;
 
 import com.googlecode.lanterna.TerminalPosition;
@@ -25,8 +26,9 @@ public class Reward extends Buffer {
         // TODO: CardHandWidget
         // TODO: this is bad...
         // single-point region so the card placement works correctly
-        TerminalRegion prevCardRegion = new TerminalRegion(region.topLeftCol(), region.topLeftRow(),
-                region.topLeftCol(), region.topLeftRow());
+        // +1 is offset for selection line;
+        TerminalRegion prevCardRegion = new TerminalRegion(region.topLeftCol(), region.topLeftRow() + 2,
+                region.topLeftCol(), region.topLeftRow() + 2);
         for (int i = 0; i < cardResources.length; i++) {
             String[] info;
             try {
@@ -35,18 +37,27 @@ public class Reward extends Buffer {
             } catch (IOException e) {
                 return;
             }
-            int cost = Integer.valueOf(info[0]);
+            int cost = Integer.valueOf(info[0]); // TODO: cost -> cost+type, params?
             String description = info[1];
             String ascii = info[2];
             // col + 2 is for border, +6 - padding
             Widget card = new Card(new TerminalPosition(prevCardRegion.botRightCol() + 6,
                         prevCardRegion.topLeftRow()), ascii, cost, description);
             prevCardRegion = card.getRegion();
+
+            Widget selectIdx = new SingleLine(String.valueOf(i),
+                    new TerminalPosition(card.getRegion().topLeftCol(), card.getRegion().topLeftRow() - 2));
+            this.widgets.add(selectIdx);
             this.widgets.add(card);
         }
 
         // didn't figure out how to position cards better
-        this.widgets = this.widgets.stream().map(w -> (Widget) new Border(w)).toList();
+        for (int i = 0; i < widgets.size(); i++) {
+            Widget widget = widgets.get(i);
+            if (widget instanceof Card) {
+                widgets.set(i, new Border(widget));
+            }
+        }
     }
 
     @Override
