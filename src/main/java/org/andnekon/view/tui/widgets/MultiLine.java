@@ -9,23 +9,13 @@ import org.andnekon.view.tui.TerminalRegion;
 import com.googlecode.lanterna.TextCharacter;
 import com.googlecode.lanterna.screen.Screen;
 
-/**
- * AsciiArt
- */
-public class AsciiArt implements Widget {
+public class MultiLine implements Widget {
 
     private String[] ascii;
     private TerminalRegion region;
 
-    public AsciiArt(int col, int row, String resource, AsciiReaderService asciiReaderService) {
-        String lines;
-        try {
-            lines = asciiReaderService.readFile(resource);
-        } catch (IOException e) {
-            e.printStackTrace();
-            lines = "<ERROR>";
-        }
-        this.ascii = lines.split("\n");
+    public MultiLine(int col, int row, String ascii) {
+        this.ascii = ascii.split("\n");
 
         int width = Arrays.stream(this.ascii).mapToInt(String::length).max().orElse(0);
         int height = this.ascii.length;
@@ -37,7 +27,7 @@ public class AsciiArt implements Widget {
         for (int i = 0; i < ascii.length; i++) {
             TextCharacter[] tcs = TextCharacter.fromString(ascii[i]);
             for (int j = 0; j < tcs.length; j++) {
-                screen.setCharacter(this.region.topLeftCol() + i, this.region.topLeftRow() + j, tcs[j]);
+                screen.setCharacter(this.region.topLeftCol() + j, this.region.topLeftRow() + i, tcs[j]);
             }
         }
     }

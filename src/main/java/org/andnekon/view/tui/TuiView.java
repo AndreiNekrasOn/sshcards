@@ -3,15 +3,18 @@ package org.andnekon.view.tui;
 import com.googlecode.lanterna.screen.Screen;
 
 import org.andnekon.game.GameSession;
+import org.andnekon.game.manage.NavigationManager;
 import org.andnekon.game.state.State;
 import org.andnekon.view.AbstractGameView;
 import org.andnekon.view.tui.buffers.MainMenu;
+import org.andnekon.view.tui.buffers.Navigation;
 import org.andnekon.view.tui.buffers.Welcome;
 import org.andnekon.view.tui.windows.TuiWindow;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * TUI view provides graphical (terminal) enviroment for game logic.<br>
@@ -63,7 +66,7 @@ public class TuiView extends AbstractGameView {
 
     @Override
     public void welcome() {
-        Welcome wb = new Welcome(screen.getTerminalSize());
+        Welcome wb = new Welcome(screen.getTerminalSize(), asciiReaderService);
         wb.draw(screen);
     }
 
@@ -79,7 +82,14 @@ public class TuiView extends AbstractGameView {
 
     @Override
     protected void showNavigation() {
-        navigationWindow.show();
+        NavigationManager manager = session.getNavigationManager();
+        TerminalRegion fullScreen = new TerminalRegion(screen.getTerminalSize());
+        String[] options = manager.getNavigationOptionsArray();
+        for (int i = 0; i < options.length; i++) {
+            options[i] = String.format("%d. %s", i, options[i]);
+        }
+        Navigation nb = new Navigation(fullScreen, options);
+        nb.draw(screen);
     }
 
     @Override
