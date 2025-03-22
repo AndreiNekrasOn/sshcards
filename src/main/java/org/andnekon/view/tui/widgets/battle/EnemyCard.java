@@ -28,7 +28,7 @@ public class EnemyCard implements Widget {
         stateWidget = new MultiLine(col + 1, row + 1, enemyState);
         stateWidget = new Border(stateWidget);
         artWidget = new MultiLine(
-                stateWidget.getRegion().topLeftCol(), stateWidget.getRegion().botRightRow() + 2, art);
+                stateWidget.getRegion().leftCol(), stateWidget.getRegion().botRow() + 2, art);
     }
 
     @Override
@@ -39,8 +39,8 @@ public class EnemyCard implements Widget {
 
     @Override
     public TerminalRegion getRegion() {
-        return new TerminalRegion(stateWidget.getRegion().topLeftCol(), stateWidget.getRegion().topLeftRow(),
-                artWidget.getRegion().botRightCol(), artWidget.getRegion().botRightRow());
+        return new TerminalRegion(stateWidget.getRegion().leftCol(), stateWidget.getRegion().topRow(),
+                artWidget.getRegion().rightCol(), artWidget.getRegion().botRow());
     }
 
 

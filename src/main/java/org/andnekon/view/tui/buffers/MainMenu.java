@@ -28,8 +28,8 @@ public class MainMenu extends Buffer {
         //     "1. Hello",
         //     "2. Goodbye"
         // });
-        Widget menuList = new SelectList(title.getRegion().topLeftCol(),
-                borderWrap.getRegion().botRightRow() + 1, new String[]{
+        Widget menuList = new SelectList(title.getRegion().leftCol(),
+                borderWrap.getRegion().botRow() + 1, new String[]{
             "1. Hello",
             "2. Goodbye",
         });

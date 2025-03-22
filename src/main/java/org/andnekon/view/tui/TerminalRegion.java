@@ -29,26 +29,26 @@ public class TerminalRegion {
         return bottomRight;
     }
 
-    public int topLeftCol() {
+    public int leftCol() {
         return topLeft.getColumn();
     }
 
-    public int topLeftRow() {
+    public int topRow() {
         return topLeft.getRow();
     }
 
-    public int botRightCol() {
+    public int rightCol() {
         return bottomRight.getColumn();
     }
 
-    public int botRightRow() {
+    public int botRow() {
         return bottomRight.getRow();
     }
 
-	@Override
-	public String toString() {
-		return "TerminalRegion [topLeft=" + topLeft + ", bottomRight=" + bottomRight + "]";
-	}
+    @Override
+    public String toString() {
+        return "TerminalRegion [topLeft=" + topLeft + ", bottomRight=" + bottomRight + "]";
+    }
 
     // TODO: isOverlapping here?
 }

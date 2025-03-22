@@ -27,7 +27,7 @@ public class Battle extends Buffer {
                 enemy.getClass().getTypeName(),
                 enemy.getHp(), enemy.getMaxHp(), enemy.getDefense(),
                 "");
-        EnemyCard enemyCard = new EnemyCard(arService, region.topLeftCol(), region.topLeftRow(),
+        EnemyCard enemyCard = new EnemyCard(arService, region.leftCol(), region.topRow(),
                 resource, stats);
 
         this.widgets.add(enemyCard);

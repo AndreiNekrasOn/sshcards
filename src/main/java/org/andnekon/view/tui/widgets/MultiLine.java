@@ -27,7 +27,7 @@ public class MultiLine implements Widget {
         for (int i = 0; i < ascii.length; i++) {
             TextCharacter[] tcs = TextCharacter.fromString(ascii[i]);
             for (int j = 0; j < tcs.length; j++) {
-                screen.setCharacter(this.region.topLeftCol() + j, this.region.topLeftRow() + i, tcs[j]);
+                screen.setCharacter(this.region.leftCol() + j, this.region.topRow() + i, tcs[j]);
             }
         }
     }

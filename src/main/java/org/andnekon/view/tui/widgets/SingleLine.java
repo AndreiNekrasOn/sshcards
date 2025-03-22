@@ -24,7 +24,7 @@ public class SingleLine implements Widget {
     public void draw(Screen screen) {
         TextCharacter[] tcs = TextCharacter.fromString(text);
         for (int i = 0; i < text.length(); i++) {
-            screen.setCharacter(region.topLeftCol() + i, region.topLeftRow(), tcs[i]);
+            screen.setCharacter(region.leftCol() + i, region.topRow(), tcs[i]);
         }
     }
 

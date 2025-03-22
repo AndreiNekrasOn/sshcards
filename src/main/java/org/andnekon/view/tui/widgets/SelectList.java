@@ -30,9 +30,9 @@ public class SelectList implements ActiveWidget {
     public void draw(Screen screen) {
         for (int i = 0; i < items.length; i++) {
             if (isActive() && i == selectedIndex) {
-                drawLine(screen, TextColor.ANSI.GREEN, region.topLeftCol(), region.topLeftRow() + i, items[i]);
+                drawLine(screen, TextColor.ANSI.GREEN, region.leftCol(), region.topRow() + i, items[i]);
             } else {
-                drawLine(screen, TextColor.ANSI.WHITE, region.topLeftCol(), region.topLeftRow() + i, items[i]);
+                drawLine(screen, TextColor.ANSI.WHITE, region.leftCol(), region.topRow() + i, items[i]);
             }
         }
     }

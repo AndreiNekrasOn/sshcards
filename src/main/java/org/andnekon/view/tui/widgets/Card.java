@@ -20,8 +20,8 @@ public class Card implements Widget {
     private Widget costWidget;
     private Widget descWidget;
 
-    private Function<Widget, Integer> startCol = w -> w.getRegion().topLeftCol();
-    private Function<Widget, Integer> endRow = w -> w.getRegion().botRightRow();
+    private Function<Widget, Integer> startCol = w -> w.getRegion().leftCol();
+    private Function<Widget, Integer> endRow = w -> w.getRegion().botRow();
 
     // TODO: replace parameters with cardInfoService
     public Card(TerminalPosition topLeft, String art, int cost, String description) {
@@ -44,7 +44,7 @@ public class Card implements Widget {
 
     @Override
     public TerminalRegion getRegion() {
-        return new TerminalRegion(artWidget.getRegion().topLeftCol(), artWidget.getRegion().topLeftRow(),
-                descWidget.getRegion().botRightCol(), descWidget.getRegion().botRightRow());
+        return new TerminalRegion(artWidget.getRegion().leftCol(), artWidget.getRegion().topRow(),
+                descWidget.getRegion().rightCol(), descWidget.getRegion().botRow());
     }
 }

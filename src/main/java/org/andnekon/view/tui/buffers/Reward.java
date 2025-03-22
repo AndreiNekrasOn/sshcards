@@ -27,8 +27,8 @@ public class Reward extends Buffer {
         // TODO: this is bad...
         // single-point region so the card placement works correctly
         // +1 is offset for selection line;
-        TerminalRegion prevCardRegion = new TerminalRegion(region.topLeftCol(), region.topLeftRow() + 2,
-                region.topLeftCol(), region.topLeftRow() + 2);
+        TerminalRegion prevCardRegion = new TerminalRegion(region.leftCol(), region.topRow() + 2,
+                region.leftCol(), region.topRow() + 2);
         for (int i = 0; i < cardResources.length; i++) {
             String[] info;
             try {
@@ -41,12 +41,12 @@ public class Reward extends Buffer {
             String description = info[1];
             String ascii = info[2];
             // col + 2 is for border, +6 - padding
-            Widget card = new Card(new TerminalPosition(prevCardRegion.botRightCol() + 6,
-                        prevCardRegion.topLeftRow()), ascii, cost, description);
+            Widget card = new Card(new TerminalPosition(prevCardRegion.rightCol() + 6,
+                        prevCardRegion.topRow()), ascii, cost, description);
             prevCardRegion = card.getRegion();
 
             Widget selectIdx = new SingleLine(String.valueOf(i),
-                    new TerminalPosition(card.getRegion().topLeftCol(), card.getRegion().topLeftRow() - 2));
+                    new TerminalPosition(card.getRegion().leftCol(), card.getRegion().topRow() - 2));
             this.widgets.add(selectIdx);
             this.widgets.add(card);
         }
