@@ -10,6 +10,7 @@ import org.andnekon.view.tui.AsciiReaderService;
 import org.andnekon.view.tui.TerminalRegion;
 import org.andnekon.view.tui.widgets.Widget;
 import org.andnekon.view.tui.widgets.battle.EnemyCard;
+import org.andnekon.view.tui.widgets.battle.PlayerStats;
 
 /**
  * Battle
@@ -18,19 +19,24 @@ public class Battle extends Buffer {
 
     private List<Widget> widgets = new ArrayList<>();
 
-    public Battle(AsciiReaderService arService, TerminalRegion region, BattleManager manager) {
+    public Battle(AsciiReaderService arService, BattleManager manager, TerminalRegion region) {
         super(region);
 
+        Widget playerStats = new PlayerStats(manager, region.getTopLeft());
+
+        widgets.add(playerStats);
+
         Enemy enemy = manager.getEnemy();
-        String resource = "tui/enemy/" + enemy.getClass().getTypeName();
+        String resource = "tui/enemy/" + enemy.getClass().getSimpleName();
         String stats = String.format("%s\nhp %d(%d); def %d\nstatus: %s",
-                enemy.getClass().getTypeName(),
+                enemy.getClass().getSimpleName(),
                 enemy.getHp(), enemy.getMaxHp(), enemy.getDefense(),
                 "");
-        EnemyCard enemyCard = new EnemyCard(arService, region.leftCol(), region.topRow(),
+        Widget enemyCard = new EnemyCard(arService,
+                playerStats.getRegion().rightCol() + 1, playerStats.getRegion().topRow(),
                 resource, stats);
 
-        this.widgets.add(enemyCard);
+        widgets.add(enemyCard);
     }
 
     @Override

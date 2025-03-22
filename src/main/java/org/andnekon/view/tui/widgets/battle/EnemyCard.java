@@ -25,10 +25,9 @@ public class EnemyCard implements Widget {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        stateWidget = new MultiLine(col + 1, row + 1, enemyState);
-        stateWidget = new Border(stateWidget);
+        stateWidget = new MultiLine(col, row, enemyState);
         artWidget = new MultiLine(
-                stateWidget.getRegion().leftCol(), stateWidget.getRegion().botRow() + 2, art);
+                stateWidget.getRegion().leftCol(), stateWidget.getRegion().botRow(), art);
     }
 
     @Override

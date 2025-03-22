@@ -20,7 +20,7 @@ public class AsciiReaderService {
                 sb.append(line);
                 sb.append('\n');
             }
-            return sb.toString().strip();
+            return sb.toString();
         }
     }
 }

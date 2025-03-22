@@ -453,6 +453,18 @@ Enemies are randomized during their initialization, your actions - every turn?
 |                       |       | |
 |                       |       | |
 
+ ---------------------------------|
+| PIRATES          [ ATC / MOV  ] |
+| HP 300   DEF 99                 |
+| [psn  vln  weak    conf         |
+|_______________________|_______|_|
+|    \\ /-----\ //      |       | |
+|     \[ o   o ]/       |       | |
+|      [       ]        |       | |
+|     //\ ||| /\\       |       | |
+|    //  |___|  \\      |       | |
+|                       |       | |
+
 Shop
 Shop is a simple checkout form, that tracks your gold against purchase and also shows your scrollable deck (with focus hotkey) in the side-pannel.
 
