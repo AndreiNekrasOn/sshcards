@@ -36,14 +36,6 @@ public class TuiView extends AbstractGameView {
     private static final Logger logger = LoggerFactory.getLogger(TuiView.class);
     // TODO: make this a method depended on the state
     private static final String help = "HELLO!";
-    // private static final String help = StringUtil.wrap("Navigation: 'q':quit; " +
-            // "'?':help; " +
-            // "'Tab':switch hands; " +
-            // "'m':toggle missile; " +
-            // "'1-5':play card; " +
-            // "'d':view cards; " +
-            // "'w':change target; " +
-            // "'a':view artifacts", 42); // hardcoded
 
     TuiManager manager;
 
@@ -125,7 +117,7 @@ public class TuiView extends AbstractGameView {
     @Override
     protected void showBattle() {
         battleWindow = new Battle(arSerivce, session.getBattleManager(), region);
-        battleWindow = new Border(battleWindow);
+        // battleWindow = new Border(battleWindow);
         // battleWindow = new BottomLine(battleWindow, help);
         battleWindow.draw(screen);
     }
@@ -133,7 +125,7 @@ public class TuiView extends AbstractGameView {
     @Override
     public void display(State state) {
         // TODO: make smarter with BufferManager
-        // screen.clear();
+        screen.clear();
         // if (refresh) {
         //     refresh = false;
         // }

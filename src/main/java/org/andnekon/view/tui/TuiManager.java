@@ -21,8 +21,11 @@ public class TuiManager {
 
     private String screenName;
 
+    private GameSession session;
+
     public TuiManager(GameSession session, InputStream is, OutputStream os) throws IOException {
         UnixTerminal terminal = new UnixTerminal(is, os, Charset.defaultCharset());
+        this.session = session;
         this.screen = new TerminalScreen(terminal);
         this.view = new TuiView(session, this);
         this.reader = new TuiReader(this);
@@ -42,6 +45,10 @@ public class TuiManager {
 
     public TuiView getView() {
         return this.view;
+    }
+
+    public GameSession getSession() {
+        return this.session;
     }
 
     public void processSpecialInput(String result) {

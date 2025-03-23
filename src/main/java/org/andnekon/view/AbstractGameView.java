@@ -33,4 +33,8 @@ public abstract class AbstractGameView implements GameView {
     protected abstract void showDeath();
 
     protected abstract void showBattle();
+
+    public State getState() {
+        return state;
+    }
 }

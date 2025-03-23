@@ -26,70 +26,110 @@ import com.googlecode.lanterna.TerminalPosition;
 public class Battle extends Buffer {
 
     private List<Widget> widgets = new ArrayList<>();
+    private BattleManager manager;
+    private AsciiReaderService arService;
+
+    Widget playerStats;
+    Widget enemyCard;
+    Widget playerCard;
+    Widget description;
 
     public Battle(AsciiReaderService arService, BattleManager manager, TerminalRegion region) {
         super(region);
+        this.manager = manager;
+        this.arService = arService;
 
+        setupStats();
+        setupEnemyCard();
+        setupPlayerArt();
+        setupDescription();
+        // add relics
+        setupHand();
+        setupHelp();
+    }
+
+    private void setupStats() {
         TerminalPosition start = new TerminalPosition(2, 2); // hardcoded
-        Widget playerStats = new Border(new PlayerStats(manager, start));
+        playerStats = new Border(new PlayerStats(manager, start));
         widgets.add(playerStats);
+    }
 
+    private void setupEnemyCard() {
         Enemy enemy = manager.getEnemy();
         String resource = "tui/enemy/" + enemy.getClass().getSimpleName();
         String stats = String.format("%s\nhp %d(%d); def %d\nstatus: %s",
                 enemy.getClass().getSimpleName(),
                 enemy.getHp(), enemy.getMaxHp(), enemy.getDefense(),
                 "");
-        Widget enemyCard = new EnemyCard(arService,
+        enemyCard = new EnemyCard(arService,
                 playerStats.getRegion().rightCol() + 1, playerStats.getRegion().topRow() + 1,
                 resource, stats);
         enemyCard = new Border(enemyCard);
         widgets.add(enemyCard);
+    }
 
-
+    private void setupPlayerArt() {
         TerminalRegion ecRegion = enemyCard.getRegion();
         // +1 here adjusts for border
         TerminalRegion playerCardRegion = new TerminalRegion(
                 ecRegion.leftCol() + 1, ecRegion.botRow() + 1, ecRegion.leftCol(), ecRegion.botRow()
                 );
-        Widget playerCard = new PlayerPositionRow(arService, playerCardRegion, playerCardRegion.getTopLeft());
+        playerCard = new PlayerPositionRow(arService, playerCardRegion, playerCardRegion.getTopLeft());
         playerCard = new Border(playerCard);
         widgets.add(playerCard);
 
-        // add relics
+    }
 
-        Widget description = new Description(manager, new TerminalRegion(
+    private void setupDescription() {
+        TerminalRegion playerCardRegion = playerCard.getRegion();
+        TerminalRegion ecRegion = enemyCard.getRegion();
+        description = new Description(manager, new TerminalRegion(
                     playerCardRegion.rightCol() + 2, ecRegion.topRow() + 1,
                     150, playerCardRegion.botRow()
                     ));
         description = new Border(description);
         widgets.add(description);
+    }
 
+    private void setupHand() {
         // fill with dummies
         // can't fill with dummies, gotta reinitialize
         String[] attackResources = manager.getPlayer().getShotDeck().getHand().stream()
             .map(c -> "tui/cards/" + c.getName())
             .toList()
             .toArray(String[]::new);
-        Widget attackHand = new CardHand(arService, attackResources,
-                new TerminalRegion(playerStats.getRegion().leftCol(), playerCard.getRegion().botRow(),
-                    playerStats.getRegion().leftCol(), playerCard.getRegion().botRow()));
-        widgets.add(attackHand);
-        // for (int i = 0; i < attackResources.length; i++) {
-        //     System.err.println(attackResources[i]);
-        // }
+        TerminalRegion skillRegion;
+        TerminalRegion attackRegion = new TerminalRegion(playerStats.getRegion().leftCol(),
+                playerCard.getRegion().botRow(), playerStats.getRegion().leftCol(),
+                playerCard.getRegion().botRow());
+        if (attackResources.length > 0) {
+            Widget attackHand = new CardHand(arService, attackResources, attackRegion);
+            widgets.add(attackHand);
+            skillRegion = new TerminalRegion(attackHand.getRegion().rightCol(), playerCard.getRegion().botRow(),
+                    attackHand.getRegion().rightCol(), playerCard.getRegion().botRow());
+        } else {
+            skillRegion = attackRegion;
+        }
+
         String[] skillResources = manager.getPlayer().getArmorDeck().getHand().stream()
             .map(c -> "tui/cards/" + c.getName())
             .toList()
             .toArray(String[]::new);
-        Widget skillHand = new CardHand(arService, skillResources,
-                new TerminalRegion(attackHand.getRegion().rightCol(), playerCard.getRegion().botRow(),
-                    attackHand.getRegion().rightCol(), playerCard.getRegion().botRow()));
+        Widget skillHand = new CardHand(arService, skillResources, skillRegion);
         widgets.add(skillHand);
+    }
 
-        //     region.rightCol() - region.leftCol());
-        // Widget helpWidget = new SingleLine(help, new TerminalPosition(region.leftCol(), region.botRow()));
-        // widgets.add(helpWidget);
+    private void setupHelp() {
+        String help = "Navigation: q:quit; " +
+            "?:help; " +
+            "Tab:switch hands; " +
+            "m:toggle missile; " +
+            "1-5:play card; " +
+            "d:view cards; " +
+            "w:change target; " +
+            "a:view artifacts";
+        Widget helpWidget = new SingleLine(help, new TerminalPosition(region.leftCol(), region.botRow()));
+        widgets.add(helpWidget);
     }
 
     @Override
