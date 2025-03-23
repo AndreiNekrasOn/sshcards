@@ -37,6 +37,8 @@ public class TuiView extends AbstractGameView {
     private Screen screen;
     private AsciiReaderService arSerivce;
 
+    private final TerminalRegion region;
+
     // GUI
 
     private Buffer welcomeWindow;
@@ -61,6 +63,8 @@ public class TuiView extends AbstractGameView {
         this.screen = manager.getScreen();
         // single threaded is fine, we have 1 gui per client
         screen.startScreen();
+        // hardcoded
+        region = new TerminalRegion(1, 1, 150, 42);
         arSerivce = new AsciiReaderService();
     }
 
@@ -107,8 +111,7 @@ public class TuiView extends AbstractGameView {
 
     @Override
     protected void showBattle() {
-        battleWindow = new Battle(arSerivce, session.getBattleManager(),
-                new TerminalRegion(screen.getTerminalSize()));
+        battleWindow = new Battle(arSerivce, session.getBattleManager(), region);
         battleWindow.draw(screen);
     }
 

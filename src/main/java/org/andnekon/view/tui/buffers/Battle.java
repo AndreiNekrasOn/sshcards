@@ -6,9 +6,11 @@ import java.util.List;
 import org.andnekon.game.GameSession;
 import org.andnekon.game.entity.enemy.Enemy;
 import org.andnekon.game.manage.BattleManager;
+import org.andnekon.utils.StringUtil;
 import org.andnekon.view.tui.AsciiReaderService;
 import org.andnekon.view.tui.TerminalRegion;
 import org.andnekon.view.tui.widgets.Border;
+import org.andnekon.view.tui.widgets.SingleLine;
 import org.andnekon.view.tui.widgets.Widget;
 import org.andnekon.view.tui.widgets.battle.CardHand;
 import org.andnekon.view.tui.widgets.battle.Description;
@@ -84,6 +86,18 @@ public class Battle extends Buffer {
                 new TerminalRegion(attackHand.getRegion().rightCol(), playerCard.getRegion().botRow(),
                     attackHand.getRegion().rightCol(), playerCard.getRegion().botRow()));
         widgets.add(skillHand);
+
+        String help = StringUtil.wrap("Navigation: \"q\":quit; " +
+            "\"?\":help; " +
+            "\"Tab\":switch hands; " +
+            "\"m\":toggle missile; " +
+            "\"1-5\":play card; " +
+            "\"d\":view cards; " +
+            "\"w\":change target; " +
+            "\"a\":view artifacts",
+            region.rightCol() - region.leftCol());
+        Widget helpWidget = new SingleLine(help, new TerminalPosition(region.leftCol(), region.botRow()));
+        widgets.add(helpWidget);
     }
 
     @Override
