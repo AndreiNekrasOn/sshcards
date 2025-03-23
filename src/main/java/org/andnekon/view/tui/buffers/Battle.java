@@ -87,17 +87,9 @@ public class Battle extends Buffer {
                     attackHand.getRegion().rightCol(), playerCard.getRegion().botRow()));
         widgets.add(skillHand);
 
-        String help = StringUtil.wrap("Navigation: \"q\":quit; " +
-            "\"?\":help; " +
-            "\"Tab\":switch hands; " +
-            "\"m\":toggle missile; " +
-            "\"1-5\":play card; " +
-            "\"d\":view cards; " +
-            "\"w\":change target; " +
-            "\"a\":view artifacts",
-            region.rightCol() - region.leftCol());
-        Widget helpWidget = new SingleLine(help, new TerminalPosition(region.leftCol(), region.botRow()));
-        widgets.add(helpWidget);
+        //     region.rightCol() - region.leftCol());
+        // Widget helpWidget = new SingleLine(help, new TerminalPosition(region.leftCol(), region.botRow()));
+        // widgets.add(helpWidget);
     }
 
     @Override

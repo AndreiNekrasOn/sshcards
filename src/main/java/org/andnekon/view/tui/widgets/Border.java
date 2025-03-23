@@ -9,7 +9,7 @@ import com.googlecode.lanterna.TextCharacter;
 import com.googlecode.lanterna.screen.Screen;
 
 /**
- * Border
+ * Border decorator
  */
 public class Border implements Widget {
 

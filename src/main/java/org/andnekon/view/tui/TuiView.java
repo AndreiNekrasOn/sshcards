@@ -9,6 +9,7 @@ import org.andnekon.game.manage.CardManager;
 import org.andnekon.game.manage.NavigationManager;
 import org.andnekon.game.manage.RewardManager;
 import org.andnekon.game.state.State;
+import org.andnekon.utils.StringUtil;
 import org.andnekon.view.AbstractGameView;
 import org.andnekon.view.tui.buffers.Battle;
 import org.andnekon.view.tui.buffers.Buffer;
@@ -17,6 +18,8 @@ import org.andnekon.view.tui.buffers.Navigation;
 import org.andnekon.view.tui.buffers.Reward;
 import org.andnekon.view.tui.buffers.Welcome;
 import org.andnekon.view.tui.widgets.Border;
+import org.andnekon.view.tui.widgets.BottomLine;
+import org.andnekon.view.tui.widgets.Widget;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,6 +34,16 @@ import com.googlecode.lanterna.screen.Screen;
 public class TuiView extends AbstractGameView {
 
     private static final Logger logger = LoggerFactory.getLogger(TuiView.class);
+    // TODO: make this a method depended on the state
+    private static final String help = "HELLO!";
+    // private static final String help = StringUtil.wrap("Navigation: 'q':quit; " +
+            // "'?':help; " +
+            // "'Tab':switch hands; " +
+            // "'m':toggle missile; " +
+            // "'1-5':play card; " +
+            // "'d':view cards; " +
+            // "'w':change target; " +
+            // "'a':view artifacts", 42); // hardcoded
 
     TuiManager manager;
 
@@ -41,15 +54,15 @@ public class TuiView extends AbstractGameView {
 
     // GUI
 
-    private Buffer welcomeWindow;
-    private Buffer menuWindow;
-    private Buffer navigationWindow;
-    private Buffer quitPopup;
-    private Buffer helpPopup;
-    private Buffer deathhPopup;
-    private Buffer rewardPopup;
-    private Buffer battleWindow;
-    private Buffer checkPopup;
+    private Widget welcomeWindow;
+    private Widget menuWindow;
+    private Widget navigationWindow;
+    private Widget quitPopup;
+    private Widget helpPopup;
+    private Widget deathhPopup;
+    private Widget rewardPopup;
+    private Widget battleWindow;
+    private Widget checkPopup;
 
     private boolean helpShown = false;
 
@@ -64,7 +77,7 @@ public class TuiView extends AbstractGameView {
         // single threaded is fine, we have 1 gui per client
         screen.startScreen();
         // hardcoded
-        region = new TerminalRegion(1, 1, 150, 42);
+        region = new TerminalRegion(2, 2, 140, 38);
         arSerivce = new AsciiReaderService();
     }
 
@@ -112,6 +125,8 @@ public class TuiView extends AbstractGameView {
     @Override
     protected void showBattle() {
         battleWindow = new Battle(arSerivce, session.getBattleManager(), region);
+        battleWindow = new Border(battleWindow);
+        // battleWindow = new BottomLine(battleWindow, help);
         battleWindow.draw(screen);
     }
 
