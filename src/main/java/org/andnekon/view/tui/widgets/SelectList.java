@@ -1,18 +1,14 @@
 package org.andnekon.view.tui.widgets;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.stream.Stream;
-
-import org.andnekon.view.tui.TerminalRegion;
-
 import com.googlecode.lanterna.TextCharacter;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.screen.Screen;
 
-/**
- * List with an active selection
- */
+import org.andnekon.view.tui.TerminalRegion;
+
+import java.util.Arrays;
+
+/** List with an active selection */
 public class SelectList implements ActiveWidget {
 
     private int selectedIndex;
@@ -30,9 +26,19 @@ public class SelectList implements ActiveWidget {
     public void draw(Screen screen) {
         for (int i = 0; i < items.length; i++) {
             if (isActive() && i == selectedIndex) {
-                drawLine(screen, TextColor.ANSI.GREEN, region.leftCol(), region.topRow() + i, items[i]);
+                drawLine(
+                        screen,
+                        TextColor.ANSI.GREEN,
+                        region.leftCol(),
+                        region.topRow() + i,
+                        items[i]);
             } else {
-                drawLine(screen, TextColor.ANSI.WHITE, region.leftCol(), region.topRow() + i, items[i]);
+                drawLine(
+                        screen,
+                        TextColor.ANSI.WHITE,
+                        region.leftCol(),
+                        region.topRow() + i,
+                        items[i]);
             }
         }
     }

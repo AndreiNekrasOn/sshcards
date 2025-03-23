@@ -1,13 +1,11 @@
 package org.andnekon.view.tui.widgets;
 
-import java.io.IOException;
-import java.util.Arrays;
-
-import org.andnekon.view.tui.AsciiReaderService;
-import org.andnekon.view.tui.TerminalRegion;
-
 import com.googlecode.lanterna.TextCharacter;
 import com.googlecode.lanterna.screen.Screen;
+
+import org.andnekon.view.tui.TerminalRegion;
+
+import java.util.Arrays;
 
 public class MultiLine implements Widget {
 
@@ -36,6 +34,4 @@ public class MultiLine implements Widget {
     public TerminalRegion getRegion() {
         return this.region;
     }
-
-
 }

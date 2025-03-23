@@ -51,6 +51,5 @@ public class TuiManager {
         return this.session;
     }
 
-    public void processSpecialInput(String result) {
-    }
+    public void processSpecialInput(String result) {}
 }

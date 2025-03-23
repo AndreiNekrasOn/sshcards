@@ -1,13 +1,11 @@
 package org.andnekon.view.tui.widgets;
 
-import org.andnekon.view.tui.TerminalRegion;
-
 import com.googlecode.lanterna.TextCharacter;
 import com.googlecode.lanterna.screen.Screen;
 
-/**
- * Empty
- */
+import org.andnekon.view.tui.TerminalRegion;
+
+/** Empty */
 public class Empty implements Widget {
 
     private TerminalRegion region;
@@ -29,6 +27,4 @@ public class Empty implements Widget {
     public TerminalRegion getRegion() {
         return this.region;
     }
-
-
 }

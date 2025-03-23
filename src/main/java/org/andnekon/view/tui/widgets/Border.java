@@ -1,16 +1,12 @@
 package org.andnekon.view.tui.widgets;
 
-import java.io.IOException;
 
-import org.andnekon.view.tui.TerminalRegion;
-
-import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TextCharacter;
 import com.googlecode.lanterna.screen.Screen;
 
-/**
- * Border decorator
- */
+import org.andnekon.view.tui.TerminalRegion;
+
+/** Border decorator */
 public class Border implements Widget {
 
     private Widget component;
@@ -19,8 +15,12 @@ public class Border implements Widget {
     public Border(Widget component) {
         this.component = component;
         TerminalRegion r = this.component.getRegion();
-        this.region = new TerminalRegion(r.leftCol() - 1, r.topRow() - 1,
-                r.rightCol() + 1, r.botRow() + 1); // why botRightCol +0?
+        this.region =
+                new TerminalRegion(
+                        r.leftCol() - 1,
+                        r.topRow() - 1,
+                        r.rightCol() + 1,
+                        r.botRow() + 1); // why botRightCol +0?
     }
 
     @Override

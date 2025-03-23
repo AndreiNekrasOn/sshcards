@@ -1,29 +1,23 @@
 package org.andnekon.view.tui;
 
-import java.io.IOException;
-import java.util.stream.Collectors;
+import com.googlecode.lanterna.screen.Screen;
 
 import org.andnekon.game.GameSession;
-import org.andnekon.game.action.Card;
-import org.andnekon.game.manage.CardManager;
 import org.andnekon.game.manage.NavigationManager;
 import org.andnekon.game.manage.RewardManager;
 import org.andnekon.game.state.State;
-import org.andnekon.utils.StringUtil;
 import org.andnekon.view.AbstractGameView;
 import org.andnekon.view.tui.buffers.Battle;
-import org.andnekon.view.tui.buffers.Buffer;
 import org.andnekon.view.tui.buffers.MainMenu;
 import org.andnekon.view.tui.buffers.Navigation;
 import org.andnekon.view.tui.buffers.Reward;
 import org.andnekon.view.tui.buffers.Welcome;
 import org.andnekon.view.tui.widgets.Border;
-import org.andnekon.view.tui.widgets.BottomLine;
 import org.andnekon.view.tui.widgets.Widget;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.googlecode.lanterna.screen.Screen;
+import java.io.IOException;
 
 /**
  * TUI view provides graphical (terminal) enviroment for game logic.<br>
@@ -84,8 +78,11 @@ public class TuiView extends AbstractGameView {
     protected void showReward() {
         popup = true;
         RewardManager rewardManager = session.getRewardManager();
-        String[] resources = rewardManager.getRewardOptions().stream()
-            .map(c -> "tui/cards/" + c.getName()).toList().toArray(String[]::new);
+        String[] resources =
+                rewardManager.getRewardOptions().stream()
+                        .map(c -> "tui/cards/" + c.getName())
+                        .toList()
+                        .toArray(String[]::new);
         // TODO: these are random values to test popup logic
         rewardPopup = new Reward(new TerminalRegion(10, 10, 60, 30), resources, arSerivce);
         rewardPopup = new Border(rewardPopup);
@@ -93,8 +90,7 @@ public class TuiView extends AbstractGameView {
     }
 
     @Override
-    protected void showQuitConfirm() {
-    }
+    protected void showQuitConfirm() {}
 
     @Override
     protected void showNavigation() {
@@ -115,8 +111,7 @@ public class TuiView extends AbstractGameView {
     }
 
     @Override
-    protected void showDeath() {
-    }
+    protected void showDeath() {}
 
     @Override
     protected void showBattle() {
@@ -130,6 +125,8 @@ public class TuiView extends AbstractGameView {
         super.display(state);
         try {
             screen.refresh();
-        } catch (IOException e) { e.printStackTrace(); }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

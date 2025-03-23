@@ -1,17 +1,14 @@
 package org.andnekon.view.tui.widgets;
 
-import java.util.function.BiFunction;
-import java.util.function.Function;
+import com.googlecode.lanterna.TerminalPosition;
+import com.googlecode.lanterna.screen.Screen;
 
 import org.andnekon.utils.StringUtil;
 import org.andnekon.view.tui.TerminalRegion;
 
-import com.googlecode.lanterna.TerminalPosition;
-import com.googlecode.lanterna.screen.Screen;
+import java.util.function.Function;
 
-/**
- * Card
- */
+/** Card */
 public class Card implements Widget {
 
     public static final int CARD_WIDTH = 12;
@@ -28,11 +25,15 @@ public class Card implements Widget {
         name = StringUtil.wrap(name, CARD_WIDTH); // border
         description = StringUtil.wrap(description, CARD_WIDTH);
 
-
         nameWidget = new MultiLine(topLeft.getColumn(), topLeft.getRow(), name);
-        costWidget = new SingleLine(String.valueOf(cost),
-                new TerminalPosition(startCol.apply(nameWidget), 1 + endRow.apply(nameWidget)));
-        descWidget = new MultiLine(startCol.apply(costWidget), 1 + endRow.apply(costWidget), description);
+        costWidget =
+                new SingleLine(
+                        String.valueOf(cost),
+                        new TerminalPosition(
+                                startCol.apply(nameWidget), 1 + endRow.apply(nameWidget)));
+        descWidget =
+                new MultiLine(
+                        startCol.apply(costWidget), 1 + endRow.apply(costWidget), description);
     }
 
     @Override
@@ -45,7 +46,10 @@ public class Card implements Widget {
     @Override
     public TerminalRegion getRegion() {
         TerminalRegion left = nameWidget.getRegion();
-        return new TerminalRegion(left.leftCol(), left.topRow(),
-                left.leftCol() + CARD_WIDTH, descWidget.getRegion().botRow());
+        return new TerminalRegion(
+                left.leftCol(),
+                left.topRow(),
+                left.leftCol() + CARD_WIDTH,
+                descWidget.getRegion().botRow());
     }
 }

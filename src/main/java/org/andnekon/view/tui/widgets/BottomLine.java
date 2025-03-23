@@ -1,13 +1,11 @@
 package org.andnekon.view.tui.widgets;
 
-import org.andnekon.view.tui.TerminalRegion;
-
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.screen.Screen;
 
-/**
- * BottomLine decorator
- */
+import org.andnekon.view.tui.TerminalRegion;
+
+/** BottomLine decorator */
 public class BottomLine implements Widget {
 
     private Widget widget;
@@ -23,8 +21,8 @@ public class BottomLine implements Widget {
     public void draw(Screen screen) {
         widget.draw(screen);
         TerminalRegion region = widget.getRegion();
-        Widget helpWidget = new SingleLine(help,
-                new TerminalPosition(region.leftCol(), region.botRow() + 1));
+        Widget helpWidget =
+                new SingleLine(help, new TerminalPosition(region.leftCol(), region.botRow() + 1));
         helpWidget.draw(screen);
     }
 
@@ -33,6 +31,4 @@ public class BottomLine implements Widget {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getRegion'");
     }
-
-
 }

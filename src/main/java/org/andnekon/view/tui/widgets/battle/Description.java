@@ -1,6 +1,6 @@
 package org.andnekon.view.tui.widgets.battle;
 
-import java.util.List;
+import com.googlecode.lanterna.screen.Screen;
 
 import org.andnekon.game.action.Intent;
 import org.andnekon.game.entity.enemy.Enemy;
@@ -9,11 +9,9 @@ import org.andnekon.view.tui.TerminalRegion;
 import org.andnekon.view.tui.widgets.MultiLine;
 import org.andnekon.view.tui.widgets.Widget;
 
-import com.googlecode.lanterna.screen.Screen;
+import java.util.List;
 
-/**
- * Description
- */
+/** Description */
 public class Description implements Widget {
 
     private BattleManager manager;
@@ -43,6 +41,4 @@ public class Description implements Widget {
     public TerminalRegion getRegion() {
         return region;
     }
-
-
 }

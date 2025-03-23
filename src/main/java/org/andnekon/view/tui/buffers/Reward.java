@@ -1,12 +1,12 @@
 package org.andnekon.view.tui.buffers;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.andnekon.view.tui.AsciiReaderService;
 import org.andnekon.view.tui.TerminalRegion;
 import org.andnekon.view.tui.widgets.Widget;
 import org.andnekon.view.tui.widgets.battle.CardHand;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Reward extends Popup {
 

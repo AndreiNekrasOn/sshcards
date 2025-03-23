@@ -1,14 +1,12 @@
 package org.andnekon.view.tui.widgets;
 
-import org.andnekon.view.tui.TerminalRegion;
-
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TextCharacter;
 import com.googlecode.lanterna.screen.Screen;
 
-/**
- * A widget with a single line of text
- */
+import org.andnekon.view.tui.TerminalRegion;
+
+/** A widget with a single line of text */
 public class SingleLine implements Widget {
 
     private String text;
@@ -16,8 +14,12 @@ public class SingleLine implements Widget {
 
     public SingleLine(String text, TerminalPosition topLeft) {
         this.text = text;
-        this.region = new TerminalRegion(topLeft.getColumn(), topLeft.getRow(),
-                topLeft.getColumn() + text.length() - 1, topLeft.getRow());
+        this.region =
+                new TerminalRegion(
+                        topLeft.getColumn(),
+                        topLeft.getRow(),
+                        topLeft.getColumn() + text.length() - 1,
+                        topLeft.getRow());
     }
 
     @Override
@@ -33,4 +35,3 @@ public class SingleLine implements Widget {
         return this.region;
     }
 }
-

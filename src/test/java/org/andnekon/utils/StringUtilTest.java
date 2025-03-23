@@ -1,23 +1,34 @@
 package org.andnekon.utils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import org.andnekon.utils.StringUtil;
+
 import org.junit.jupiter.api.Test;
 
-
-/**
- * TestStringUtil
- */
+/** TestStringUtil */
 public class StringUtilTest {
 
     @Test
     void testWrap() {
         String input, expected, actual;
         int width;
-        input = "Hello,\nMy name is Andrei Nekrasov.\nThis is\nmy wrap string function\n"; width = 6;
-        expected = "Hello,\nMy nam\ne is A\nndrei \nNekras\nov.\nThis i\ns\nmy wra\np stri\nng fun\nction\n";
+        input = "Hello,\nMy name is Andrei Nekrasov.\nThis is\nmy wrap string function\n";
+        width = 6;
+        expected =
+                "Hello,\n"
+                    + "My nam\n"
+                    + "e is A\n"
+                    + "ndrei \n"
+                    + "Nekras\n"
+                    + "ov.\n"
+                    + "This i\n"
+                    + "s\n"
+                    + "my wra\n"
+                    + "p stri\n"
+                    + "ng fun\n"
+                    + "ction\n";
         actual = StringUtil.wrap(input, width);
-        assertEquals(expected, actual);;
+        assertEquals(expected, actual);
+        ;
     }
 
     @Test
@@ -41,7 +52,4 @@ public class StringUtilTest {
         actual = StringUtil.countSubstr(input, substr);
         assertEquals(expected, actual);
     }
-
-
-
 }

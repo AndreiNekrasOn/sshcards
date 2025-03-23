@@ -55,16 +55,15 @@ public class TuiReader implements Reader {
         }
     }
 
-    /**
-     * Modifies recieved input character to match the controller's needs.
-     */
+    /** Modifies recieved input character to match the controller's needs. */
     private String modifyInput(char c) {
         State state = this.manager.getView().getState();
         if (state != null && state.getType() == Type.BATTLE) {
             logger.info("modifyInput for battle");
             if ('0' <= c && c <= '9') {
                 int i = c - '0';
-                int shotHandSize = this.manager.getSession().getPlayer().getShotDeck().getHand().size();
+                int shotHandSize =
+                        this.manager.getSession().getPlayer().getShotDeck().getHand().size();
                 if (i <= shotHandSize) {
                     return "s" + i;
                 }

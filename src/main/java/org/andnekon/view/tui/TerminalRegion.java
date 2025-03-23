@@ -3,9 +3,7 @@ package org.andnekon.view.tui;
 import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.TerminalSize;
 
-/**
- * Represents a rectangle, that hold 2 terminal positions
- */
+/** Represents a rectangle, that hold 2 terminal positions */
 public class TerminalRegion {
 
     private TerminalPosition topLeft;

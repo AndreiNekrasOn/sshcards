@@ -1,16 +1,13 @@
 package org.andnekon.utils;
 
-/**
- * StringUtil
- */
+/** StringUtil */
 public class StringUtil {
 
     /**
-      * @param lines Text to be split. Can contain {@code '\n'}
-      * @param width length of each line in the result text
-      * @return lines, split into hyphenated lines of length {@code width}
-      *
-      */
+     * @param lines Text to be split. Can contain {@code '\n'}
+     * @param width length of each line in the result text
+     * @return lines, split into hyphenated lines of length {@code width}
+     */
     public static String wrap(String lines, int width) {
         StringBuilder sb = new StringBuilder();
         int cnt = 0;
@@ -37,6 +34,4 @@ public class StringUtil {
     public static int countChar(String str, char c) {
         return str.length() - str.replace(String.valueOf(c), "").length();
     }
-
-
 }

@@ -1,22 +1,17 @@
 package org.andnekon.view.tui.buffers;
 
-import java.util.List;
-import java.util.function.BiFunction;
+import com.googlecode.lanterna.screen.Screen;
 
 import org.andnekon.view.tui.TerminalRegion;
 import org.andnekon.view.tui.widgets.Widget;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
-import com.googlecode.lanterna.TerminalSize;
-import com.googlecode.lanterna.screen.Screen;
+import java.util.List;
 
 /**
-  * Buffer is a {@code Widget} that holds other widgets and fills the position with them
-  *
-  * Clears screen when draws
-  */
+ * Buffer is a {@code Widget} that holds other widgets and fills the position with them
+ *
+ * <p>Clears screen when draws
+ */
 public abstract class Buffer implements Widget {
 
     protected TerminalRegion region;

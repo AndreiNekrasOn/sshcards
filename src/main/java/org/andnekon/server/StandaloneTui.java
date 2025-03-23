@@ -14,7 +14,8 @@ public class StandaloneTui {
     public static void main(String[] args) throws IOException {
         Logger root = (Logger) LoggerFactory.getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME);
         root.setLevel(Level.ERROR);
-        GameController controller = GameControllerFactory.createController(true, System.in, System.out);
+        GameController controller =
+                GameControllerFactory.createController(true, System.in, System.out);
         controller.run();
     }
 }

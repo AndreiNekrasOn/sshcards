@@ -1,17 +1,14 @@
 package org.andnekon.view.tui.buffers;
 
-import java.io.IOException;
-import java.util.List;
+import com.googlecode.lanterna.screen.Screen;
 
 import org.andnekon.view.tui.TerminalRegion;
 import org.andnekon.view.tui.widgets.Empty;
 import org.andnekon.view.tui.widgets.Widget;
 
-import com.googlecode.lanterna.screen.Screen;
+import java.util.List;
 
-/**
- * Popup is a buffer that clears screen only in its' region
- */
+/** Popup is a buffer that clears screen only in its' region */
 public abstract class Popup extends Buffer {
 
     public Popup(TerminalRegion region) {
@@ -27,5 +24,4 @@ public abstract class Popup extends Buffer {
             w.draw(screen);
         }
     }
-
 }

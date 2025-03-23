@@ -1,18 +1,15 @@
 package org.andnekon.view.tui.widgets.battle;
 
-import java.io.IOException;
+import com.googlecode.lanterna.screen.Screen;
 
 import org.andnekon.view.tui.AsciiReaderService;
 import org.andnekon.view.tui.TerminalRegion;
-import org.andnekon.view.tui.widgets.Border;
 import org.andnekon.view.tui.widgets.MultiLine;
 import org.andnekon.view.tui.widgets.Widget;
 
-import com.googlecode.lanterna.screen.Screen;
+import java.io.IOException;
 
-/**
- * EnemyCard
- */
+/** EnemyCard */
 public class EnemyCard implements Widget {
 
     public static final int WIDTH = 20;
@@ -20,7 +17,8 @@ public class EnemyCard implements Widget {
     private Widget stateWidget;
     private Widget artWidget;
 
-    public EnemyCard(AsciiReaderService arService, int col, int row, String resource, String enemyState) {
+    public EnemyCard(
+            AsciiReaderService arService, int col, int row, String resource, String enemyState) {
         String art = "<DEFAULT>";
         try {
             art = arService.readFile(resource);
@@ -28,8 +26,9 @@ public class EnemyCard implements Widget {
             e.printStackTrace();
         }
         stateWidget = new MultiLine(col, row, enemyState);
-        artWidget = new MultiLine(
-                stateWidget.getRegion().leftCol(), stateWidget.getRegion().botRow(), art);
+        artWidget =
+                new MultiLine(
+                        stateWidget.getRegion().leftCol(), stateWidget.getRegion().botRow(), art);
     }
 
     @Override
@@ -40,9 +39,10 @@ public class EnemyCard implements Widget {
 
     @Override
     public TerminalRegion getRegion() {
-        return new TerminalRegion(stateWidget.getRegion().leftCol(), stateWidget.getRegion().topRow(),
-                artWidget.getRegion().rightCol(), artWidget.getRegion().botRow());
+        return new TerminalRegion(
+                stateWidget.getRegion().leftCol(),
+                stateWidget.getRegion().topRow(),
+                artWidget.getRegion().rightCol(),
+                artWidget.getRegion().botRow());
     }
-
-
 }

@@ -1,15 +1,13 @@
 package org.andnekon.view.tui.buffers;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.andnekon.view.tui.TerminalRegion;
 import org.andnekon.view.tui.widgets.SelectList;
 import org.andnekon.view.tui.widgets.Widget;
 
-/**
- * Navigation
- */
+import java.util.ArrayList;
+import java.util.List;
+
+/** Navigation */
 public class Navigation extends Buffer {
 
     private List<Widget> widgets = new ArrayList<>();

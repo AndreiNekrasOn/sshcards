@@ -14,9 +14,8 @@ import java.io.OutputStream;
 
 public class GameControllerFactory {
 
-
-    public static GameController createController(
-            boolean tui, InputStream is, OutputStream os) throws IOException {
+    public static GameController createController(boolean tui, InputStream is, OutputStream os)
+            throws IOException {
         GameLogic game = new GameLogic();
         GameSession session = game.getSession();
         GameView view;

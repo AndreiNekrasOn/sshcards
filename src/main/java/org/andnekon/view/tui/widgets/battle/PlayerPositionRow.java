@@ -1,6 +1,7 @@
 package org.andnekon.view.tui.widgets.battle;
 
-import java.io.IOException;
+import com.googlecode.lanterna.TerminalPosition;
+import com.googlecode.lanterna.screen.Screen;
 
 import org.andnekon.utils.StringUtil;
 import org.andnekon.view.tui.AsciiReaderService;
@@ -8,13 +9,10 @@ import org.andnekon.view.tui.TerminalRegion;
 import org.andnekon.view.tui.widgets.MultiLine;
 import org.andnekon.view.tui.widgets.Widget;
 
-import com.googlecode.lanterna.TerminalPosition;
-import com.googlecode.lanterna.screen.Screen;
+import java.io.IOException;
 
-/**
- * PlayerPositionRow
- */
-public class PlayerPositionRow implements Widget{
+/** PlayerPositionRow */
+public class PlayerPositionRow implements Widget {
 
     private TerminalRegion region;
 
@@ -23,10 +21,10 @@ public class PlayerPositionRow implements Widget{
     private Widget playerArt;
 
     /**
-      * @param region region of the widget ! IMPORTANT ! GETS UPDATED to fit
-      */
-    public PlayerPositionRow(AsciiReaderService arService, TerminalRegion region,
-            TerminalPosition artTopLeft) {
+     * @param region region of the widget ! IMPORTANT ! GETS UPDATED to fit
+     */
+    public PlayerPositionRow(
+            AsciiReaderService arService, TerminalRegion region, TerminalPosition artTopLeft) {
         this.region = region;
         String art = StringUtil.wrap("[ERROR LOADING IMAGE]", 12);
         try {
@@ -37,8 +35,10 @@ public class PlayerPositionRow implements Widget{
         // verify here that there's no overlap?
         playerArt = new MultiLine(artTopLeft.getColumn(), artTopLeft.getRow(), art);
         // +2 adjusts for border here
-        region.setBottomRight(new TerminalPosition(region.leftCol() + (EnemyCard.WIDTH + 2)* 3,
-                    playerArt.getRegion().botRow()));
+        region.setBottomRight(
+                new TerminalPosition(
+                        region.leftCol() + (EnemyCard.WIDTH + 2) * 3,
+                        playerArt.getRegion().botRow()));
     }
 
     @Override
@@ -50,6 +50,4 @@ public class PlayerPositionRow implements Widget{
     public TerminalRegion getRegion() {
         return this.region;
     }
-
-
 }
