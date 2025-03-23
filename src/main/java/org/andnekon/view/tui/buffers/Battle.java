@@ -10,6 +10,7 @@ import org.andnekon.view.tui.AsciiReaderService;
 import org.andnekon.view.tui.TerminalRegion;
 import org.andnekon.view.tui.widgets.Border;
 import org.andnekon.view.tui.widgets.Widget;
+import org.andnekon.view.tui.widgets.battle.CardHand;
 import org.andnekon.view.tui.widgets.battle.Description;
 import org.andnekon.view.tui.widgets.battle.EnemyCard;
 import org.andnekon.view.tui.widgets.battle.PlayerPositionRow;
@@ -38,7 +39,7 @@ public class Battle extends Buffer {
                 enemy.getHp(), enemy.getMaxHp(), enemy.getDefense(),
                 "");
         Widget enemyCard = new EnemyCard(arService,
-                playerStats.getRegion().rightCol() + 2, playerStats.getRegion().topRow() + 1,
+                playerStats.getRegion().rightCol() + 1, playerStats.getRegion().topRow() + 1,
                 resource, stats);
         enemyCard = new Border(enemyCard);
         widgets.add(enemyCard);
@@ -47,7 +48,7 @@ public class Battle extends Buffer {
         TerminalRegion ecRegion = enemyCard.getRegion();
         // +1 here adjusts for border
         TerminalRegion playerCardRegion = new TerminalRegion(
-                ecRegion.leftCol() + 1, ecRegion.botRow() + 2, ecRegion.leftCol(), ecRegion.botRow()
+                ecRegion.leftCol() + 1, ecRegion.botRow() + 1, ecRegion.leftCol(), ecRegion.botRow()
                 );
         Widget playerCard = new PlayerPositionRow(arService, playerCardRegion, playerCardRegion.getTopLeft());
         playerCard = new Border(playerCard);
@@ -56,12 +57,33 @@ public class Battle extends Buffer {
         // add relics
 
         Widget description = new Description(manager, new TerminalRegion(
-                    playerCardRegion.rightCol() + 2, ecRegion.topRow(),
+                    playerCardRegion.rightCol() + 2, ecRegion.topRow() + 1,
                     150, playerCardRegion.botRow()
                     ));
+        description = new Border(description);
         widgets.add(description);
 
-        // Widget attackHand =
+        // fill with dummies
+        // can't fill with dummies, gotta reinitialize
+        String[] attackResources = manager.getPlayer().getShotDeck().getHand().stream()
+            .map(c -> "tui/cards/" + c.getName())
+            .toList()
+            .toArray(String[]::new);
+        Widget attackHand = new CardHand(arService, attackResources,
+                new TerminalRegion(playerStats.getRegion().leftCol(), playerCard.getRegion().botRow(),
+                    playerStats.getRegion().leftCol(), playerCard.getRegion().botRow()));
+        widgets.add(attackHand);
+        // for (int i = 0; i < attackResources.length; i++) {
+        //     System.err.println(attackResources[i]);
+        // }
+        String[] skillResources = manager.getPlayer().getArmorDeck().getHand().stream()
+            .map(c -> "tui/cards/" + c.getName())
+            .toList()
+            .toArray(String[]::new);
+        Widget skillHand = new CardHand(arService, skillResources,
+                new TerminalRegion(attackHand.getRegion().rightCol(), playerCard.getRegion().botRow(),
+                    attackHand.getRegion().rightCol(), playerCard.getRegion().botRow()));
+        widgets.add(skillHand);
     }
 
     @Override

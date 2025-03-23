@@ -116,16 +116,16 @@ public class TuiView extends AbstractGameView {
     public void display(State state) {
         // TODO: make smarter with BufferManager
         // screen.clear();
-        if (refresh) {
-            refresh = false;
-        }
-        if (helpShown) {
-            // helpPopup.show();
-        } else if (check) {
-            // checkPopup.show();
-        } else {
-            super.display(state);
-        }
+        // if (refresh) {
+        //     refresh = false;
+        // }
+        // if (helpShown) {
+        //     // helpPopup.show();
+        // } else if (check) {
+        //     // checkPopup.show();
+        // } else {
+        super.display(state);
+        // }
     }
 
     public void setHelpShown(boolean show) {
