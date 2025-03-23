@@ -539,7 +539,7 @@ Next 40 rows are to display what I want the battle window to look like. So the f
 
 [RED IMPORTANT MESSAGE, dissappears on next key press, is stored in log?]
 -----------------------------------------------------------------------------------------------------------------------------------------------------||---
-Navigation: "q":quit; "?":help; "Tab":switch hands; "m":toggle missile; "1-5":play card; "d":view cards; "w":change target, "a":view artifacts       ||
+Navigation: "q":quit; "?":help; "Tab":switch hands; "m":toggle missile; "1-5":play card; "d":view cards; "w":change target; "a":view artifacts       ||
 -----------------------------------------------------------------------------------------------------------------------------------------------------||-
 
 Note, that selection should have several indications: bold text, *-symbol, displayed numbers/displayed arrow

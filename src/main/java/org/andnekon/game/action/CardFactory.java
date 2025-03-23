@@ -39,7 +39,7 @@ public class CardFactory {
             case "Corrosion" -> new Status(name, 1, new Effect(player, "Poison", 1));
             case "Crack" -> new Status(name, 1, new Effect(player, "Vulnurable", 2));
             // armor
-            case "Overdrive" -> new Shot(name, -2, new Attack(player, 5, player));
+            case "Overdrive" -> new Shot(name, -2, new Attack(player, 1, player));
             case "Armor Up" -> new Armor(name, 1, new Defence(player, 1, player));
             case "Better Armor" ->
                     new Armor(

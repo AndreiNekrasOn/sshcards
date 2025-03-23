@@ -16,7 +16,7 @@ public class Card implements Widget {
 
     public static final int CARD_WIDTH = 12;
 
-    private Widget artWidget;
+    private Widget nameWidget;
     private Widget costWidget;
     private Widget descWidget;
 
@@ -24,27 +24,28 @@ public class Card implements Widget {
     private Function<Widget, Integer> endRow = w -> w.getRegion().botRow();
 
     // TODO: replace parameters with cardInfoService
-    public Card(TerminalPosition topLeft, String art, int cost, String description) {
-        art = StringUtil.wrap(art, CARD_WIDTH); // border
+    public Card(TerminalPosition topLeft, String name, int cost, String description) {
+        name = StringUtil.wrap(name, CARD_WIDTH); // border
         description = StringUtil.wrap(description, CARD_WIDTH);
 
 
-        artWidget = new MultiLine(topLeft.getColumn(), topLeft.getRow(), art);
+        nameWidget = new MultiLine(topLeft.getColumn(), topLeft.getRow(), name);
         costWidget = new SingleLine(String.valueOf(cost),
-                new TerminalPosition(startCol.apply(artWidget), 1 + endRow.apply(artWidget)));
+                new TerminalPosition(startCol.apply(nameWidget), 1 + endRow.apply(nameWidget)));
         descWidget = new MultiLine(startCol.apply(costWidget), 1 + endRow.apply(costWidget), description);
     }
 
     @Override
     public void draw(Screen screen) {
-        artWidget.draw(screen);
+        nameWidget.draw(screen);
         costWidget.draw(screen);
         descWidget.draw(screen);
     }
 
     @Override
     public TerminalRegion getRegion() {
-        return new TerminalRegion(artWidget.getRegion().leftCol(), artWidget.getRegion().topRow(),
-                descWidget.getRegion().rightCol(), descWidget.getRegion().botRow());
+        TerminalRegion left = nameWidget.getRegion();
+        return new TerminalRegion(left.leftCol(), left.topRow(),
+                left.leftCol() + CARD_WIDTH, descWidget.getRegion().botRow());
     }
 }

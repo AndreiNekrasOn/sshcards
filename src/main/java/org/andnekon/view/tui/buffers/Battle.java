@@ -115,8 +115,10 @@ public class Battle extends Buffer {
             .map(c -> "tui/cards/" + c.getName())
             .toList()
             .toArray(String[]::new);
-        Widget skillHand = new CardHand(arService, skillResources, skillRegion);
-        widgets.add(skillHand);
+        if (skillResources.length > 0){
+            Widget skillHand = new CardHand(arService, skillResources, skillRegion);
+            widgets.add(skillHand);
+        }
     }
 
     private void setupHelp() {
@@ -136,6 +138,4 @@ public class Battle extends Buffer {
     protected List<Widget> widgets() {
         return this.widgets;
     }
-
-
 }

@@ -83,8 +83,8 @@ public class TuiView extends AbstractGameView {
     protected void showReward() {
         RewardManager rewardManager = session.getRewardManager();
         String[] resources = rewardManager.getRewardOptions().stream()
-            .map(Card::getName).toList().toArray(String[]::new);
-        rewardPopup = new Reward(new TerminalRegion(20, 20, 20, 20), resources, arSerivce);
+            .map(c -> "tui/cards/" + c.getName()).toList().toArray(String[]::new);
+        rewardPopup = new Reward(region, resources, arSerivce);
         rewardPopup.draw(screen);
     }
 

@@ -38,15 +38,16 @@ public class CardHand implements ActiveWidget {
         TerminalRegion prevCardRegion = new TerminalRegion(region.leftCol(), region.topRow() + 2,
                 region.leftCol(), region.topRow() + 2);
         for (int i = 0; i < cardResources.length; i++) {
+            String[] info;
             try {
-                String[] info = service.readFile(cardResources[i]).split(":\n");
-                assert(info.length == 4);
-                Widget card = buildCardWidget(info, prevCardRegion, i);
-                prevCardRegion = card.getRegion();
-                this.widgets.add(card);
+                info = service.readFile(cardResources[i]).split(":\n");
             } catch (IOException e) {
-                return;
+                info = new String[]{"0", cardResources[i], "ERROR", "ERROR"};
             }
+            assert(info.length == 4);
+            Widget card = buildCardWidget(info, prevCardRegion, i);
+            prevCardRegion = card.getRegion();
+            this.widgets.add(card);
         }
         this.region.setBottomRight(
                 this.widgets.get(this.widgets.size() - 1).getRegion().getBottomRight()
