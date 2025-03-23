@@ -25,8 +25,16 @@ public class TerminalRegion {
         return topLeft;
     }
 
+    public void setTopLeft(TerminalPosition topLeft) {
+        this.topLeft = topLeft;
+    }
+
     public TerminalPosition getBottomRight() {
         return bottomRight;
+    }
+
+    public void setBottomRight(TerminalPosition bottomRight) {
+        this.bottomRight = bottomRight;
     }
 
     public int leftCol() {

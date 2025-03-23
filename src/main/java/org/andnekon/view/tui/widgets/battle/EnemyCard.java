@@ -15,6 +15,8 @@ import com.googlecode.lanterna.screen.Screen;
  */
 public class EnemyCard implements Widget {
 
+    public static final int WIDTH = 20;
+
     private Widget stateWidget;
     private Widget artWidget;
 

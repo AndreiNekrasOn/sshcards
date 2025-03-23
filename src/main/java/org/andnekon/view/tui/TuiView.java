@@ -16,6 +16,7 @@ import org.andnekon.view.tui.buffers.MainMenu;
 import org.andnekon.view.tui.buffers.Navigation;
 import org.andnekon.view.tui.buffers.Reward;
 import org.andnekon.view.tui.buffers.Welcome;
+import org.andnekon.view.tui.widgets.Border;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
