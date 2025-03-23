@@ -35,7 +35,7 @@ public class TuiView extends AbstractGameView {
 
     private static final Logger logger = LoggerFactory.getLogger(TuiView.class);
     // TODO: make this a method depended on the state
-    private static final String help = "HELLO!";
+    // private static final String help = "HELLO!";
 
     TuiManager manager;
 
@@ -56,11 +56,7 @@ public class TuiView extends AbstractGameView {
     private Widget battleWindow;
     private Widget checkPopup;
 
-    private boolean helpShown = false;
-
-    private boolean refresh;
-
-    private boolean check;
+    private boolean popup = false;
 
     TuiView(GameSession session, TuiManager manager) throws IOException {
         this.session = session;
@@ -77,14 +73,22 @@ public class TuiView extends AbstractGameView {
     public void welcome() {
         welcomeWindow = new Welcome(screen.getTerminalSize(), arSerivce);
         welcomeWindow.draw(screen);
+        try {
+            screen.refresh();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     protected void showReward() {
+        popup = true;
         RewardManager rewardManager = session.getRewardManager();
         String[] resources = rewardManager.getRewardOptions().stream()
             .map(c -> "tui/cards/" + c.getName()).toList().toArray(String[]::new);
-        rewardPopup = new Reward(region, resources, arSerivce);
+        // TODO: these are random values to test popup logic
+        rewardPopup = new Reward(new TerminalRegion(10, 10, 60, 30), resources, arSerivce);
+        rewardPopup = new Border(rewardPopup);
         rewardPopup.draw(screen);
     }
 
@@ -117,44 +121,15 @@ public class TuiView extends AbstractGameView {
     @Override
     protected void showBattle() {
         battleWindow = new Battle(arSerivce, session.getBattleManager(), region);
-        // battleWindow = new Border(battleWindow);
-        // battleWindow = new BottomLine(battleWindow, help);
         battleWindow.draw(screen);
     }
 
     @Override
     public void display(State state) {
         // TODO: make smarter with BufferManager
-        screen.clear();
-        // if (refresh) {
-        //     refresh = false;
-        // }
-        // if (helpShown) {
-        //     // helpPopup.show();
-        // } else if (check) {
-        //     // checkPopup.show();
-        // } else {
         super.display(state);
-        // }
-    }
-
-    public void setHelpShown(boolean show) {
-        this.helpShown = show;
-    }
-
-    public boolean isHelpShown() {
-        return this.helpShown;
-    }
-
-    public void setRefresh() {
-        this.refresh = true;
-    }
-
-    public void setCheck(boolean check) {
-        this.check = check;
-    }
-
-    public boolean isCheck() {
-        return this.check;
+        try {
+            screen.refresh();
+        } catch (IOException e) { e.printStackTrace(); }
     }
 }

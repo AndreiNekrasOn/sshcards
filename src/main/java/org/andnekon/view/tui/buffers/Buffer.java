@@ -14,6 +14,8 @@ import com.googlecode.lanterna.screen.Screen;
 
 /**
   * Buffer is a {@code Widget} that holds other widgets and fills the position with them
+  *
+  * Clears screen when draws
   */
 public abstract class Buffer implements Widget {
 
@@ -38,9 +40,6 @@ public abstract class Buffer implements Widget {
             // }
             w.draw(screen);
         }
-        try {
-            screen.refresh();
-        } catch (IOException e) { e.printStackTrace(); }
     }
 
     @Override

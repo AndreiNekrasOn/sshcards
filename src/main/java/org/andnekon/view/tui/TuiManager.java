@@ -52,18 +52,5 @@ public class TuiManager {
     }
 
     public void processSpecialInput(String result) {
-        if ("?".equals(result)) {
-            view.setHelpShown(true);
-        } else if (view.isHelpShown()) {
-            view.setHelpShown(false);
-        }
-        if ("r".equals(result)) {
-            view.setRefresh();
-        }
-        if ("c".equals(result)) {
-            view.setCheck(true);
-        } else if (view.isCheck()) {
-            view.setCheck(false);
-        }
     }
 }
