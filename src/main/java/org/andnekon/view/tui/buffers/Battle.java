@@ -114,18 +114,19 @@ public class Battle extends Buffer {
         TerminalRegion attackRegion =
                 new TerminalRegion(
                         playerStats.getRegion().leftCol(),
-                        playerCard.getRegion().botRow(),
+                        playerCard.getRegion().botRow() + 2, // for border
                         playerStats.getRegion().leftCol(),
-                        playerCard.getRegion().botRow());
+                        playerCard.getRegion().botRow() + 2);
         if (attackResources.length > 0) {
             Widget attackHand = new CardHand(arService, attackResources, attackRegion);
+            attackHand = new Border(attackHand);
             widgets.add(attackHand);
             skillRegion =
                     new TerminalRegion(
                             attackHand.getRegion().rightCol(),
-                            playerCard.getRegion().botRow(),
+                            playerCard.getRegion().botRow() + 2,
                             attackHand.getRegion().rightCol(),
-                            playerCard.getRegion().botRow());
+                            playerCard.getRegion().botRow() + 2);
         } else {
             skillRegion = attackRegion;
         }
@@ -137,6 +138,7 @@ public class Battle extends Buffer {
                         .toArray(String[]::new);
         if (skillResources.length > 0) {
             Widget skillHand = new CardHand(arService, skillResources, skillRegion);
+            skillHand = new Border(skillHand);
             widgets.add(skillHand);
         }
     }
