@@ -10,14 +10,18 @@ import org.andnekon.view.AbstractGameView;
 import org.andnekon.view.tui.buffers.Battle;
 import org.andnekon.view.tui.buffers.MainMenu;
 import org.andnekon.view.tui.buffers.Navigation;
+import org.andnekon.view.tui.buffers.Popup;
 import org.andnekon.view.tui.buffers.Reward;
 import org.andnekon.view.tui.buffers.Welcome;
 import org.andnekon.view.tui.widgets.Border;
+import org.andnekon.view.tui.widgets.Empty;
+import org.andnekon.view.tui.widgets.SingleLine;
 import org.andnekon.view.tui.widgets.Widget;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * TUI view provides graphical (terminal) enviroment for game logic.<br>
@@ -90,7 +94,22 @@ public class TuiView extends AbstractGameView {
     }
 
     @Override
-    protected void showQuitConfirm() {}
+    protected void showQuitConfirm() {
+        final String quitLine = "Quit? y/n";
+        int j = region.botRow() / 2;
+        int i = region.rightCol() / 2;
+        var quitRegion = new TerminalRegion(i, j, i + quitLine.length() + 2, j + 2);
+        quitPopup = new Popup(quitRegion) {
+            @Override
+            protected List<Widget> widgets() {
+                Widget empty = new Empty(quitRegion);
+                Widget quit = new SingleLine(quitLine, quitRegion.getTopLeft());
+                quit = new Border(quit)
+                return List.of(empty, quit);
+            }
+        };
+        quitPopup.draw(screen);
+    }
 
     @Override
     protected void showNavigation() {
