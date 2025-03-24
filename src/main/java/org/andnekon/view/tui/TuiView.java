@@ -1,6 +1,6 @@
 package org.andnekon.view.tui;
 
-import com.googlecode.lanterna.screen.Screen;
+import java.io.IOException;
 
 import org.andnekon.game.GameSession;
 import org.andnekon.game.manage.NavigationManager;
@@ -14,14 +14,11 @@ import org.andnekon.view.tui.buffers.Popup;
 import org.andnekon.view.tui.buffers.Reward;
 import org.andnekon.view.tui.buffers.Welcome;
 import org.andnekon.view.tui.widgets.Border;
-import org.andnekon.view.tui.widgets.Empty;
-import org.andnekon.view.tui.widgets.SingleLine;
 import org.andnekon.view.tui.widgets.Widget;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
-import java.util.List;
+import com.googlecode.lanterna.screen.Screen;
 
 /**
  * TUI view provides graphical (terminal) enviroment for game logic.<br>
@@ -31,7 +28,6 @@ import java.util.List;
  */
 public class TuiView extends AbstractGameView {
 
-    private static final Logger logger = LoggerFactory.getLogger(TuiView.class);
     // TODO: make this a method depended on the state
     // private static final String help = "HELLO!";
 
@@ -40,7 +36,9 @@ public class TuiView extends AbstractGameView {
     private Screen screen;
     private AsciiReaderService arSerivce;
 
-    private final TerminalRegion region;
+    private static final TerminalRegion region = new TerminalRegion(2, 2, 140, 38);
+    private static final int halfCol = (140 - 2) / 2;
+    private static final int halfRow = (38 - 2) / 2;
 
     // GUI
 
@@ -52,9 +50,6 @@ public class TuiView extends AbstractGameView {
     private Widget deathhPopup;
     private Widget rewardPopup;
     private Widget battleWindow;
-    private Widget checkPopup;
-
-    private boolean popup = false;
 
     TuiView(GameSession session, TuiManager manager) throws IOException {
         this.session = session;
@@ -62,8 +57,6 @@ public class TuiView extends AbstractGameView {
         this.screen = manager.getScreen();
         // single threaded is fine, we have 1 gui per client
         screen.startScreen();
-        // hardcoded
-        region = new TerminalRegion(2, 2, 140, 38);
         arSerivce = new AsciiReaderService();
     }
 
@@ -80,7 +73,6 @@ public class TuiView extends AbstractGameView {
 
     @Override
     protected void showReward() {
-        popup = true;
         RewardManager rewardManager = session.getRewardManager();
         String[] resources =
                 rewardManager.getRewardOptions().stream()
@@ -96,18 +88,8 @@ public class TuiView extends AbstractGameView {
     @Override
     protected void showQuitConfirm() {
         final String quitLine = "Quit? y/n";
-        int j = region.botRow() / 2;
-        int i = region.rightCol() / 2;
-        var quitRegion = new TerminalRegion(i, j, i + quitLine.length() + 2, j + 2);
-        quitPopup = new Popup(quitRegion) {
-            @Override
-            protected List<Widget> widgets() {
-                Widget empty = new Empty(quitRegion);
-                Widget quit = new SingleLine(quitLine, quitRegion.getTopLeft());
-                quit = new Border(quit)
-                return List.of(empty, quit);
-            }
-        };
+        quitPopup = new Popup(new TerminalRegion(halfCol, halfRow,
+                    halfCol + quitLine.length() + 2, halfRow + 2), quitLine);
         quitPopup.draw(screen);
     }
 
@@ -130,7 +112,12 @@ public class TuiView extends AbstractGameView {
     }
 
     @Override
-    protected void showDeath() {}
+    protected void showDeath() {
+        final String dedLine = "You ded. Again? y/n";
+        deathhPopup = new Popup(new TerminalRegion(halfCol, halfRow,
+                    halfCol + dedLine.length() + 2, halfRow + 2), dedLine);
+        deathhPopup.draw(screen);
+    }
 
     @Override
     protected void showBattle() {
