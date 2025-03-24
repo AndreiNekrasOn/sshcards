@@ -33,7 +33,7 @@ public class MainMenu extends Buffer {
                         title.getRegion().leftCol(),
                         borderWrap.getRegion().botRow() + 1,
                         new String[] {
-                            "1. Hello", "2. Goodbye",
+                            "1. Hello", "4. Quit",
                         });
         Widget borderMenu = new Border(menuList);
         this.widgets.add(borderWrap);

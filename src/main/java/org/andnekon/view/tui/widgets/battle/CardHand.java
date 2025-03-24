@@ -9,6 +9,7 @@ import org.andnekon.view.tui.TerminalRegion;
 import org.andnekon.view.tui.widgets.ActiveWidget;
 import org.andnekon.view.tui.widgets.Border;
 import org.andnekon.view.tui.widgets.Card;
+import org.andnekon.view.tui.widgets.SingleLine;
 import org.andnekon.view.tui.widgets.Widget;
 
 import java.io.IOException;
@@ -28,6 +29,10 @@ public class CardHand implements ActiveWidget {
     private List<Widget> widgets;
 
     public CardHand(AsciiReaderService service, String[] cardResources, TerminalRegion region) {
+        this(service, cardResources, region, 0);
+    }
+
+    public CardHand(AsciiReaderService service, String[] cardResources, TerminalRegion region, int cardIdxOffset) {
         this.manager = manager;
         this.region = region;
         this.widgets = new ArrayList<>();
@@ -46,20 +51,12 @@ public class CardHand implements ActiveWidget {
                 info = new String[] {"0", cardResources[i], "ERROR", "ERROR"};
             }
             assert (info.length == 4);
-            Widget card = buildCardWidget(info, prevCardRegion, i);
+            Widget card = buildCardWidget(info, prevCardRegion, i + cardIdxOffset);
             prevCardRegion = card.getRegion();
             this.widgets.add(card);
         }
         this.region.setBottomRight(
                 this.widgets.get(this.widgets.size() - 1).getRegion().getBottomRight());
-        //
-        // // didn't figure out how to position cards better
-        // for (int i = 0; i < widgets.size(); i++) {
-        //     Widget widget = widgets.get(i);
-        //     if (widget instanceof Card) {
-        //         widgets.set(i, new Border(widget));
-        //     }
-        // }
     }
 
     private Widget buildCardWidget(String[] info, TerminalRegion prevCardRegion, int idx) {
@@ -76,9 +73,11 @@ public class CardHand implements ActiveWidget {
                         cost,
                         description);
         card = new Border(card);
-        // Widget selectIdx = new SingleLine(String.valueOf(idx),
-        //         new TerminalPosition(card.getRegion().leftCol(), card.getRegion().topRow() - 2));
-        // this.widgets.add(selectIdx);
+        var cRegion = card.getRegion();
+        int middle = cRegion.leftCol() + (cRegion.rightCol() - cRegion.leftCol()) / 2;
+        Widget selectIdx = new SingleLine(String.valueOf(1 + idx),
+                new TerminalPosition(middle, cRegion.topRow() - 1));
+        this.widgets.add(selectIdx);
         return card;
     }
 

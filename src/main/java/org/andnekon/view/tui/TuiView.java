@@ -99,7 +99,7 @@ public class TuiView extends AbstractGameView {
         TerminalRegion fullScreen = new TerminalRegion(screen.getTerminalSize());
         String[] options = manager.getNavigationOptionsArray();
         for (int i = 0; i < options.length; i++) {
-            options[i] = String.format("%d. %s", i, options[i]);
+            options[i] = String.format("%d. %s", i + 1, options[i]);
         }
         navigationWindow = new Navigation(fullScreen, options);
         navigationWindow.draw(screen);

@@ -137,7 +137,7 @@ public class Battle extends Buffer {
                         .toList()
                         .toArray(String[]::new);
         if (skillResources.length > 0) {
-            Widget skillHand = new CardHand(arService, skillResources, skillRegion);
+            Widget skillHand = new CardHand(arService, skillResources, skillRegion, attackResources.length);
             skillHand = new Border(skillHand);
             widgets.add(skillHand);
         }
