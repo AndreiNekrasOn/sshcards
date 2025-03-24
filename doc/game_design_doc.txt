@@ -488,13 +488,13 @@ So, for implementing this, I need to:
 4) rework enemies to match player's style, implement simple logic for them
 
 ## Plans on v.03
-1) TUI: no need in multiple windows (most of the time), just change the component
-2) TUI: add ASCII-art in battle
-3) TUI: tabbed windows/popups, more info in battle (statuses, draw/discard piles)
-3) MainMenu: about page, switching back, continue
-4) MOAR CARDS
-5) fix annoying server bug where I can't stop it, allow for multiple clients
-6) Pretty display as described below
+- [x] 1) TUI: no need in multiple windows (most of the time), just change the component
+- [x] 2) TUI: add ASCII-art in battle
+- [ ] 3) TUI: tabbed windows/popups, more info in battle (statuses, draw/discard piles)
+- [ ] 3) MainMenu: about page, switching back, continue
+- [ ] 4) MOAR CARDS
+- [ ] 5) fix annoying server bug where I can't stop it, allow for multiple clients
+- [x] 6) Pretty display as described below
 
 I wan to create a real UI. First of all, I need to force a specific screen "resolution".
 Then I want to have "widgets" for everything - starting from select-style menus, to cards in battle.
