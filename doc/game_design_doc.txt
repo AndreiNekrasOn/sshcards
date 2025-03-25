@@ -491,10 +491,8 @@ So, for implementing this, I need to:
 - [x] 1) TUI: no need in multiple windows (most of the time), just change the component
 - [x] 2) TUI: add ASCII-art in battle
 - [ ] 3) TUI: tabbed windows/popups, more info in battle (statuses, draw/discard piles)
-- [ ] 3) MainMenu: about page, switching back, continue
-- [ ] 4) MOAR CARDS
-- [ ] 5) fix annoying server bug where I can't stop it, allow for multiple clients
-- [x] 6) Pretty display as described below
+- [ ] 4) MainMenu: about page, switching back, continue
+- [x] 5) Pretty display as described below
 
 I wan to create a real UI. First of all, I need to force a specific screen "resolution".
 Then I want to have "widgets" for everything - starting from select-style menus, to cards in battle.
@@ -564,3 +562,14 @@ For artifacts maybe I can come up with ascii-art like for dice? It's also an opt
 |_______|
 
 Then, for better decoupling of logic from UI, I need to represent each state as a (text/serializable) object. This would make API muh simpler, and the controller wouldn't have to know anything about the UI. Right now GameController needs to convert between different UIs, which is not right. Having View+Reader in GameController factory is also bad design. In fact, I need to visualize the design better - uml diagram, but by hand. And then change it to a sane one.
+
+## Plans for v0.4
+v0.4 - game content and balance
+- [ ] 1. Game balance view and logic (draft deck, select any enemy, quick restart)
+- [ ] 2. Process status effects
+- [ ] 3. Skip card option
+- [ ] 4. Add draw mechanic
+- [ ] 5. Add more cards
+- [ ] 6. Balance cards
+- [ ] 7. Add rest of the enemies
+- [ ] 8. Combat abstraction - up to 3 enemies per battle

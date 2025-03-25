@@ -65,10 +65,15 @@ public class GameController {
 
     public void run() {
         view.welcome();
-        String in = reader.read();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         do {
             view.display(game.getCurrentState()); // sends data to the os
-            in = reader.read();
+            String in = reader.read();
             GameAction action = mapInputtoAction(in);
             logger.info("transformed input [{}] to action {}", in, action);
             game.process(action);
