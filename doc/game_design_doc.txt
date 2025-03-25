@@ -569,8 +569,8 @@ v0.4 - game content and balance
 - [ ] 1.1 Optional - ActiveWidget highlighting
 - [ ] 2. Process status effects
 - [x] 3. Skip card option
-- [ ] 4. Add draw mechanic
-- [ ] 5. Add more cards
+- [x] 4. Add draw mechanic
+- [.] 5. Add more cards
 - [ ] 6. Balance cards
 - [ ] 7. Add rest of the enemies
 - [ ] 8. Combat abstraction - up to 3 enemies per battle
