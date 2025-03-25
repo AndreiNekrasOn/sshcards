@@ -51,6 +51,7 @@ public class GameLogic {
             session.setPreviousState(previousState);
         }
         currentState = state;
+        session.setCurrentState(currentState);
     }
 
     public void process(GameAction action) {

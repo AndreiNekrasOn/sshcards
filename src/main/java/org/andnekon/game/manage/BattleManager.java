@@ -6,6 +6,7 @@ import org.andnekon.game.entity.enemy.Enemy;
 public class BattleManager implements StateManager {
 
     private Player player;
+
     private Enemy enemy;
 
     /** Turn number, with turn 0 meaning that the battle is not initialized */
@@ -29,6 +30,10 @@ public class BattleManager implements StateManager {
     @Override
     public void setInit(boolean init) {
         this.turn = init ? 1 : 0;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
     public Enemy getEnemy() {

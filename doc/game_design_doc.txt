@@ -1,0 +1,576 @@
+# Dice
+
+ ________
+|       |
+|   o   |
+|       |
+|_______|
+ ________
+| o     |
+|       |
+|     o |
+|_______|
+ ________
+| o     |
+|   o   |
+|     o |
+|_______|
+ ________
+| o   o |
+|       |
+| o   o |
+|_______|
+ ________
+| o   o |
+|   o   |
+| o   o |
+|_______|
+ ________
+| o   o |
+| o   o |
+| o   o |
+|_______|
+
+
+# Cards
+
+Ship
+
+ _______________________|_______|___
+|                       |_______|   |
+|                       |hull   |   |
+|                       |30.....|   |
+|         ____          |shield.|   |
+|        /    \\        |15.....|   |
+|       |______||       |       |   |
+|       |  _   ||       |_______|   |
+|       | |_|  ||       |systems|   |
+|       |      ||       |-------|   |
+|   -  /|e     |\| -    |o2   1 |   |
+|   - / |c     | \\-    |wpn  1 |   |
+|   -/  |h     |  \\    |eng  1 |   |
+|   |   |o     |   ||   |wrp  1 |   |
+|   |   |      |   ||   |scn  1 |   |
+|   |   |      |   ||   |shl  1 |   |
+|    ===|      |===`    |-------|   |
+|       |=~=~=~|`       |       |   |
+|        !#!!#!         |       |   |
+|         !#!!          |       |   |
+|_______________________|_______|___|
+                        |       |
+
+Progress bar:
+
+ /________________________________\
+$ ##### \\ ##### \\ ##### \\ ##### |$
+ \--------------------------------/
+
+
+Super Space Heroes
+ _________________________________________________
+/                                                  \
+|     ______   __   _   _____    _____   _______   |
+|   _/  ___/  | |  ||  |   o |  | /////  |   o |   |
+| ___|___  \__| |  ||  | -___|  |  ---|  | - __|   |
+|     ___| |  | |__||  | |      |  ---|  | |  \\   |
+|____|____/___|____||__|_| _ _ _|_/////  |_|  \|   |
+|                                                  |
+|     ______   _____     ___     ______   _____    |
+|   _/  ___/  |   o |  /  0  \  / ____|  | /////   |
+| ___|___  \_ | -___|  |-----|  | |      |  ---|   |
+|     ___| |  | |      ||===||  | |___   |  ---|   |
+|____|____/___|_|___ _ ||   ||_ (_____|  |_/////   |
+|                                                  |
+|     _    _    ______   _____     ______     _    |
+|   _| |  | |  | /////  |   o |   |      |   | |   |
+| ___| |= = |_ |  ---|  | - __|   |  /\  |   | |   |
+|    | |= = |  |  ---|  | |  \\   |  \/  |   |_|   |
+|____|_|__|_|__|_/////_ |_|  \|   |_____ |    0    |
+\________________________________________________ /|
+ \_______________________________________________/_/
+
+ Screen
+
+CAPTAINS LOG:
+| NAME_RED | Hull | Shield | STATUS | INTENT | WARP
+Colorful info, with a fixed enemy system
+Scrollable? log of enemy actions
+
+PLAYER INFO
+ _______________________|_______|_
+| *           *         |_______| |
+|          *       /#\  |       | |     Actions
+|       |______||       |hull   | |     [0*] Warp <2>
+|                  \_|  |30.....| |     [1]  Shoot <1>
+|     *   ____          |shield.| |     [2]  Dodge <1>
+|        /    \\        |15.....| |     [3]  Shield <1>
+|       |  _   ||       |_______| |
+|       | |_|  ||   *   |systems| |             _______
+|  *    |      ||       |-------| |     Input: |1-2-4-1|
+|   -  /|e     |\| -    |o2   1 | |     Confirm: <Enter>
+|   - / |c     | \\-    |wpn  1 | |
+|   -/  |h     |  \\    |eng  1 | |
+|   |   |o     |   ||   |wrp  1 | |
+|   |   |      |   ||   |scn  1 | |   ________  ________
+|   |   |      |   ||   |shl  1 | |  |       | | o   o |
+|    ===|      |===`    |-------| |  |   o   | |       |
+|     * |=~=~=~|`       |       | |  |       | | o   o |
+|  *     !#!!#!         |       | |  |_______| |_______|
+|         !#!!        * |    30$| |
+|_______________________|_______|_|
+                        |       |
+HELP AREA
+Permanent footer
+? - help, <number> - action, <enter> - end turn, i - info
+<esc> - toggle main menu (single player only), <C-q> - quit
+
+? - help should take you to the screen with scrollable menu, descrabing everything about the game in markdown, in the footer: <esc> to go back, <C-q> to quit
+i - should display modal window with information about your cards, and enemy cards on the second page, with an instruction how to quit, and <esc> near the exit-cross
+e - display enemy info
+
+Reward should be a modal window as well, an animation for screen redrawing should play
+
+## GAMEPLAY
+
+0. You are presented with a greeting ascii screen on connect.
+1. Entry point - main menu. Story mode, Continue (grayed out), About, Quit, Settings. Donate message. Each item has a shortkey next to it (to the left). Menu is centered. On the background there are starts, sometimes new appear, sometimes quick flying star animation (it's a perk, add after)
+2. Settings allow you to change your nickname, set your display mode (ascii tui/no-ascii tui/console), limit terminal size
+2. Campaign mode presents you with a short story text, then a quick rundown of the rules. After that there's an input to enter ship's name (or leave default)
+3. After that you are thrown into a fight against a simple strategy enemy: Laser + Dodge or Laser + Laser, with low base stats
+Enemies are randomized during their initialization, your actions - every turn?
+4. After you defeat an enemy, you recieve gold.
+5. elite fights
+ ---------------------------------|
+| NAME             [ ATC / MOV  ] |
+| HP 300   DEF 99                 |
+| [psn  vln  weak    conf         |
+|_______________________|_______|_|
+|)      (}  (|    )     |_______| |
+|(      ((  <)    ()    |       | |     Actions
+| ()    ((         )(   |hull   | |     [0*] Warp <2>
+|  )               (/   |30.....| |     [1]  Shoot <1>
+|                  |    |shield.| |     [2]  Dodge <1>
+|                 /\    |15.....| |     [3]  Shield <1>
+|                       |_______| |
+|                       |systems| |             _______
+|                       |-------| |     Input: |1-2-4-1|
+|                       |o2   1 | |     Confirm: <Enter>
+|                       |wpn  1 | |
+|         ____          |eng  1 | |
+|        /    \\        |wrp  1 | |
+|       |  _   ||       |scn  1 | |   ________  ________
+|       | |_|  ||       |shl  1 | |  |       | | o   o |
+|       |      ||       |-------| |  |   o   | |       |
+|   -  /|e     |\| -    |       | |  |       | | o   o |
+|   - / |c     | \\-    |       | |  |_______| |_______|
+|   -/  |h     |  \\    |    30$| |
+|_______________________|_______|_|
+
+## Monster designs
+
+ ---------------------------------|
+| THE HORROR       [ ATC / MOV  ] |
+| HP 300   DEF 99                 |
+| [psn  vln  weak    conf         |
+|_______________________|_______|_|
+|)      (}  (|    )     |_______| |
+|(      ((  <)    ()    |       | |
+| ()    ((         )(   |hull   | |
+|  )               (/   |30.....| |
+|                  |    |shield.| |
+|                 /\    |15.....| |
+|                       |_______| |
+|                       |systems| |
+
+ ---------------------------------|
+| PIRATES          [ ATC / MOV  ] |
+| HP 300   DEF 99                 |
+| [psn  vln  weak    conf         |
+|_______________________|_______|_|
+|     || x|||           |_______| |
+|     \\\_///           |       | |
+|                       |hull   | |
+|                       |30.....| |
+|                       |shield.| |
+|                       |15.....| |
+|                       |_______| |
+
+ ---------------------------------|
+| SPACE SAUSAGE    [ ATC / MOV  ] |
+| HP 300   DEF 99                 |
+| [psn  vln  weak    conf         |
+|_______________________|_______|_|
+|                       |_______| |
+| (===================) |       | |
+|                       |hull   | |
+|                       |30.....| |
+|                       |shield.| |
+|                       |15.....| |
+|                       |_______| |
+
+ ---------------------------------|
+| GIRTH            [ ATC / MOV  ] |
+| HP 300   DEF 99                 |
+| [psn  vln  weak    conf         |
+|_______________________|_______|_|
+|        | |            |_______| |
+|       _|_|_           |       | |
+|      (_) (_)          |hull   | |
+|                       |30.....| |
+|                       |shield.| |
+|                       |15.....| |
+|                       |_______| |
+
+ ---------------------------------|
+| CRAB             [ ATC / MOV  ] |
+| HP 300   DEF 99                 |
+| [psn  vln  weak    conf         |
+|_______________________|_______|_|
+|  ||___         __||   |_______| |
+|  ||__ \       /_/||   |       | |
+|  (  \ \\       /_//   |hull   | |
+|   \__\                |30.....| |
+|                       |shield.| |
+|                       |15.....| |
+|                       |_______| |
+
+ ---------------------------------|
+| GHOST            [ ATC / MOV  ] |
+| HP 300   DEF 99                 |
+| [psn  vln  weak    conf         |
+|_______________________|_______|_|
+|                       |_______| |
+|                       |       | |
+|                       |hull   | |
+|                       |30.....| |
+|                       |shield.| |
+|                       |15.....| |
+|                       |_______| |
+
+ ---------------------------------|
+| DOPPEL           [ ATC / MOV  ] |
+| HP 300   DEF 99                 |
+| [psn  vln  weak    conf         |
+|_______________________|_______|_|
+|   |  |     ||  |      |_______| |
+|   \| |o    ||  /      |       | |
+|    \ |h _  || /       |hull   | |
+|     \|c|_| ||/        |30.....| |
+|      |e    ||         |shield.| |
+|      |_____||         |15.....| |
+|       \____/          |_______| |
+
+ ---------------------------------|
+| CYBERCAR         [ ATC / MOV  ] |
+| HP 300   DEF 99                 |
+| [psn  vln  weak    conf         |
+|_______________________|_______|_|
+|    __________         |_______| |
+|   /       |_ |_       |       | |
+|   \---x-----x -       |hull   | |
+|                       |30.....| |
+|                       |shield.| |
+|                       |15.....| |
+|                       |_______| |
+
+ ---------------------------------|
+| YOUR MOM         [ ATC / MOV  ] |
+| HP 300   DEF 99                 |
+| [psn  vln  weak    conf         |
+|_______________________|_______|_|
+|  (delay...)           |_______| |
+|                       |       | |
+|   [err: doesn't fit]  |hull   | |
+|                       |30.....| |
+|                       |shield.| |
+|                       |15.....| |
+|                       |_______| |
+
+ ---------------------------------|
+| WALL             [ ATC / MOV  ] |
+| HP 300   DEF 99                 |
+| [psn  vln  weak    conf         |
+|_______________________|_______|_|
+|=======================|_______| |
+|=======================|       | |
+|=======================|hull   | |
+|    (approaches)       |30.....| |
+|                       |shield.| |
+|                       |15.....| |
+|                       |_______| |
+
+ ---------------------------------|
+| REGULAR SHIP     [ ATC / MOV  ] |
+| HP 300   DEF 99                 |
+| [psn  vln  weak    conf         |
+|_______________________|_______|_|
+|  |   _      _     |   |_______| |
+|  |  |_|    _ |    |   |       | |
+|   \        | |   /    |hull   | |
+|    \__-----|x|__/     |30.....| |
+|                       |shield.| |
+|                       |15.....| |
+|                       |_______| |
+
+ ---------------------------------|
+| MIRRORED SHIP    [ ATC / MOV  ] |
+| HP 300   DEF 99                 |
+| [psn  vln  weak    conf         |
+|_______________________|_______|_|
+|  |     _      _   |   |_______| |
+|  |    | _    |_|  |   |       | |
+|   \   | |        /    |hull   | |
+|    \__|x|-----__/     |30.....| |
+|                       |shield.| |
+|                       |15.....| |
+|                       |_______| |
+
+ ---------------------------------|
+| CLOCK            [ ATC / MOV  ] |
+| HP 300   DEF 99                 |
+| [psn  vln  weak    conf         |
+|_______________________|_______|_|
+|   -\  o        /-     |_______| |
+|   - \ o       / -     |       | |
+|   - ||o      || -     |hull   | |
+|     / o       \       |30.....| |
+|    /__o________\      |shield.| |
+|       o               |15.....| |
+|                       |_______| |
+
+ ---------------------------------|
+| SYTHE            [ ATC / MOV  ] |
+| HP 300   DEF 99                 |
+| [psn  vln  weak    conf         |
+|_______________________|_______|_|
+|   ||                  |_______| |
+| \\||                , |       | |
+|  \ \_________- ---- - |hull   | |
+|   \____________--- `  |30.....| |
+|                       |shield.| |
+|                       |15.....| |
+|                       |_______| |
+
+ ---------------------------------|
+| BALLLLLLLLLLLLLLLLLLLLLLLLLLLLL |
+| HP 300   DEF 99                 |
+| [psn  vln  weak    conf         |
+|_______________________|_______|_|
+| (№f0fmmb%bmmYY%()     |_______| |
+| \fS }L{I M;E0 %BB)    |       | |
+|  (ff0b%ffBffB%y№B( )  |hull   | |
+|   (~~ ))()_`&~~((((   |30.....| |
+|           `           |shield.| |
+|                       |15.....| |
+|                       |_______| |
+
+ ---------------------------------|
+| ACID RAIN        [ ATC / MOV  ] |
+| HP 300   DEF 99                 |
+| [psn  vln  weak    conf         |
+|_______________________|_______|_|
+|     ,    ,     ,      |_______| |
+|   ,   |       ,    |  |       | |
+| , '      ,            |hull   | |
+|      ,       |  ,  `  |30.....| |
+|        `     ,        |shield.| |
+|                       |15.....| |
+|                   `   |_______| |
+
+ ---------------------------------|
+| WORM             [ ATC / MOV  ] |
+| HP 300   DEF 99                 |
+| [psn  vln  weak    conf         |
+|_______________________|_______|_|
+|     |~~~~~~~~~~~~|    |_______| |
+|     /\~~~~~~~~~~/\    |       | |
+|     \/~~~~~~~~~~\/    |hull   | |
+|    ~|==========-||    |30.....| |
+|   /||==||==/|~=||-\   |shield.| |
+|  /||\|||/|||/||\|}|\  |15.....| |
+|                       |_______| |
+
+ ---------------------------------|
+| UNPACKED         [ ATC / MOV  ] |
+| HP 300   DEF 99                 |
+| [psn  vln  weak    conf         |
+|_______________________|_______|_|
+|  /                \   |_______| |
+|  |                |   |       | |
+|  |       /\    *  |   |hull   | |
+|   \     /  \     /    |30.....| |
+|    \___/    \___/     |shield.| |
+|                       |15.....| |
+|                       |_______| |
+
+ ---------------------------------|
+| HOMELORD         [ ATC / MOV  ] |
+| HP 300   DEF 99                 |
+| [psn  vln  weak    conf         |
+|_______________________|_______|_|
+|     .|      |\        |_______| |
+|    /||______||\       |       | |
+|    |  *     *  }      |hull   | |
+|    |    >3     }      |30.....| |
+|     \__________}      |shield.| |
+|                       |15.....| |
+|                       |_______| |
+
+ ---------------------------------|
+| DONATION MOUSE   [ ATC / MOV  ] |
+| HP 300   DEF 99                 |
+| [psn  vln  weak    conf         |
+|_______________________|_______|_|
+|                       |_______| |
+|   ^       ^__ ^       |       | |
+|   |__/^^^^| $ $}      |hull   | |
+|      \_)___)__/       |30.....| |
+|       )    )          |shield.| |
+|                       |15.....| |
+|                       |_______| |
+
+ ---------------------------------|
+| HEART/BUM        [ ATC / MOV  ] |
+| HP 300   DEF 99                 |
+| [psn  vln  weak    conf         |
+|_______________________|_______|_|
+|       ( \/ )          |       | |
+|        \  /           |       | |
+|         \/            |       | |
+|         /\            |       | |
+|        /  \           |       | |
+|       (_/\_)          |       | |
+
+ ---------------------------------|
+| MOTHER SHIP      [ ATC / MOV  ] |
+| HP 300   DEF 99                 |
+| [psn  vln  weak    conf         |
+|_______________________|_______|_|
+| |         ||         ||       | |
+|  \       /  \       / |       | |
+|   (__v__)    (__v__)  |       | |
+|                       |       | |
+|                       |       | |
+|                       |       | |
+
+ ---------------------------------|
+| PIRATES          [ ATC / MOV  ] |
+| HP 300   DEF 99                 |
+| [psn  vln  weak    conf         |
+|_______________________|_______|_|
+|    \\ /-----\ //      |       | |
+|     \[ o   o ]/       |       | |
+|      [       ]        |       | |
+|     //\ ||| /\\       |       | |
+|    //  |___|  \\      |       | |
+|                       |       | |
+
+Shop
+Shop is a simple checkout form, that tracks your gold against purchase and also shows your scrollable deck (with focus hotkey) in the side-pannel.
+
+There are multiple choise text-events, sometimes multistage, maybe with text input
+
+## Updated thoughts on the gameplay
+
+Your ship has N modules of 3 or 4 types: attack, defence, support +? debuff. So does your deck. You also have consumable-type cards - missles. You can only have X unique missles at the same time.
+Number of modules and starting decks can be the 'character' that the player can choose.
+Each module consists of K units, each unit uses energy and can be used maximum of `unit_resources` times per turn.
+The units are randomized? every turn/fight, so the better your deck is the higher the chance to pull the desired unit.
+After each fight you recieve a reward - a card, a missle with some chance (weighted towards missles you already have), a relic. Relics are slay-the-spire like relics.
+
+So, for implementing this, I need to:
+0) change everything you wanted about Intents
+1) rework Cards system, Battle system, Player design and views for it
+2) come up with different player-cards and add them to the game
+3) implement reward logic
+3.1) finalize help system, maybe add warnings?
+3.2) adapt ConsoleView and ConsoleRawView for new features
+4) rework enemies to match player's style, implement simple logic for them
+
+## Plans on v.03
+- [x] 1) TUI: no need in multiple windows (most of the time), just change the component
+- [x] 2) TUI: add ASCII-art in battle
+- [x] 3) TUI: tabbed windows/popups,
+- [?] 4) MainMenu: about page, switching back, continue
+- [x] 5) Pretty display as described below
+
+I wan to create a real UI. First of all, I need to force a specific screen "resolution".
+Then I want to have "widgets" for everything - starting from select-style menus, to cards in battle.
+I want the battle window to be prettier.
+Next 40 rows are to display what I want the battle window to look like. So the field is 150x38 - a bit weird?
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------||-
+|[PLAYER]|    ---------------------|    ---------------------|    ---------------------|      | Description of actions
+|[NAME  ]|     name*               |     name                |     name                |      | Name:
+|{act}   |     hp 300; def 99      |     hp 300; def 99      |     hp 300; def 99      |      | - Attack for 1 on Player
+|[LEVEL] |     status:             |     status:             |     status:             |      | - Apply 2 Poison to <Other>
+|________|    _______________________   _______________________   _______________________    || Other:
+||_______|    )      (}  (|    )        )      (}  (|    )        )      (}  (|    )         || - Steal 2$ from Player
+||       |    (      ((  <)    ()       (      ((  <)    ()       (      ((  <)    ()        || - Give 2 charge for Name
+||hull   |     ()    ((         )(       ()    ((         )(       ()    ((         )(       ||
+||30.....|      )               (/        )               (/        )               (/       ||
+||shield.|                      |                         |                         |        || Description for cards in hands:
+||15.....|                     /\                        /\                        /\        || Skills:
+||_______|          ____                                                                     || - Better armor: Gain 2 block
+||systems|         /    \\                                                                   ||
+||-------|        |  _   ||                                                                  ||   _   |  ||
+||o2   5 |        | |_|  ||                                                                  ||
+||wpn  5 |        |      ||                                                                  ||
+||eng  5 |    -  /|      |\| -                                                               ||
+||wrp  5 |    - / |      | \\-                                                               ||
+||scn  5 |    -/  |      |  \\                                                               ||
+||shl  5 |   ________ ________ ________ ________ ________ ________ ________ ________         ||
+||-------|  |   _  1||   _  2||   _ 13||   _  4||   _   ||   _   ||   _   ||   _   |         || Optionally this window can be tabbed? Description of
+||       |  |  |*|  ||  |*|  ||  |*|  ||  |*|  ||  |*|  ||  |*|  ||  |*|  ||  |*|  |         || actions, cards, artifacts, enemies, rules and so on
+||       |  |  \_/  ||  \_/  ||  \_/  ||  \_/  ||  \_/  ||  \_/  ||  \_/  ||  \_/  |         ||
+||    30$|  |_______||_______||_______||_______||_______||_______||_______||_______|         ||
+|____________________________________________________________________________________________||______________________________________________________||___
+|____________________________________________________________________________________________________________________________________________________||___
+|[Skill]  ____________                                                   |[Shots]  ____________   | [hidden by default missile hand, that takes over all]
+|[Hand*] |Better Armor|                                                  |[Hand ] |Better Armor|  |
+|        |------------|                                                  |        |------------|  |
+|        |Gain block. |                                                  |        |Gain block. |  |
+|        |2b        2e|                                                  |        |3w        1e|  |
+|        |____________|                                                  |        |____________|  |
+|        [1] (number shown only if deck selected)                        |
+
+
+[RED IMPORTANT MESSAGE, dissappears on next key press, is stored in log?]
+-----------------------------------------------------------------------------------------------------------------------------------------------------||---
+Navigation: "q":quit; "?":help; "Tab":switch hands; "m":toggle missile; "1-5":play card; "d":view cards; "w":change target; "a":view artifacts       ||
+-----------------------------------------------------------------------------------------------------------------------------------------------------||-
+
+Note, that selection should have several indications: bold text, *-symbol, displayed numbers/displayed arrow
+
+
+For artifacts maybe I can come up with ascii-art like for dice? It's also an option to make artifacts swappable instead of constant bonuses.
+
+ ________ this one gives stronger shields
+|   _   |
+|  |*|  |
+|  \_/  |
+|_______|
+ ________ this one adds [err] missile to the hand
+|       |
+| [err] |
+|       |
+|_______|
+ ________ this one heals for 3 after each fight
+|   +   |
+| ++3++ |
+|   +   |
+|_______|
+
+Then, for better decoupling of logic from UI, I need to represent each state as a (text/serializable) object. This would make API muh simpler, and the controller wouldn't have to know anything about the UI. Right now GameController needs to convert between different UIs, which is not right. Having View+Reader in GameController factory is also bad design. In fact, I need to visualize the design better - uml diagram, but by hand. And then change it to a sane one.
+
+## Plans for v0.4
+v0.4 - game content and balance
+- [ ] 1. Game balance view and logic (draft deck, select any enemy, quick restart)
+- [ ] 2. Process status effects
+- [ ] 3. Skip card option
+- [ ] 4. Add draw mechanic
+- [ ] 5. Add more cards
+- [ ] 6. Balance cards
+- [ ] 7. Add rest of the enemies
+- [ ] 8. Combat abstraction - up to 3 enemies per battle
+- [ ] 9. Score == overkill

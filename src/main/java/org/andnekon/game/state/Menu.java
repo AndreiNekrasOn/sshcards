@@ -19,6 +19,8 @@ public class Menu extends State {
                 session.reset();
                 yield new Navigation(session);
             }
+            case 2 -> this; // no need for state, handle at view
+            case 3 -> this; // no need for state, handle at view
             case 4 -> new Quit(session);
             default -> this;
         };

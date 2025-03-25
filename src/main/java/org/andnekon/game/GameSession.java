@@ -19,6 +19,7 @@ public class GameSession {
 
     private HelpType helpType;
     private State previousState;
+    private State currentState;
     private boolean end = false;
 
     public CardManager getCardManager() {
@@ -63,6 +64,14 @@ public class GameSession {
 
     public void end() {
         this.end = true;
+    }
+
+    public State getCurrentState() {
+        return this.currentState;
+    }
+
+    public void setCurrentState(State state) {
+        this.currentState = state;
     }
 
     public boolean isEnd() {

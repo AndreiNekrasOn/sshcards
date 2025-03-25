@@ -15,8 +15,7 @@ public class StandaloneTui {
         Logger root = (Logger) LoggerFactory.getLogger(org.slf4j.Logger.ROOT_LOGGER_NAME);
         root.setLevel(Level.ERROR);
         GameController controller =
-                GameControllerFactory.createController(
-                        GameControllerFactory.ControllerType.TUI, System.in, System.out);
+                GameControllerFactory.createController(true, System.in, System.out);
         controller.run();
     }
 }

@@ -65,6 +65,11 @@ public class GameController {
 
     public void run() {
         view.welcome();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         do {
             view.display(game.getCurrentState()); // sends data to the os
             String in = reader.read();

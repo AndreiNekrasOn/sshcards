@@ -33,8 +33,7 @@ public class TcpServer {
     private static void handleClient(Socket client) throws IOException {
         MonitoredOutputStream mos = new MonitoredOutputStream(client.getOutputStream());
         GameController controller =
-                GameControllerFactory.createController(
-                        GameControllerFactory.ControllerType.TUI, client.getInputStream(), mos);
+                GameControllerFactory.createController(true, client.getInputStream(), mos);
         logger.info("Controller setup done");
         try {
             controller.run();
