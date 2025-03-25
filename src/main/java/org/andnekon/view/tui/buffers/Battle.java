@@ -20,6 +20,15 @@ import java.util.List;
 
 /** Battle */
 public class Battle extends Buffer {
+    public static final String HELP =
+            "Navigation: q:quit; "
+                    + "?:help; "
+                    + "Tab:switch hands; "
+                    + "m:toggle missile; "
+                    + "1-5:play card; "
+                    + "d:view cards; "
+                    + "w:change target; "
+                    + "a:view artifacts";
 
     private List<Widget> widgets = new ArrayList<>();
     private BattleManager manager;
@@ -137,24 +146,16 @@ public class Battle extends Buffer {
                         .toList()
                         .toArray(String[]::new);
         if (skillResources.length > 0) {
-            Widget skillHand = new CardHand(arService, skillResources, skillRegion, attackResources.length);
+            Widget skillHand =
+                    new CardHand(arService, skillResources, skillRegion, attackResources.length);
             skillHand = new Border(skillHand);
             widgets.add(skillHand);
         }
     }
 
     private void setupHelp() {
-        String help =
-                "Navigation: q:quit; "
-                        + "?:help; "
-                        + "Tab:switch hands; "
-                        + "m:toggle missile; "
-                        + "1-5:play card; "
-                        + "d:view cards; "
-                        + "w:change target; "
-                        + "a:view artifacts";
         Widget helpWidget =
-                new SingleLine(help, new TerminalPosition(region.leftCol(), region.botRow()));
+                new SingleLine(HELP, new TerminalPosition(region.leftCol(), region.botRow()));
         widgets.add(helpWidget);
     }
 

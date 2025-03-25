@@ -573,3 +573,4 @@ v0.4 - game content and balance
 - [ ] 6. Balance cards
 - [ ] 7. Add rest of the enemies
 - [ ] 8. Combat abstraction - up to 3 enemies per battle
+- [ ] 9. Score == overkill

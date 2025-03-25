@@ -15,17 +15,17 @@ public class StringUtilTest {
         width = 6;
         expected =
                 "Hello,\n"
-                    + "My nam\n"
-                    + "e is A\n"
-                    + "ndrei \n"
-                    + "Nekras\n"
-                    + "ov.\n"
-                    + "This i\n"
-                    + "s\n"
-                    + "my wra\n"
-                    + "p stri\n"
-                    + "ng fun\n"
-                    + "ction\n";
+                        + "My nam\n"
+                        + "e is A\n"
+                        + "ndrei \n"
+                        + "Nekras\n"
+                        + "ov.\n"
+                        + "This i\n"
+                        + "s\n"
+                        + "my wra\n"
+                        + "p stri\n"
+                        + "ng fun\n"
+                        + "ction\n";
         actual = StringUtil.wrap(input, width);
         assertEquals(expected, actual);
         ;

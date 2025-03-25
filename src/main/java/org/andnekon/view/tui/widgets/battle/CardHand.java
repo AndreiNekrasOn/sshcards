@@ -32,7 +32,11 @@ public class CardHand implements ActiveWidget {
         this(service, cardResources, region, 0);
     }
 
-    public CardHand(AsciiReaderService service, String[] cardResources, TerminalRegion region, int cardIdxOffset) {
+    public CardHand(
+            AsciiReaderService service,
+            String[] cardResources,
+            TerminalRegion region,
+            int cardIdxOffset) {
         this.manager = manager;
         this.region = region;
         this.widgets = new ArrayList<>();
@@ -75,8 +79,10 @@ public class CardHand implements ActiveWidget {
         card = new Border(card);
         var cRegion = card.getRegion();
         int middle = cRegion.leftCol() + (cRegion.rightCol() - cRegion.leftCol()) / 2;
-        Widget selectIdx = new SingleLine(String.valueOf(1 + idx),
-                new TerminalPosition(middle, cRegion.topRow() - 1));
+        Widget selectIdx =
+                new SingleLine(
+                        String.valueOf(1 + idx),
+                        new TerminalPosition(middle, cRegion.topRow() - 1));
         this.widgets.add(selectIdx);
         return card;
     }

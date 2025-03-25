@@ -51,5 +51,11 @@ public class TuiManager {
         return this.session;
     }
 
-    public void processSpecialInput(String result) {}
+    public void processSpecialInput(String result) {
+        if ("?".equals(result)) {
+            this.view.setHelpShow(true);
+        } else {
+            this.view.setHelpShow(false);
+        }
+    }
 }

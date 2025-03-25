@@ -1,6 +1,5 @@
 package org.andnekon.view.tui.widgets;
 
-
 import com.googlecode.lanterna.TextCharacter;
 import com.googlecode.lanterna.screen.Screen;
 

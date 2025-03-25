@@ -1,6 +1,6 @@
 package org.andnekon.view.tui;
 
-import java.io.IOException;
+import com.googlecode.lanterna.screen.Screen;
 
 import org.andnekon.game.GameSession;
 import org.andnekon.game.manage.NavigationManager;
@@ -8,17 +8,17 @@ import org.andnekon.game.manage.RewardManager;
 import org.andnekon.game.state.State;
 import org.andnekon.view.AbstractGameView;
 import org.andnekon.view.tui.buffers.Battle;
+import org.andnekon.view.tui.buffers.Help;
 import org.andnekon.view.tui.buffers.MainMenu;
 import org.andnekon.view.tui.buffers.Navigation;
 import org.andnekon.view.tui.buffers.Popup;
 import org.andnekon.view.tui.buffers.Reward;
+import org.andnekon.view.tui.buffers.TabGroup;
 import org.andnekon.view.tui.buffers.Welcome;
 import org.andnekon.view.tui.widgets.Border;
 import org.andnekon.view.tui.widgets.Widget;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import com.googlecode.lanterna.screen.Screen;
+import java.io.IOException;
 
 /**
  * TUI view provides graphical (terminal) enviroment for game logic.<br>
@@ -27,9 +27,6 @@ import com.googlecode.lanterna.screen.Screen;
  * navigation keys, displaying help information as a pop-up menu and so on.
  */
 public class TuiView extends AbstractGameView {
-
-    // TODO: make this a method depended on the state
-    // private static final String help = "HELLO!";
 
     TuiManager manager;
 
@@ -42,14 +39,9 @@ public class TuiView extends AbstractGameView {
 
     // GUI
 
-    private Widget welcomeWindow;
-    private Widget menuWindow;
-    private Widget navigationWindow;
-    private Widget quitPopup;
-    private Widget helpPopup;
-    private Widget deathhPopup;
-    private Widget rewardPopup;
-    private Widget battleWindow;
+    private TabGroup current;
+    private TabGroup battleWindow;
+    private boolean helpShow;
 
     TuiView(GameSession session, TuiManager manager) throws IOException {
         this.session = session;
@@ -62,8 +54,8 @@ public class TuiView extends AbstractGameView {
 
     @Override
     public void welcome() {
-        welcomeWindow = new Welcome(screen.getTerminalSize(), arSerivce);
-        welcomeWindow.draw(screen);
+        current = new TabGroup(new Welcome(screen.getTerminalSize(), arSerivce));
+        current.draw(screen);
         try {
             screen.refresh();
         } catch (IOException e) {
@@ -79,18 +71,27 @@ public class TuiView extends AbstractGameView {
                         .map(c -> "tui/cards/" + c.getName())
                         .toList()
                         .toArray(String[]::new);
-        // TODO: these are random values to test popup logic
-        rewardPopup = new Reward(new TerminalRegion(10, 10, 60, 30), resources, arSerivce);
+        Widget rewardPopup =
+                new Reward(
+                        new TerminalRegion(halfCol, halfRow, halfCol, halfRow),
+                        resources,
+                        arSerivce);
         rewardPopup = new Border(rewardPopup);
-        rewardPopup.draw(screen);
+        current = new TabGroup(rewardPopup);
     }
 
     @Override
     protected void showQuitConfirm() {
         final String quitLine = "Quit? y/n";
-        quitPopup = new Popup(new TerminalRegion(halfCol, halfRow,
-                    halfCol + quitLine.length() + 2, halfRow + 2), quitLine);
-        quitPopup.draw(screen);
+        current =
+                new TabGroup(
+                        new Popup(
+                                new TerminalRegion(
+                                        halfCol,
+                                        halfRow,
+                                        halfCol + quitLine.length() + 2,
+                                        halfRow + 2),
+                                quitLine));
     }
 
     @Override
@@ -101,38 +102,62 @@ public class TuiView extends AbstractGameView {
         for (int i = 0; i < options.length; i++) {
             options[i] = String.format("%d. %s", i + 1, options[i]);
         }
-        navigationWindow = new Navigation(fullScreen, options);
-        navigationWindow.draw(screen);
+        current = new TabGroup(new Navigation(fullScreen, options));
     }
 
     @Override
     protected void showMenu() {
-        menuWindow = new MainMenu(screen.getTerminalSize());
-        menuWindow.draw(screen);
+        current = new TabGroup(new MainMenu(screen.getTerminalSize()));
     }
 
     @Override
     protected void showDeath() {
         final String dedLine = "You ded. Again? y/n";
-        deathhPopup = new Popup(new TerminalRegion(halfCol, halfRow,
-                    halfCol + dedLine.length() + 2, halfRow + 2), dedLine);
-        deathhPopup.draw(screen);
+        current =
+                new TabGroup(
+                        new Popup(
+                                new TerminalRegion(
+                                        halfCol,
+                                        halfRow,
+                                        halfCol + dedLine.length() + 2,
+                                        halfRow + 2),
+                                dedLine));
     }
 
     @Override
     protected void showBattle() {
-        battleWindow = new Battle(arSerivce, session.getBattleManager(), region);
-        battleWindow.draw(screen);
+        Widget battleTab = new Battle(arSerivce, session.getBattleManager(), region);
+        Help battleHelp = new Help(region, "Battle help");
+        battleHelp.addSingle("Each turn you draw 6 cards: 3 shots and 3 skills");
+        battleHelp.addSingle("You get 3 energy to play all of them");
+        battleHelp.addSingle(
+                "Card cost is displayed somewhere on the card, as well as description");
+        battleHelp.addSingle(
+                "At the right you can see what the enemy will do. They'll attack, duh");
+        battleHelp.addSingle("If your health gets below 0, you lose");
+        battleHelp.addSingle("Your final score is the total overkill you get on the enemies");
+        battleHelp.addSingle("Good lick");
+        battleWindow = new TabGroup(battleTab, battleHelp);
+        current = battleWindow;
     }
 
     @Override
     public void display(State state) {
         // TODO: make smarter with BufferManager
-        super.display(state);
+        if (helpShow) {
+            battleWindow.at(1).draw(screen);
+        } else {
+            super.display(state);
+            current.draw(screen);
+        }
         try {
             screen.refresh();
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setHelpShow(boolean helpShow) {
+        this.helpShow = helpShow;
     }
 }
