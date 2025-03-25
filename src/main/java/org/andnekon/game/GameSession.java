@@ -21,6 +21,8 @@ public class GameSession {
     private State previousState;
     private boolean end = false;
 
+	private boolean inBattle;
+
     public CardManager getCardManager() {
         return cardManager;
     }
@@ -63,6 +65,14 @@ public class GameSession {
 
     public void end() {
         this.end = true;
+    }
+
+    public boolean isInBattle() {
+        return this.inBattle;
+    }
+
+    public void setIsInBattle(boolean inBattle) {
+        this.inBattle = inBattle;
     }
 
     public boolean isEnd() {

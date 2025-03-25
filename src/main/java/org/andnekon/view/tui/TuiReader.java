@@ -32,6 +32,9 @@ public class TuiReader implements Reader {
         readKeys();
         String result = KeyStrokeUtil.keysToString(buffer);
         buffer.clear();
+        if (result.length() == 0) {
+            return "";
+        }
         result = modifyInput(result.toCharArray()[0]);
         this.manager.processSpecialInput(result);
         return result;

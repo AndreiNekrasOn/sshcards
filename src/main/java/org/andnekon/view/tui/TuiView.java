@@ -46,6 +46,7 @@ public class TuiView extends AbstractGameView {
             HELP_GENERAL
                     + "m:toggle missile; "
                     + "<1-6>:play card; "
+                    + "b:how to battle; "
                     + "d:view cards; "
                     + "w:change target; "
                     + "a:view artifacts";
@@ -54,7 +55,9 @@ public class TuiView extends AbstractGameView {
 
     private TabGroup current;
     private TabGroup battleWindow;
-    private boolean helpShow;
+    private int helpShow;
+
+    private Help helpWindow;
 
     TuiView(GameSession session, TuiManager manager) throws IOException {
         this.session = session;
@@ -63,6 +66,12 @@ public class TuiView extends AbstractGameView {
         // single threaded is fine, we have 1 gui per client
         screen.startScreen();
         arSerivce = new AsciiReaderService();
+        initHelWindow();
+    }
+
+    public void initHelWindow() {
+        helpWindow = new Help(region, "HELP");
+        helpWindow.addMultiline("Useful helpful message, that fits in the screen", 80);
     }
 
     @Override
@@ -91,7 +100,7 @@ public class TuiView extends AbstractGameView {
                         arSerivce);
         rewardPopup = new Border(rewardPopup);
         rewardPopup = new TopBotLine(rewardPopup, region, session, HELP_REWARD);
-        current = new TabGroup(rewardPopup);
+        current = new TabGroup(rewardPopup, helpWindow);
     }
 
     @Override
@@ -105,7 +114,7 @@ public class TuiView extends AbstractGameView {
                                         halfRow,
                                         halfCol + quitLine.length() + 2,
                                         halfRow + 2),
-                                quitLine));
+                                quitLine), helpWindow);
     }
 
     @Override
@@ -118,12 +127,13 @@ public class TuiView extends AbstractGameView {
         }
         Widget navigation = new Navigation(fullScreen, options);
         navigation = new TopBotLine(navigation, region, session, HELP_NAVIGATION);
-        current = new TabGroup(navigation);
+        current = new TabGroup(navigation, helpWindow);
     }
 
     @Override
     protected void showMenu() {
-        current = new TabGroup(new MainMenu(screen.getTerminalSize()));
+        Widget mainMenu = new MainMenu(screen.getTerminalSize());
+        current = new TabGroup(mainMenu, helpWindow);
     }
 
     @Override
@@ -137,7 +147,7 @@ public class TuiView extends AbstractGameView {
                                         halfRow,
                                         halfCol + dedLine.length() + 2,
                                         halfRow + 2),
-                                dedLine));
+                                dedLine), helpWindow);
     }
 
     @Override
@@ -154,18 +164,18 @@ public class TuiView extends AbstractGameView {
         battleHelp.addSingle("If your health gets below 0, you lose");
         battleHelp.addSingle("Your final score is the total overkill you get on the enemies");
         battleHelp.addSingle("Good lick");
-        battleWindow = new TabGroup(battleTab, battleHelp);
+        battleWindow = new TabGroup(battleTab, helpWindow, battleHelp);
         current = battleWindow;
     }
 
     @Override
     public void display(State state) {
         // TODO: make smarter with BufferManager
-        if (helpShow) {
-            battleWindow.at(1).draw(screen);
+        if (helpShow != 0) {
+            current.at(helpShow).draw(screen);
         } else {
             super.display(state);
-            current.draw(screen);
+            current.at(0).draw(screen);
         }
         try {
             screen.refresh();
@@ -174,7 +184,7 @@ public class TuiView extends AbstractGameView {
         }
     }
 
-    public void setHelpShow(boolean helpShow) {
+    public void setHelpShow(int helpShow) {
         this.helpShow = helpShow;
     }
 }

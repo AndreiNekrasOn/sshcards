@@ -51,6 +51,7 @@ public class GameLogic {
             session.setPreviousState(previousState);
         }
         currentState = state;
+        session.setIsInBattle(currentState != null && currentState.getType() == State.Type.BATTLE);
     }
 
     public void process(GameAction action) {

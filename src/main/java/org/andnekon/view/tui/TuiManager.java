@@ -52,10 +52,11 @@ public class TuiManager {
     }
 
     public void processSpecialInput(String result) {
+        this.view.setHelpShow(0);
         if ("?".equals(result)) {
-            this.view.setHelpShow(true);
-        } else {
-            this.view.setHelpShow(false);
+            this.view.setHelpShow(1);
+        } else if (session.isInBattle() && "b".equals(result)) {
+            this.view.setHelpShow(2);
         }
     }
 }
