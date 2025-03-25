@@ -49,7 +49,7 @@ public class Battle extends Buffer {
     }
 
     private void setupEnemyCard() {
-        Enemy enemy = manager.getEnemy();
+        Enemy enemy = manager.getEnemies()[0];
         String resource = "tui/enemy/" + enemy.getClass().getSimpleName();
         String stats =
                 String.format(

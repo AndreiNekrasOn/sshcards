@@ -2,7 +2,7 @@ package org.andnekon.game.state;
 
 import org.andnekon.game.GameAction;
 import org.andnekon.game.GameSession;
-import org.andnekon.game.entity.enemy.Enemy;
+import org.andnekon.game.entity.Combat;
 import org.andnekon.view.HelpType;
 
 import java.util.List;
@@ -22,12 +22,12 @@ public class Navigation extends State {
             throw new UnsupportedOperationException("Wrong action for Navigation state");
         }
         int actionId = action.id() - 1;
-        List<Enemy> navigationOptions = session.getNavigationManager().getNavigationOptions();
+        List<Combat> navigationOptions = session.getNavigationManager().getNavigationOptions();
         if (actionId < 0 || actionId >= navigationOptions.size()) {
             session.setHelpType(HelpType.WRONG_INPUT);
             return this;
         }
-        session.getBattleManager().setEnemy(navigationOptions.get(actionId));
+        session.getBattleManager().setEnemies(navigationOptions.get(actionId).getEnemies());
         session.getNavigationManager().setInit(false);
         return new Battle(session);
     }

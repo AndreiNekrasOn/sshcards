@@ -146,7 +146,7 @@ public class ConsoleDisplayer implements Displayer {
     }
 
     private void helpBattleEnemyIntents() {
-        final Enemy enemy = session.getBattleManager().getEnemy();
+        final Enemy enemy = session.getBattleManager().getEnemies()[0];
         for (final var intent : enemy.getCurrentIntents()) {
             printf("%s: %s\n", enemy.toString(), intent);
         }
@@ -155,7 +155,7 @@ public class ConsoleDisplayer implements Displayer {
 
     private void helpBattleInfo() {
         final Player player = session.getPlayer();
-        final Enemy enemy = session.getBattleManager().getEnemy();
+        final Enemy enemy = session.getBattleManager().getEnemies()[0];
         printf("=== Turn %d ===\n", session.getBattleManager().getTurnNumber());
         printf(
                 """

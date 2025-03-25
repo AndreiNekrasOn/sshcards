@@ -9,6 +9,15 @@ public class EnemyFactory {
         RegularShip.class, MirroredShip.class, Pirates.class, TheHorror.class
     };
 
+    public static Enemy getEnemy(String name) {
+        for (int i = 0; i < enemyTypes.length; i++) {
+            if (enemyTypes[i].getSimpleName().equals(name)) {
+                return getEnemy(i);
+            }
+        }
+        throw new IllegalStateException("Enemy not found: " + name);
+    }
+
     public static Enemy getRandomEnemy() {
         int random = new Random().nextInt(enemyTypes.length);
         return getEnemy(random);

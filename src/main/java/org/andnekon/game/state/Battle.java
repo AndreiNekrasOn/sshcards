@@ -74,7 +74,7 @@ public class Battle extends State {
     private boolean runBattle(GameAction action) {
         logger.info("runBattle start phase {}", phase);
         Player player = session.getPlayer();
-        Enemy enemy = session.getBattleManager().getEnemy();
+        Enemy enemy = session.getBattleManager().getEnemies()[0];
         switch (phase) {
             case PLAYER_TURN_START, PLAYER_TURN, PLAYER_TURN_HELP -> {
                 phase = processBattleInput(player, enemy, action);

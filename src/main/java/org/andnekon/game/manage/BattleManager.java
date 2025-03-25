@@ -7,7 +7,7 @@ public class BattleManager implements StateManager {
 
     private Player player;
 
-    private Enemy enemy;
+    private Enemy[] enemies;
 
     /** Turn number, with turn 0 meaning that the battle is not initialized */
     private int turn;
@@ -36,18 +36,20 @@ public class BattleManager implements StateManager {
         return player;
     }
 
-    public Enemy getEnemy() {
-        return enemy;
+    public Enemy[] getEnemies() {
+        return enemies;
     }
 
-    public void setEnemy(Enemy enemy) {
-        this.enemy = enemy;
+    public void setEnemies(Enemy... enemy) {
+        this.enemies = enemy;
     }
 
     public void initTurn() {
-        this.turn++;
-        this.player.onTurnBegin();
-        this.enemy.fillIntents(this.player);
+        turn++;
+        player.onTurnBegin();
+        for (Enemy enemy : enemies) {
+            enemy.fillIntents(player);
+        }
     }
 
     public int getTurnNumber() {

@@ -25,7 +25,7 @@ public class Description implements Widget {
 
     @Override
     public void draw(Screen screen) {
-        Enemy enemy = this.manager.getEnemy();
+        Enemy enemy = this.manager.getEnemies()[0];
         List<Intent> intents = enemy.getCurrentIntents();
         StringBuilder sb = new StringBuilder();
         sb.append("Enemies are going to:\n");

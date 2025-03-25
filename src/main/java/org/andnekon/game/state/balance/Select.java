@@ -22,7 +22,7 @@ public class Select extends State {
             case DRAFT_NEXT:
                 this.idx++;
             case DRAFT_ADD:
-                session.getBattleManager().setEnemy(EnemyFactory.getEnemy(idx % max));
+                session.getBattleManager().setEnemies(EnemyFactory.getEnemy(idx % max));
                 return new SpecialBattle(session);
             default:
                 break;
