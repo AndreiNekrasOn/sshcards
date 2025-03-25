@@ -23,17 +23,12 @@ public class MainMenu extends Buffer {
                         "Menu", new TerminalPosition(size.getColumns() / 2, size.getRows() / 3));
         Widget borderWrap = new Border(title);
 
-        // Widget menuList = new SelectList(borderWrap.getRegion().botRightRow(),
-        // title.getRegion().topLeftCol(), new String[]{
-        //     "1. Hello",
-        //     "2. Goodbye"
-        // });
         Widget menuList =
                 new SelectList(
                         title.getRegion().leftCol(),
                         borderWrap.getRegion().botRow() + 1,
                         new String[] {
-                            "1. New game", "4. Quit",
+                            "1. New game", "2. Help", "3. About", "4. Quit",
                         });
         Widget borderMenu = new Border(menuList);
         this.widgets.add(borderWrap);

@@ -42,7 +42,8 @@ public class TuiView extends AbstractGameView {
     private static final String HELP_GENERAL = "q:quit, ?:help, ";
     private static final String HELP_REWARD = HELP_GENERAL + "<1-3> choose reward";
     private static final String HELP_NAVIGATION = HELP_GENERAL + "<1-2> choose path";
-    private static final String HELP_BATTLE = HELP_GENERAL
+    private static final String HELP_BATTLE =
+            HELP_GENERAL
                     + "m:toggle missile; "
                     + "<1-6>:play card; "
                     + "d:view cards; "

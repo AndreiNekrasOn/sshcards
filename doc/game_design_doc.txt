@@ -490,7 +490,7 @@ So, for implementing this, I need to:
 ## Plans on v.03
 - [x] 1) TUI: no need in multiple windows (most of the time), just change the component
 - [x] 2) TUI: add ASCII-art in battle
-- [ ] 3) TUI: tabbed windows/popups, more info in battle (statuses, draw/discard piles)
+- [x] 3) TUI: tabbed windows/popups,
 - [ ] 4) MainMenu: about page, switching back, continue
 - [x] 5) Pretty display as described below
 
