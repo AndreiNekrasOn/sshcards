@@ -20,21 +20,11 @@ import java.util.List;
 
 /** Battle */
 public class Battle extends Buffer {
-    public static final String HELP =
-            "Navigation: q:quit; "
-                    + "?:help; "
-                    + "Tab:switch hands; "
-                    + "m:toggle missile; "
-                    + "1-5:play card; "
-                    + "d:view cards; "
-                    + "w:change target; "
-                    + "a:view artifacts";
 
     private List<Widget> widgets = new ArrayList<>();
     private BattleManager manager;
     private AsciiReaderService arService;
 
-    Widget playerStats;
     Widget enemyCard;
     Widget playerCard;
     Widget description;
@@ -44,19 +34,12 @@ public class Battle extends Buffer {
         this.manager = manager;
         this.arService = arService;
 
-        setupStats();
         setupEnemyCard();
         setupPlayerArt();
         setupDescription();
         // add relics
         setupHand();
-        setupHelp();
-    }
-
-    private void setupStats() {
-        TerminalPosition start = new TerminalPosition(2, 2); // hardcoded
-        playerStats = new Border(new PlayerStats(manager, start));
-        widgets.add(playerStats);
+        // setupHelp();
     }
 
     private void setupEnemyCard() {
@@ -73,8 +56,8 @@ public class Battle extends Buffer {
         enemyCard =
                 new EnemyCard(
                         arService,
-                        playerStats.getRegion().rightCol() + 1,
-                        playerStats.getRegion().topRow() + 1,
+                        region.leftCol(),
+                        region.topRow(),
                         resource,
                         stats);
         enemyCard = new Border(enemyCard);
@@ -122,9 +105,9 @@ public class Battle extends Buffer {
         TerminalRegion skillRegion;
         TerminalRegion attackRegion =
                 new TerminalRegion(
-                        playerStats.getRegion().leftCol(),
+                        region.leftCol(),
                         playerCard.getRegion().botRow() + 2, // for border
-                        playerStats.getRegion().leftCol(),
+                        region.leftCol(),
                         playerCard.getRegion().botRow() + 2);
         if (attackResources.length > 0) {
             Widget attackHand = new CardHand(arService, attackResources, attackRegion);
@@ -151,12 +134,6 @@ public class Battle extends Buffer {
             skillHand = new Border(skillHand);
             widgets.add(skillHand);
         }
-    }
-
-    private void setupHelp() {
-        Widget helpWidget =
-                new SingleLine(HELP, new TerminalPosition(region.leftCol(), region.botRow()));
-        widgets.add(helpWidget);
     }
 
     @Override

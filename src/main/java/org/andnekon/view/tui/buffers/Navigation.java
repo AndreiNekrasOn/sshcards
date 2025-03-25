@@ -14,7 +14,7 @@ public class Navigation extends Buffer {
 
     public Navigation(TerminalRegion region, String[] options) {
         super(region);
-        this.widgets.add(new SelectList(1, 1, options));
+        this.widgets.add(new SelectList(region.leftCol(), region.topRow(), options));
     }
 
     @Override

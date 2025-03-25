@@ -16,6 +16,7 @@ import org.andnekon.view.tui.buffers.Reward;
 import org.andnekon.view.tui.buffers.TabGroup;
 import org.andnekon.view.tui.buffers.Welcome;
 import org.andnekon.view.tui.widgets.Border;
+import org.andnekon.view.tui.widgets.TopBotLine;
 import org.andnekon.view.tui.widgets.Widget;
 
 import java.io.IOException;
@@ -34,8 +35,19 @@ public class TuiView extends AbstractGameView {
     private AsciiReaderService arSerivce;
 
     private static final TerminalRegion region = new TerminalRegion(2, 2, 140, 38);
+    private static final TerminalRegion paddedRegion = new TerminalRegion(4, 4, 138, 36);
     private static final int halfCol = (140 - 2) / 2;
     private static final int halfRow = (38 - 2) / 2;
+
+    private static final String HELP_GENERAL = "q:quit, ?:help, ";
+    private static final String HELP_REWARD = HELP_GENERAL + "<1-3> choose reward";
+    private static final String HELP_NAVIGATION = HELP_GENERAL + "<1-2> choose path";
+    private static final String HELP_BATTLE = HELP_GENERAL
+                    + "m:toggle missile; "
+                    + "<1-6>:play card; "
+                    + "d:view cards; "
+                    + "w:change target; "
+                    + "a:view artifacts";
 
     // GUI
 
@@ -77,6 +89,7 @@ public class TuiView extends AbstractGameView {
                         resources,
                         arSerivce);
         rewardPopup = new Border(rewardPopup);
+        rewardPopup = new TopBotLine(rewardPopup, region, session, HELP_REWARD);
         current = new TabGroup(rewardPopup);
     }
 
@@ -97,12 +110,14 @@ public class TuiView extends AbstractGameView {
     @Override
     protected void showNavigation() {
         NavigationManager manager = session.getNavigationManager();
-        TerminalRegion fullScreen = new TerminalRegion(screen.getTerminalSize());
+        TerminalRegion fullScreen = new TerminalRegion(halfCol, halfRow, halfCol, halfRow);
         String[] options = manager.getNavigationOptionsArray();
         for (int i = 0; i < options.length; i++) {
             options[i] = String.format("%d. %s", i + 1, options[i]);
         }
-        current = new TabGroup(new Navigation(fullScreen, options));
+        Widget navigation = new Navigation(fullScreen, options);
+        navigation = new TopBotLine(navigation, region, session, HELP_NAVIGATION);
+        current = new TabGroup(navigation);
     }
 
     @Override
@@ -126,7 +141,8 @@ public class TuiView extends AbstractGameView {
 
     @Override
     protected void showBattle() {
-        Widget battleTab = new Battle(arSerivce, session.getBattleManager(), region);
+        Widget battleTab = new Battle(arSerivce, session.getBattleManager(), paddedRegion);
+        battleTab = new TopBotLine(battleTab, region, session, HELP_BATTLE);
         Help battleHelp = new Help(region, "Battle help");
         battleHelp.addSingle("Each turn you draw 6 cards: 3 shots and 3 skills");
         battleHelp.addSingle("You get 3 energy to play all of them");
