@@ -63,13 +63,6 @@ public class GameLogic {
         if (actionType == GameAction.Type.PASS) {
             return;
         }
-        // TODO: remove when all support HELP, or handle this differently
-        List<State.Type> supportHelp = List.of(Type.BATTLE, Type.QUIT);
-        if (actionType == GameAction.Type.HELP && !supportHelp.contains(currentState.getType())) {
-            logger.info("Help action not supported for {}", currentState);
-            return;
-        }
-
         State newState =
                 (action.action() == GameAction.Type.QUIT)
                         ? new Quit(session)

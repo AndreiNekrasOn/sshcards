@@ -27,6 +27,13 @@ public class GameController {
                     "3", new GameAction(Type.NAVIGATION, 3),
                     "4", new GameAction(Type.NAVIGATION, 4));
 
+    private static final Map<String, GameAction> rewardActions =
+            Map.of(
+                    "1", new GameAction(Type.NAVIGATION, 1),
+                    "2", new GameAction(Type.NAVIGATION, 2),
+                    "3", new GameAction(Type.NAVIGATION, 3),
+                    "s", new GameAction(Type.NAVIGATION, 0));
+
     private static final Map<String, GameAction> battleActions =
             Map.of(
                     // menu is 1-indexed, while hand is 0-indexed
@@ -98,7 +105,7 @@ public class GameController {
                 }
                 yield new GameAction(Type.ACCEPT); // any other key -> quit
             }
-            case REWARD -> choose(navActions, key);
+            case REWARD -> choose(rewardActions, key);
             default -> new GameAction(Type.PASS);
         };
     }

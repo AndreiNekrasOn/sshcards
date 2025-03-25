@@ -24,13 +24,10 @@ public class Reward extends State {
         }
         List<Card> rewardOptions = session.getRewardManager().getRewardOptions();
         int actionId = action.id() - 1;
-
-        if (actionId >= rewardOptions.size()) {
-            session.setHelpType(HelpType.WRONG_INPUT);
-            return this;
+        if (actionId >= 0 && actionId < rewardOptions.size()) {
+            session.getCardManager().addCard(rewardOptions.get(actionId));
+            session.getRewardManager().setInit(false);
         }
-        session.getCardManager().addCard(rewardOptions.get(actionId));
-        session.getRewardManager().setInit(false);
         return new Navigation(session);
     }
 
