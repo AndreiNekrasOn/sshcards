@@ -20,7 +20,7 @@ public class CardFactory {
     public static final List<String> ARMORS =
             List.of("Armor Up", "Better Armor", "Thorns Armor", "Overdrive");
 
-    public static final List<String> STATUSES = List.of("Corrosion", "Crack");
+    public static final List<String> STATUSES = List.of("Crack");
 
     public static Card getCard(Entity player, String name) {
         return switch (name) {

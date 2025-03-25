@@ -52,12 +52,17 @@ public class GameController {
             Map.of(
                     "y", new GameAction(Type.ACCEPT),
                     "Y", new GameAction(Type.ACCEPT),
-                    "j", new GameAction(Type.ACCEPT),
-                    "J", new GameAction(Type.ACCEPT),
                     "n", new GameAction(Type.REFUSE),
                     "N", new GameAction(Type.REFUSE),
                     "x", new GameAction(Type.REFUSE),
                     "X", new GameAction(Type.REFUSE));
+
+    private static final Map<String, GameAction> ballanceActions =
+            Map.of(
+                    "j", new GameAction(Type.DRAFT_NEXT),
+                    " ", new GameAction(Type.DRAFT_ADD),
+                    "s", new GameAction(Type.DRAFT_SKIP)
+                  );
 
     private static final Map<String, GameAction> globalActions =
             Map.of(
@@ -106,6 +111,9 @@ public class GameController {
                 yield new GameAction(Type.ACCEPT); // any other key -> quit
             }
             case REWARD -> choose(rewardActions, key);
+            case BALANCE_BATTlE -> choose(battleActions, key);
+            case BALANCE_NAV -> choose(ballanceActions, key);
+            case BALANCE_DRAFT -> choose(ballanceActions, key);
             default -> new GameAction(Type.PASS);
         };
     }

@@ -565,7 +565,8 @@ Then, for better decoupling of logic from UI, I need to represent each state as 
 
 ## Plans for v0.4
 v0.4 - game content and balance
-- [ ] 1. Game balance view and logic (draft deck, select any enemy, quick restart)
+- [x] 1. Game balance view and logic (draft deck, select any enemy, quick restart)
+- [ ] 1.1 Optional - ActiveWidget highlighting
 - [ ] 2. Process status effects
 - [ ] 3. Skip card option
 - [ ] 4. Add draw mechanic

@@ -21,7 +21,12 @@ public class GameAction {
         BATTLE_CHECK,
 
         // QUIT ACTIONS
-        QUIT_REFUSE;
+        QUIT_REFUSE,
+
+        // DRAFT MODE
+        DRAFT_NEXT,
+        DRAFT_ADD,
+        DRAFT_SKIP;
     }
 
     private int id;

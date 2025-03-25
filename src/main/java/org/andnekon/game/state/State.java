@@ -12,6 +12,10 @@ public abstract class State {
         NAVIGATION,
         QUIT,
         REWARD,
+
+        BALANCE_DRAFT,
+        BALANCE_NAV,
+        BALANCE_BATTlE,
     }
 
     protected State previousState;

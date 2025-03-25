@@ -3,6 +3,9 @@ package org.andnekon.view.tui;
 import com.googlecode.lanterna.screen.Screen;
 
 import org.andnekon.game.GameSession;
+import org.andnekon.game.action.Card;
+import org.andnekon.game.action.CardFactory;
+import org.andnekon.game.entity.enemy.EnemyFactory;
 import org.andnekon.game.manage.NavigationManager;
 import org.andnekon.game.manage.RewardManager;
 import org.andnekon.game.state.State;
@@ -16,10 +19,14 @@ import org.andnekon.view.tui.buffers.Reward;
 import org.andnekon.view.tui.buffers.TabGroup;
 import org.andnekon.view.tui.buffers.Welcome;
 import org.andnekon.view.tui.widgets.Border;
+import org.andnekon.view.tui.widgets.MultiLine;
+import org.andnekon.view.tui.widgets.SingleLine;
 import org.andnekon.view.tui.widgets.TopBotLine;
 import org.andnekon.view.tui.widgets.Widget;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * TUI view provides graphical (terminal) enviroment for game logic.<br>
@@ -173,6 +180,31 @@ public class TuiView extends AbstractGameView {
         battleHelp.addSingle("Good lick");
         battleWindow = new TabGroup(battleTab, helpWindow, battleHelp);
         current = battleWindow;
+    }
+
+    @Override
+    protected void showBalanceBattle() {
+        current = new TabGroup(new MultiLine(halfCol, halfRow, "Battle"));
+    }
+
+    @Override
+    protected void showBalanceDraft() {
+        List<String> cards = new ArrayList<>();
+        cards.addAll(CardFactory.SHOTS);
+        cards.addAll(CardFactory.ARMORS);
+        cards.addAll(CardFactory.STATUSES);
+        current = new TabGroup(new MultiLine(halfCol, region.topRow(),
+                    cards.stream().reduce((a,b) -> a + "\n" + b).orElse("")));
+    }
+
+    @Override
+    protected void showBalanceNav() {
+        List<String> enemies = new ArrayList<>();
+        for (var c : EnemyFactory.enemyTypes) {
+            enemies.add(c.getSimpleName());
+        }
+        current = new TabGroup(new MultiLine(halfCol, region.topRow(),
+                    enemies.stream().reduce((a,b) -> a + "\n" + b).orElse("")));
     }
 
     @Override

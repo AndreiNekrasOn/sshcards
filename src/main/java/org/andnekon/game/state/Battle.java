@@ -43,7 +43,7 @@ public class Battle extends State {
 
     BattleState phase;
 
-    State nextState;
+    protected State nextState;
 
     public Battle(GameSession session) {
         super(session);
@@ -100,7 +100,7 @@ public class Battle extends State {
         return !phasesRequiringInput.contains(phase);
     }
 
-    private BattleState checkBattleEnd(BattleState nextPhase, Player player, Enemy enemy) {
+    protected BattleState checkBattleEnd(BattleState nextPhase, Player player, Enemy enemy) {
         if (player.getHp() <= 0) {
             nextState = new Death(session);
             return BattleState.COMPLETE;

@@ -18,6 +18,9 @@ public abstract class AbstractGameView implements GameView {
             case NAVIGATION -> showNavigation();
             case QUIT -> showQuitConfirm();
             case REWARD -> showReward();
+            case BALANCE_DRAFT -> showBalanceDraft();
+            case BALANCE_NAV -> showBalanceNav();
+            case BALANCE_BATTlE -> showBalanceBattle();
             default -> throw new UnsupportedOperationException("Unknown game state");
         }
     }
@@ -36,5 +39,17 @@ public abstract class AbstractGameView implements GameView {
 
     public State getState() {
         return state;
+    }
+
+    protected void showBalanceBattle() {
+        throw new UnsupportedOperationException("Unimplemented method 'showBalanceBattle'");
+    }
+
+    protected void showBalanceNav() {
+        throw new UnsupportedOperationException("Unimplemented method 'showBalanceNav'");
+    }
+
+    protected void showBalanceDraft() {
+        throw new UnsupportedOperationException("Unimplemented method 'showBalanceDraft'");
     }
 }
