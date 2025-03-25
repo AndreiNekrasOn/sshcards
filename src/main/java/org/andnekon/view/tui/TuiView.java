@@ -47,8 +47,8 @@ public class TuiView extends AbstractGameView {
     private static final int halfRow = (38 - 2) / 2;
 
     private static final String HELP_GENERAL = "q:quit, ?:help, ";
-    private static final String HELP_REWARD = HELP_GENERAL + "<1-3> choose reward";
-    private static final String HELP_NAVIGATION = HELP_GENERAL + "<1-2> choose path";
+    private static final String HELP_REWARD = HELP_GENERAL + "<1-3>:choose reward;s:skip";
+    private static final String HELP_NAVIGATION = HELP_GENERAL + "<1-2>:choose path";
     private static final String HELP_BATTLE =
             HELP_GENERAL
                     + "m:toggle missile; "

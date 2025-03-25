@@ -568,7 +568,7 @@ v0.4 - game content and balance
 - [x] 1. Game balance view and logic (draft deck, select any enemy, quick restart)
 - [ ] 1.1 Optional - ActiveWidget highlighting
 - [ ] 2. Process status effects
-- [ ] 3. Skip card option
+- [x] 3. Skip card option
 - [ ] 4. Add draw mechanic
 - [ ] 5. Add more cards
 - [ ] 6. Balance cards
