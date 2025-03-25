@@ -71,7 +71,10 @@ public class TuiView extends AbstractGameView {
 
     public void initHelWindow() {
         helpWindow = new Help(region, "HELP");
-        helpWindow.addMultiline("Useful helpful message, that fits in the screen", 80);
+        helpWindow.addMultiline(
+                "Useful helpful message, that fits in the screen\n"
+                        + "Some of the features are not implemented yet",
+                80);
     }
 
     @Override
@@ -134,7 +137,9 @@ public class TuiView extends AbstractGameView {
     @Override
     protected void showMenu() {
         Widget mainMenu = new MainMenu(screen.getTerminalSize());
-        current = new TabGroup(mainMenu, helpWindow);
+        Help about = new Help(region, "ABOUT");
+        about.addSingle("Just a hobby project");
+        current = new TabGroup(mainMenu, helpWindow, about);
     }
 
     @Override
@@ -185,7 +190,7 @@ public class TuiView extends AbstractGameView {
         }
     }
 
-    public void setHelpShow(int helpShow) {
+    public void setTab(int helpShow) {
         this.helpShow = helpShow;
     }
 }

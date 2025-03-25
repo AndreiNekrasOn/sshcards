@@ -5,6 +5,7 @@ import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.ansi.UnixTerminal;
 
 import org.andnekon.game.GameSession;
+import org.andnekon.game.state.State;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -52,11 +53,17 @@ public class TuiManager {
     }
 
     public void processSpecialInput(String result) {
-        this.view.setHelpShow(0);
+        this.view.setTab(0);
         if ("?".equals(result)) {
-            this.view.setHelpShow(1);
-        } else if (session.isInBattle() && "b".equals(result)) {
-            this.view.setHelpShow(2);
+            this.view.setTab(1);
+        } else if (session.getCurrentState().getType() == State.Type.BATTLE && "b".equals(result)) {
+            this.view.setTab(2);
+        } else if (session.getCurrentState().getType() == State.Type.MENU) {
+            if ("2".equals(result)) {
+                this.view.setTab(1);
+            } else if ("3".equals(result)) {
+                this.view.setTab(2);
+            };
         }
     }
 }

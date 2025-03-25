@@ -491,7 +491,7 @@ So, for implementing this, I need to:
 - [x] 1) TUI: no need in multiple windows (most of the time), just change the component
 - [x] 2) TUI: add ASCII-art in battle
 - [x] 3) TUI: tabbed windows/popups,
-- [ ] 4) MainMenu: about page, switching back, continue
+- [?] 4) MainMenu: about page, switching back, continue
 - [x] 5) Pretty display as described below
 
 I wan to create a real UI. First of all, I need to force a specific screen "resolution".

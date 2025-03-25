@@ -19,9 +19,8 @@ public class GameSession {
 
     private HelpType helpType;
     private State previousState;
+    private State currentState;
     private boolean end = false;
-
-    private boolean inBattle;
 
     public CardManager getCardManager() {
         return cardManager;
@@ -67,12 +66,12 @@ public class GameSession {
         this.end = true;
     }
 
-    public boolean isInBattle() {
-        return this.inBattle;
+    public State getCurrentState() {
+        return this.currentState;
     }
 
-    public void setIsInBattle(boolean inBattle) {
-        this.inBattle = inBattle;
+    public void setCurrentState(State state) {
+        this.currentState = state;
     }
 
     public boolean isEnd() {
