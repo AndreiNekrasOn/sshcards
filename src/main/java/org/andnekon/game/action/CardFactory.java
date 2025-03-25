@@ -5,6 +5,8 @@ import org.andnekon.game.action.cards.Shot;
 import org.andnekon.game.action.cards.Status;
 import org.andnekon.game.action.intents.Attack;
 import org.andnekon.game.action.intents.Defence;
+import org.andnekon.game.action.intents.DrawAttack;
+import org.andnekon.game.action.intents.DrawSkill;
 import org.andnekon.game.action.intents.Effect;
 import org.andnekon.game.entity.Entity;
 
@@ -18,7 +20,13 @@ public class CardFactory {
             List.of("Shot", "Lucky Shot", "Triple Shot", "Corrosion");
 
     public static final List<String> ARMORS =
-            List.of("Armor Up", "Better Armor", "Thorns Armor", "Overdrive");
+            List.of(
+                    "Armor Up",
+                    "Better Armor",
+                    "Thorns Armor",
+                    "Overdrive",
+                    "Draw Shot",
+                    "Draw Armor");
 
     public static final List<String> STATUSES = List.of("Crack");
 
@@ -46,6 +54,8 @@ public class CardFactory {
                             name, 2, new Attack(player, 1, player), new Defence(player, 5, player));
             case "Thorns Armor" ->
                     new Armor(name, 1, new Defence(player, 2, player), new Attack(player, 1));
+            case "Draw Shot" -> new Armor(name, 1, new DrawAttack(player, 1));
+            case "Draw Armor" -> new Armor(name, 1, new DrawSkill(player, 1));
             default -> throw new IllegalStateException("Unexpected value: " + name);
         };
     }
