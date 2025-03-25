@@ -25,7 +25,7 @@ public class PlayerStats implements Widget {
         this.manager = manager;
         this.topLeft = topLeft;
         // offset by 1 for border
-        String[] dummy = new String[] {"hull", "999", "shield", "99", "energy", "4"};
+        String[] dummy = new String[] {"shield", "99", "energy", "4"};
         resources = createWidget(dummy);
     }
 
@@ -33,8 +33,6 @@ public class PlayerStats implements Widget {
     public void draw(Screen screen) {
         String[] recourcesString =
                 new String[] {
-                    "hull",
-                    String.valueOf(manager.getPlayer().getHp()),
                     "shield",
                     String.valueOf(manager.getPlayer().getDefense()),
                     "energy",

@@ -10,6 +10,9 @@ import org.andnekon.view.tui.widgets.battle.CardHand;
 import org.andnekon.view.tui.widgets.battle.Description;
 import org.andnekon.view.tui.widgets.battle.EnemyCard;
 import org.andnekon.view.tui.widgets.battle.PlayerPositionRow;
+import org.andnekon.view.tui.widgets.battle.PlayerStats;
+
+import com.googlecode.lanterna.TerminalPosition;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +24,7 @@ public class Battle extends Buffer {
     private BattleManager manager;
     private AsciiReaderService arService;
 
+    Widget playerStats;
     Widget enemyCard;
     Widget playerCard;
     Widget description;
@@ -30,15 +34,21 @@ public class Battle extends Buffer {
         this.manager = manager;
         this.arService = arService;
 
+        setupStats();
         setupEnemyCard();
         setupPlayerArt();
         setupDescription();
         // add relics
         setupHand();
-        // setupHelp();
     }
 
-    private void setupEnemyCard() {
+    private void setupStats() {
+        TerminalPosition start = new TerminalPosition(region.leftCol(), region.topRow());
+        playerStats = new Border(new PlayerStats(manager, start));
+        widgets.add(playerStats);
+	}
+
+	private void setupEnemyCard() {
         Enemy enemy = manager.getEnemy();
         String resource = "tui/enemy/" + enemy.getClass().getSimpleName();
         String stats =
@@ -49,7 +59,8 @@ public class Battle extends Buffer {
                         enemy.getMaxHp(),
                         enemy.getDefense(),
                         "");
-        enemyCard = new EnemyCard(arService, region.leftCol(), region.topRow(), resource, stats);
+        enemyCard = new EnemyCard(arService, playerStats.getRegion().rightCol() + 1,
+                region.topRow(), resource, stats);
         enemyCard = new Border(enemyCard);
         widgets.add(enemyCard);
     }
@@ -59,10 +70,10 @@ public class Battle extends Buffer {
         // +1 here adjusts for border
         TerminalRegion playerCardRegion =
                 new TerminalRegion(
-                        ecRegion.leftCol() + 1,
+                        playerStats.getRegion().rightCol() + 1,
                         ecRegion.botRow() + 1,
-                        ecRegion.leftCol(),
-                        ecRegion.botRow());
+                        playerStats.getRegion().rightCol() + 1,
+                        ecRegion.botRow() + 1);
         playerCard =
                 new PlayerPositionRow(arService, playerCardRegion, playerCardRegion.getTopLeft());
         playerCard = new Border(playerCard);
