@@ -8,9 +8,7 @@ import org.andnekon.game.state.Battle;
 import org.andnekon.game.state.Death;
 import org.andnekon.game.state.State;
 
-/**
- * SpecialBattle
- */
+/** SpecialBattle */
 public class SpecialBattle extends Battle {
 
     public SpecialBattle(GameSession session) {

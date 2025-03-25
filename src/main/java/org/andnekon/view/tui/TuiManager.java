@@ -63,7 +63,8 @@ public class TuiManager {
                 this.view.setTab(1);
             } else if ("3".equals(result)) {
                 this.view.setTab(2);
-            };
+            }
+            ;
         }
     }
 }

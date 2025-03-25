@@ -3,11 +3,8 @@ package org.andnekon.game;
 import org.andnekon.game.state.Menu;
 import org.andnekon.game.state.Quit;
 import org.andnekon.game.state.State;
-import org.andnekon.game.state.State.Type;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.List;
 
 /**
  * Turn-based game that takes user input, provides a Slay-the-spire like interaction in the

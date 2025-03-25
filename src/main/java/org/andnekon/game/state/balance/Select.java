@@ -5,9 +5,7 @@ import org.andnekon.game.GameSession;
 import org.andnekon.game.entity.enemy.EnemyFactory;
 import org.andnekon.game.state.State;
 
-/**
- * Select
- */
+/** Select */
 public class Select extends State {
 
     private int idx;
@@ -20,7 +18,7 @@ public class Select extends State {
     @Override
     public State handleInput(GameAction gameAction) {
         int max = EnemyFactory.enemyTypes.length;
-        switch (gameAction.action()){
+        switch (gameAction.action()) {
             case DRAFT_NEXT:
                 this.idx++;
             case DRAFT_ADD:

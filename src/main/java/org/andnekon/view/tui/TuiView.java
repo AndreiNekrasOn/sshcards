@@ -3,7 +3,6 @@ package org.andnekon.view.tui;
 import com.googlecode.lanterna.screen.Screen;
 
 import org.andnekon.game.GameSession;
-import org.andnekon.game.action.Card;
 import org.andnekon.game.action.CardFactory;
 import org.andnekon.game.entity.enemy.EnemyFactory;
 import org.andnekon.game.manage.NavigationManager;
@@ -20,7 +19,6 @@ import org.andnekon.view.tui.buffers.TabGroup;
 import org.andnekon.view.tui.buffers.Welcome;
 import org.andnekon.view.tui.widgets.Border;
 import org.andnekon.view.tui.widgets.MultiLine;
-import org.andnekon.view.tui.widgets.SingleLine;
 import org.andnekon.view.tui.widgets.TopBotLine;
 import org.andnekon.view.tui.widgets.Widget;
 
@@ -193,8 +191,12 @@ public class TuiView extends AbstractGameView {
         cards.addAll(CardFactory.SHOTS);
         cards.addAll(CardFactory.ARMORS);
         cards.addAll(CardFactory.STATUSES);
-        current = new TabGroup(new MultiLine(halfCol, region.topRow(),
-                    cards.stream().reduce((a,b) -> a + "\n" + b).orElse("")));
+        current =
+                new TabGroup(
+                        new MultiLine(
+                                halfCol,
+                                region.topRow(),
+                                cards.stream().reduce((a, b) -> a + "\n" + b).orElse("")));
     }
 
     @Override
@@ -203,8 +205,12 @@ public class TuiView extends AbstractGameView {
         for (var c : EnemyFactory.enemyTypes) {
             enemies.add(c.getSimpleName());
         }
-        current = new TabGroup(new MultiLine(halfCol, region.topRow(),
-                    enemies.stream().reduce((a,b) -> a + "\n" + b).orElse("")));
+        current =
+                new TabGroup(
+                        new MultiLine(
+                                halfCol,
+                                region.topRow(),
+                                enemies.stream().reduce((a, b) -> a + "\n" + b).orElse("")));
     }
 
     @Override

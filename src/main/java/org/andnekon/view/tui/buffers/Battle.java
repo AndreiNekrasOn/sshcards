@@ -1,5 +1,7 @@
 package org.andnekon.view.tui.buffers;
 
+import com.googlecode.lanterna.TerminalPosition;
+
 import org.andnekon.game.entity.enemy.Enemy;
 import org.andnekon.game.manage.BattleManager;
 import org.andnekon.view.tui.AsciiReaderService;
@@ -11,8 +13,6 @@ import org.andnekon.view.tui.widgets.battle.Description;
 import org.andnekon.view.tui.widgets.battle.EnemyCard;
 import org.andnekon.view.tui.widgets.battle.PlayerPositionRow;
 import org.andnekon.view.tui.widgets.battle.PlayerStats;
-
-import com.googlecode.lanterna.TerminalPosition;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,9 +46,9 @@ public class Battle extends Buffer {
         TerminalPosition start = new TerminalPosition(region.leftCol(), region.topRow());
         playerStats = new Border(new PlayerStats(manager, start));
         widgets.add(playerStats);
-	}
+    }
 
-	private void setupEnemyCard() {
+    private void setupEnemyCard() {
         Enemy enemy = manager.getEnemy();
         String resource = "tui/enemy/" + enemy.getClass().getSimpleName();
         String stats =
@@ -59,8 +59,13 @@ public class Battle extends Buffer {
                         enemy.getMaxHp(),
                         enemy.getDefense(),
                         "");
-        enemyCard = new EnemyCard(arService, playerStats.getRegion().rightCol() + 1,
-                region.topRow(), resource, stats);
+        enemyCard =
+                new EnemyCard(
+                        arService,
+                        playerStats.getRegion().rightCol() + 1,
+                        region.topRow(),
+                        resource,
+                        stats);
         enemyCard = new Border(enemyCard);
         widgets.add(enemyCard);
     }

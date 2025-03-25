@@ -17,8 +17,12 @@ public class EnemyFactory {
     public static final Enemy getEnemy(int id) {
         try {
             return (Enemy) enemyTypes[id].getConstructor().newInstance();
-        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
-                | NoSuchMethodException | SecurityException e) {
+        } catch (InstantiationException
+                | IllegalAccessException
+                | IllegalArgumentException
+                | InvocationTargetException
+                | NoSuchMethodException
+                | SecurityException e) {
             e.printStackTrace();
             return new Pirates(); // default? or crash?
         }

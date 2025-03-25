@@ -61,8 +61,7 @@ public class GameController {
             Map.of(
                     "j", new GameAction(Type.DRAFT_NEXT),
                     " ", new GameAction(Type.DRAFT_ADD),
-                    "s", new GameAction(Type.DRAFT_SKIP)
-                  );
+                    "s", new GameAction(Type.DRAFT_SKIP));
 
     private static final Map<String, GameAction> globalActions =
             Map.of(

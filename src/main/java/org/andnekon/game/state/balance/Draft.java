@@ -1,16 +1,14 @@
 package org.andnekon.game.state.balance;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.andnekon.game.GameAction;
 import org.andnekon.game.GameSession;
 import org.andnekon.game.action.CardFactory;
 import org.andnekon.game.state.State;
 
-/**
- * Draft
- */
+import java.util.ArrayList;
+import java.util.List;
+
+/** Draft */
 public class Draft extends State {
 
     private int idx = 0;
@@ -37,8 +35,8 @@ public class Draft extends State {
                 idx++;
                 break;
             case DRAFT_ADD:
-                session.getCardManager().addCard(
-                        CardFactory.getCard(session.getPlayer(), cards.get(idx % max)));
+                session.getCardManager()
+                        .addCard(CardFactory.getCard(session.getPlayer(), cards.get(idx % max)));
                 break;
             case DRAFT_SKIP:
                 return new Select(session);
