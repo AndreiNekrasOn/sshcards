@@ -114,7 +114,8 @@ public class TuiView extends AbstractGameView {
                                         halfRow,
                                         halfCol + quitLine.length() + 2,
                                         halfRow + 2),
-                                quitLine), helpWindow);
+                                quitLine),
+                        helpWindow);
     }
 
     @Override
@@ -147,7 +148,8 @@ public class TuiView extends AbstractGameView {
                                         halfRow,
                                         halfCol + dedLine.length() + 2,
                                         halfRow + 2),
-                                dedLine), helpWindow);
+                                dedLine),
+                        helpWindow);
     }
 
     @Override
@@ -170,7 +172,6 @@ public class TuiView extends AbstractGameView {
 
     @Override
     public void display(State state) {
-        // TODO: make smarter with BufferManager
         if (helpShow != 0) {
             current.at(helpShow).draw(screen);
         } else {

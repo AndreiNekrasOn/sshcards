@@ -1,6 +1,5 @@
 package org.andnekon.view.tui.buffers;
 
-
 import org.andnekon.game.entity.enemy.Enemy;
 import org.andnekon.game.manage.BattleManager;
 import org.andnekon.view.tui.AsciiReaderService;

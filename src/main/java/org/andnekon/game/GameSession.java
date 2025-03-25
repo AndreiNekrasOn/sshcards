@@ -21,7 +21,7 @@ public class GameSession {
     private State previousState;
     private boolean end = false;
 
-	private boolean inBattle;
+    private boolean inBattle;
 
     public CardManager getCardManager() {
         return cardManager;
