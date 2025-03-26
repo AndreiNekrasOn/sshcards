@@ -4,7 +4,6 @@ import org.andnekon.game.GameAction;
 import org.andnekon.game.GameSession;
 import org.andnekon.game.entity.Combat;
 import org.andnekon.game.entity.Player;
-import org.andnekon.game.entity.enemy.Enemy;
 import org.andnekon.game.state.Battle;
 import org.andnekon.game.state.Death;
 import org.andnekon.game.state.State;

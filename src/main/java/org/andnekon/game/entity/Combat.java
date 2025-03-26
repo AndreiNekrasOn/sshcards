@@ -1,12 +1,13 @@
 package org.andnekon.game.entity;
 
-
 import org.andnekon.game.entity.enemy.Enemy;
+
+import java.util.List;
 
 /** Combat */
 public class Combat {
 
-    private Enemy[] enemies;
+    private List<Enemy> enemies;
 
     private int idx;
 
@@ -14,16 +15,16 @@ public class Combat {
 
     public Combat(String name, Enemy... enemies) {
         this.name = name;
-        this.enemies = enemies;
+        this.enemies = List.of(enemies);
         this.idx = 0;
     }
 
     public Enemy[] getEnemies() {
-        return enemies;
+        return enemies.toArray(Enemy[]::new);
     }
 
     public void selectNext() {
-        idx = (idx + 1) % enemies.length;
+        idx = (idx + 1) % enemies.size();
     }
 
     public int getIdx() {
@@ -31,7 +32,7 @@ public class Combat {
     }
 
     public Enemy getSelectedEnemy() {
-        return enemies[idx];
+        return enemies.get(idx);
     }
 
     public String getName() {
@@ -40,23 +41,25 @@ public class Combat {
 
     /** Combat is done when all the enemies are dead */
     public boolean isEnded() {
-        for (int i = 0; i < enemies.length; i++) {
-            if (enemies[i].getHp() > 0) {
+        for (Enemy enemy : enemies) {
+            if (enemy.getHp() > 0) {
                 return false;
             }
         }
         return true;
     }
 
-	public void onTurnBegin() {
-        for (int i = 0; i < enemies.length; i++) {
-            enemies[i].onTurnBegin();
-        }
-	}
+    public void refresh() {
+        enemies = enemies.stream().filter(e -> e.getHp() > 0).toList();
+    }
 
-	public void onTurnEnd() {
-        for (int i = 0; i < enemies.length; i++) {
-            enemies[i].clearIntents();
-        }
-	}
+    public void onTurnBegin() {
+        refresh();
+        enemies.forEach(e -> e.onTurnBegin());
+    }
+
+    public void onTurnEnd() {
+        refresh();
+        enemies.forEach(e -> e.clearIntents());
+    }
 }

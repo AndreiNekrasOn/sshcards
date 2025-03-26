@@ -5,7 +5,6 @@ import com.googlecode.lanterna.screen.Screen;
 import org.andnekon.game.GameSession;
 import org.andnekon.game.action.CardFactory;
 import org.andnekon.game.entity.enemy.CombatFactory;
-import org.andnekon.game.entity.enemy.EnemyFactory;
 import org.andnekon.game.manage.NavigationManager;
 import org.andnekon.game.manage.RewardManager;
 import org.andnekon.game.state.State;

@@ -7,7 +7,6 @@ import org.andnekon.game.entity.CardNotInHandException;
 import org.andnekon.game.entity.Combat;
 import org.andnekon.game.entity.NotEnoughEnergyException;
 import org.andnekon.game.entity.Player;
-import org.andnekon.game.entity.enemy.Enemy;
 import org.andnekon.view.HelpType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

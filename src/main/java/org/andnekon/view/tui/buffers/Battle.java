@@ -56,14 +56,14 @@ public class Battle extends Buffer {
         for (Enemy enemy : enemies) {
             String resource = "tui/enemy/" + enemy.getClass().getSimpleName();
             String stats =
-                String.format(
-                        "%s\nhp %d(%d); def %d\nstatus: %s",
-                        enemy.getClass().getSimpleName(),
-                        enemy.getHp(),
-                        enemy.getMaxHp(),
-                        enemy.getDefense(),
-                        "");
-            Widget enemyCard = new EnemyCard( arService, prevCol, region.topRow(), resource, stats);
+                    String.format(
+                            "%s\nhp %d(%d); def %d\nstatus: %s",
+                            enemy.getClass().getSimpleName(),
+                            enemy.getHp(),
+                            enemy.getMaxHp(),
+                            enemy.getDefense(),
+                            "");
+            Widget enemyCard = new EnemyCard(arService, prevCol, region.topRow(), resource, stats);
             prevCol = enemyCard.getRegion().rightCol() + 1;
             enemyCard = new Border(enemyCard);
             enemyCards.add(enemyCard);
@@ -74,8 +74,10 @@ public class Battle extends Buffer {
     private void setupPlayerArt() {
         int i = manager.getCombat().getIdx();
         TerminalRegion ecRegion = enemyCards.get(enemyCards.size() - 1).getRegion();
-        TerminalPosition artTopLeft = new TerminalPosition(enemyCards.get(i).getRegion().leftCol() + 1,
-                enemyCards.get(i).getRegion().botRow() + 1);
+        TerminalPosition artTopLeft =
+                new TerminalPosition(
+                        enemyCards.get(i).getRegion().leftCol() + 1,
+                        enemyCards.get(i).getRegion().botRow() + 1);
         // +1 here adjusts for border
         TerminalRegion playerCardRegion =
                 new TerminalRegion(
@@ -83,8 +85,7 @@ public class Battle extends Buffer {
                         ecRegion.botRow() + 1,
                         playerStats.getRegion().rightCol() + 1,
                         ecRegion.botRow() + 1);
-        playerCard =
-                new PlayerPositionRow(arService, playerCardRegion, artTopLeft);
+        playerCard = new PlayerPositionRow(arService, playerCardRegion, artTopLeft);
         playerCard = new Border(playerCard);
         widgets.add(playerCard);
     }

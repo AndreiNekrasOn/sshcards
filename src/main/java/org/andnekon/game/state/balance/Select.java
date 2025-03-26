@@ -3,7 +3,6 @@ package org.andnekon.game.state.balance;
 import org.andnekon.game.GameAction;
 import org.andnekon.game.GameSession;
 import org.andnekon.game.entity.enemy.CombatFactory;
-import org.andnekon.game.entity.enemy.EnemyFactory;
 import org.andnekon.game.state.State;
 
 /** Select */
@@ -24,8 +23,8 @@ public class Select extends State {
                 this.idx++;
                 break;
             case DRAFT_ADD:
-                session.getBattleManager().setCombat(
-                        CombatFactory.getCombat(CombatFactory.combats[idx % max]));
+                session.getBattleManager()
+                        .setCombat(CombatFactory.getCombat(CombatFactory.combats[idx % max]));
                 return new SpecialBattle(session);
             default:
                 break;

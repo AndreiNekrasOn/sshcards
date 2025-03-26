@@ -2,10 +2,18 @@ package org.andnekon.game.entity.enemy;
 
 import org.andnekon.game.entity.Combat;
 
+import java.util.Random;
+
 /** CombatFactory */
 public class CombatFactory {
 
-    public static final String[] combats = new String[] {"Horror", "DEATH", "Two ships", "Ambush!", "Horrors"};
+    public static final String[] combats =
+            new String[] {"Horror", "DEATH", "Two ships", "Ambush!", "Horrors"};
+
+    public static Combat getRandomCombat() {
+        int random = new Random().nextInt(combats.length);
+        return getCombat(combats[random]);
+    }
 
     public static Combat getCombat(String combat) {
         switch (combat) {

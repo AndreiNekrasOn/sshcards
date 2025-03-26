@@ -31,7 +31,7 @@ public class NavigationManager implements StateManager {
     public void init() {
         navigationOptions.clear();
         for (int i = 0; i < navigationOptionsSize; i++) {
-            navigationOptions.add(CombatFactory.getCombat("Horrors"));
+            navigationOptions.add(CombatFactory.getRandomCombat());
         }
         this.navigationInit = true;
     }
