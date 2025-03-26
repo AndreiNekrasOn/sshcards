@@ -79,7 +79,7 @@ public class Battle extends Buffer {
         TerminalRegion previousRegion;
         TerminalPosition artTopLeft;
         if (manager.getEnemies().length > 0) {
-            previousRegion = enemyCards.get(enemyCards.size() - 1).getRegion();
+            previousRegion = enemyCards.get(manager.getCombat().getEnemies().length - 1).getRegion();
             TerminalRegion selectedERegion = enemyCards.get(i).getRegion();
             artTopLeft =
                     new TerminalPosition(

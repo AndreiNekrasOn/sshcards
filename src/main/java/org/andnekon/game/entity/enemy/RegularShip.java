@@ -23,9 +23,9 @@ public class RegularShip extends Enemy {
 
     @Override
     public void fillIntents(Player player) {
-        int attackValue = (int) Math.pow(2, 1 + turnNumber);
+        int attackValue = 2 * turnNumber + 1;
         this.currentIntents.add(new Attack(this, attackValue, player));
         this.currentIntents.add(new Attack(this, attackValue, player));
-        this.currentIntents.add(new Effect(this, "Poison", 3, this));
+        this.currentIntents.add(new Effect(this, "Corrosion", 3, this));
     }
 }
