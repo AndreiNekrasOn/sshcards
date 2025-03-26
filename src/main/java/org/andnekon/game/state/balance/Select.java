@@ -21,6 +21,7 @@ public class Select extends State {
         switch (gameAction.action()) {
             case DRAFT_NEXT:
                 this.idx++;
+                break;
             case DRAFT_ADD:
                 session.getBattleManager().setEnemies(EnemyFactory.getEnemy(idx % max));
                 return new SpecialBattle(session);
