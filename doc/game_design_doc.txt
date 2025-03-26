@@ -571,7 +571,8 @@ v0.4 - game content and balance
 - [x] 3. Skip card option
 - [x] 4. Add draw mechanic
 - [.] 5. Add more cards
-- [ ] 6. Balance cards
+- [ ] 6. Balance cards and enemies
 - [ ] 7. Add rest of the enemies
 - [x] 8. Combat abstraction - up to 3 enemies per battle
 - [ ] 9. Score == overkill
+- [ ] 10. Enemies/cards from json, serializing

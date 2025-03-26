@@ -23,7 +23,7 @@ public class MirroredShip extends Enemy {
 
     @Override
     public void fillIntents(Player player) {
-        this.currentIntents.add(new Attack(this, (int) Math.pow(2, turnNumber), player));
-        this.currentIntents.add(new Effect(this, "Heal", (int) Math.pow(2, turnNumber), this));
+        this.currentIntents.add(new Effect(this, "Crack", turnNumber, player));
+        this.currentIntents.add(new Effect(this, "Heal", turnNumber, this));
     }
 }

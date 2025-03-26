@@ -17,7 +17,7 @@ public class CardFactory {
     private CardFactory() {}
 
     public static final List<String> SHOTS =
-            List.of("Shot", "Lucky Shot", "Triple Shot", "Corrosion");
+            List.of("Shot", "Lucky Shot", "Triple Shot");
 
     public static final List<String> ARMORS =
             List.of(
@@ -28,14 +28,14 @@ public class CardFactory {
                     "Draw Shot",
                     "Draw Armor");
 
-    public static final List<String> STATUSES = List.of("Crack");
+    public static final List<String> STATUSES = List.of("Crack", "Corrosion");
 
     public static Card getCard(Entity player, String name) {
         return switch (name) {
             // shot
             case "Shot" -> new Shot(name, 1, new Attack(player, 1));
             case "Lucky Shot" ->
-                    new Shot(name, 2, new Attack(player, 4), new Attack(player, 1, player));
+                    new Shot(name, 2, new Attack(player, 4), new DrawAttack(player, 1));
             case "Triple Shot" ->
                     new Shot(
                             name,
@@ -44,8 +44,8 @@ public class CardFactory {
                             new Attack(player, 1),
                             new Attack(player, 1));
             // status
-            case "Corrosion" -> new Status(name, 1, new Effect(player, "Poison", 1));
-            case "Crack" -> new Status(name, 1, new Effect(player, "Vulnurable", 2));
+            case "Corrosion" -> new Status(name, 1, new Effect(player, "Corrosion", 1));
+            case "Crack" -> new Status(name, 1, new Effect(player, "Crack", 2));
             // armor
             case "Overdrive" -> new Shot(name, -2, new Attack(player, 1, player));
             case "Armor Up" -> new Armor(name, 1, new Defence(player, 1, player));

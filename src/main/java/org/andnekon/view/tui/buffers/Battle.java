@@ -73,7 +73,12 @@ public class Battle extends Buffer {
 
     private void setupPlayerArt() {
         int i = manager.getCombat().getIdx();
-        TerminalRegion ecRegion = enemyCards.get(enemyCards.size() - 1).getRegion();
+        TerminalRegion previousRegion;
+        if (manager.getEnemies().length > 0) {
+            previousRegion = enemyCards.get(enemyCards.size() - 1).getRegion();
+        } else {
+            previousRegion = playerStats.getRegion();
+        }
         TerminalPosition artTopLeft =
                 new TerminalPosition(
                         enemyCards.get(i).getRegion().leftCol() + 1,
@@ -82,9 +87,9 @@ public class Battle extends Buffer {
         TerminalRegion playerCardRegion =
                 new TerminalRegion(
                         playerStats.getRegion().rightCol() + 1,
-                        ecRegion.botRow() + 1,
+                        previousRegion.botRow() + 1,
                         playerStats.getRegion().rightCol() + 1,
-                        ecRegion.botRow() + 1);
+                        previousRegion.botRow() + 1);
         playerCard = new PlayerPositionRow(arService, playerCardRegion, artTopLeft);
         playerCard = new Border(playerCard);
         widgets.add(playerCard);

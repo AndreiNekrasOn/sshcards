@@ -14,7 +14,9 @@ public class DrawAttack extends Intent {
     public void execute(Entity... targets) {
         assert source != null && source instanceof Player;
         Player p = (Player) source;
-        p.getShotDeck().drawCard();
+        for (int i = 0; i < value; i++) {
+            p.getShotDeck().drawCard();
+        }
     }
 
     @Override

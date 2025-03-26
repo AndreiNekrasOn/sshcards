@@ -11,10 +11,12 @@ public class DrawSkill extends Intent {
     }
 
     @Override
-    public void execute(Entity... targets) {
-        assert targets.length == 1 && (targets[0] instanceof Player);
-        Player p = (Player) targets[0];
-        p.getShotDeck().drawCard();
+    public void execute(Entity... ignored) {
+        assert source instanceof Player;
+        Player p = (Player) source;
+        for (int i = 0; i < value; i++) {
+            p.getArmorDeck().drawCard();
+        }
     }
 
     @Override

@@ -8,14 +8,15 @@ public abstract class Entity {
     protected int hp;
     protected int defense;
 
-    // TODO: use decorator here?
     public Map<String, Integer> effectCounter = new HashMap<>();
 
     public void onTurnBegin(Entity... targets) {
-        this.hp += effectCounter.getOrDefault("Heal", 0);
-        this.hp -= effectCounter.getOrDefault("Poison", 0);
+        hp += effectCounter.getOrDefault("Heal", 0);
+        hp = Math.min(hp, maxHp);
+        hp -= effectCounter.getOrDefault("Corrosion", 0);
 
         effectCounter.put("Heal", 0);
+        // tick everything down
         for (String effectName : effectCounter.keySet()) {
             effectCounter.put(effectName, Math.max(0, effectCounter.get(effectName) - 1));
         }
@@ -33,7 +34,7 @@ public abstract class Entity {
     }
 
     private int modifyDamage(int damage) {
-        int vuln = effectCounter.getOrDefault("Vulnurable", 0);
+        int vuln = effectCounter.getOrDefault("Crack", 0);
         return damage + vuln;
     }
 
