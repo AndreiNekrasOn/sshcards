@@ -13,6 +13,7 @@ public class Combat {
     private String name;
 
     public Combat(String name, Enemy... enemies) {
+        this.name = name;
         this.enemies = enemies;
         this.idx = 0;
     }
@@ -22,7 +23,7 @@ public class Combat {
     }
 
     public void selectNext() {
-        idx += idx % enemies.length;
+        idx = (idx + 1) % enemies.length;
     }
 
     public int getIdx() {
@@ -36,4 +37,26 @@ public class Combat {
     public String getName() {
         return name;
     }
+
+    /** Combat is done when all the enemies are dead */
+    public boolean isEnded() {
+        for (int i = 0; i < enemies.length; i++) {
+            if (enemies[i].getHp() > 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+	public void onTurnBegin() {
+        for (int i = 0; i < enemies.length; i++) {
+            enemies[i].onTurnBegin();
+        }
+	}
+
+	public void onTurnEnd() {
+        for (int i = 0; i < enemies.length; i++) {
+            enemies[i].clearIntents();
+        }
+	}
 }

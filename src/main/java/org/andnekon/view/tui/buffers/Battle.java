@@ -25,7 +25,7 @@ public class Battle extends Buffer {
     private AsciiReaderService arService;
 
     Widget playerStats;
-    Widget enemyCard;
+    List<Widget> enemyCards;
     Widget playerCard;
     Widget description;
 
@@ -33,9 +33,10 @@ public class Battle extends Buffer {
         super(region);
         this.manager = manager;
         this.arService = arService;
+        enemyCards = new ArrayList<>();
 
         setupStats();
-        setupEnemyCard();
+        setupEnemyCards();
         setupPlayerArt();
         setupDescription();
         // add relics
@@ -48,10 +49,13 @@ public class Battle extends Buffer {
         widgets.add(playerStats);
     }
 
-    private void setupEnemyCard() {
-        Enemy enemy = manager.getEnemies()[0];
-        String resource = "tui/enemy/" + enemy.getClass().getSimpleName();
-        String stats =
+    private void setupEnemyCards() {
+        Enemy[] enemies = manager.getEnemies();
+
+        int prevCol = playerStats.getRegion().rightCol() + 1;
+        for (Enemy enemy : enemies) {
+            String resource = "tui/enemy/" + enemy.getClass().getSimpleName();
+            String stats =
                 String.format(
                         "%s\nhp %d(%d); def %d\nstatus: %s",
                         enemy.getClass().getSimpleName(),
@@ -59,19 +63,19 @@ public class Battle extends Buffer {
                         enemy.getMaxHp(),
                         enemy.getDefense(),
                         "");
-        enemyCard =
-                new EnemyCard(
-                        arService,
-                        playerStats.getRegion().rightCol() + 1,
-                        region.topRow(),
-                        resource,
-                        stats);
-        enemyCard = new Border(enemyCard);
-        widgets.add(enemyCard);
+            Widget enemyCard = new EnemyCard( arService, prevCol, region.topRow(), resource, stats);
+            prevCol = enemyCard.getRegion().rightCol() + 1;
+            enemyCard = new Border(enemyCard);
+            enemyCards.add(enemyCard);
+        }
+        widgets.addAll(enemyCards);
     }
 
     private void setupPlayerArt() {
-        TerminalRegion ecRegion = enemyCard.getRegion();
+        int i = manager.getCombat().getIdx();
+        TerminalRegion ecRegion = enemyCards.get(enemyCards.size() - 1).getRegion();
+        TerminalPosition artTopLeft = new TerminalPosition(enemyCards.get(i).getRegion().leftCol() + 1,
+                enemyCards.get(i).getRegion().botRow() + 1);
         // +1 here adjusts for border
         TerminalRegion playerCardRegion =
                 new TerminalRegion(
@@ -80,14 +84,14 @@ public class Battle extends Buffer {
                         playerStats.getRegion().rightCol() + 1,
                         ecRegion.botRow() + 1);
         playerCard =
-                new PlayerPositionRow(arService, playerCardRegion, playerCardRegion.getTopLeft());
+                new PlayerPositionRow(arService, playerCardRegion, artTopLeft);
         playerCard = new Border(playerCard);
         widgets.add(playerCard);
     }
 
     private void setupDescription() {
         TerminalRegion playerCardRegion = playerCard.getRegion();
-        TerminalRegion ecRegion = enemyCard.getRegion();
+        TerminalRegion ecRegion = enemyCards.get(enemyCards.size() - 1).getRegion();
         description =
                 new Description(
                         manager,

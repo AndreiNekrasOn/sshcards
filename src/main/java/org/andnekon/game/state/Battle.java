@@ -4,6 +4,7 @@ import org.andnekon.game.GameAction;
 import org.andnekon.game.GameSession;
 import org.andnekon.game.action.Card;
 import org.andnekon.game.entity.CardNotInHandException;
+import org.andnekon.game.entity.Combat;
 import org.andnekon.game.entity.NotEnoughEnergyException;
 import org.andnekon.game.entity.Player;
 import org.andnekon.game.entity.enemy.Enemy;
@@ -28,7 +29,7 @@ public class Battle extends State {
     private static final List<GameAction.Type> viableActions =
             List.of(
                     GameAction.Type.BATTLE_CARD,
-                    GameAction.Type.BATTLE_CHECK,
+                    GameAction.Type.BATTLE_SELECT,
                     GameAction.Type.BATTLE_END_TURN,
                     GameAction.Type.HELP);
 
@@ -74,24 +75,24 @@ public class Battle extends State {
     private boolean runBattle(GameAction action) {
         logger.info("runBattle start phase {}", phase);
         Player player = session.getPlayer();
-        Enemy enemy = session.getBattleManager().getEnemies()[0];
+        Combat combat = session.getBattleManager().getCombat();
         switch (phase) {
             case PLAYER_TURN_START, PLAYER_TURN, PLAYER_TURN_HELP -> {
-                phase = processBattleInput(player, enemy, action);
+                phase = processBattleInput(player, combat, action);
             }
             case PLAYER_TURN_END -> {
-                phase = checkBattleEnd(BattleState.ENEMY_TURN_START, player, enemy);
+                phase = checkBattleEnd(BattleState.ENEMY_TURN_START, player, combat);
             }
             case ENEMY_TURN_START -> {
-                enemy.onTurnBegin();
+                combat.onTurnBegin();
                 phase = BattleState.ENEMY_TURN_END;
             }
             case ENEMY_TURN_END -> {
-                enemy.clearIntents();
+                combat.onTurnEnd();
                 // we need to init turn in constructor for the better View
                 // so we call initTurn again here, not on PLAYER_TURN_START
                 session.getBattleManager().initTurn();
-                phase = checkBattleEnd(BattleState.PLAYER_TURN_START, player, enemy);
+                phase = checkBattleEnd(BattleState.PLAYER_TURN_START, player, combat);
             }
             case COMPLETE -> {}
             default -> throw new UnsupportedOperationException("Unknown battle state");
@@ -100,28 +101,28 @@ public class Battle extends State {
         return !phasesRequiringInput.contains(phase);
     }
 
-    protected BattleState checkBattleEnd(BattleState nextPhase, Player player, Enemy enemy) {
+    protected BattleState checkBattleEnd(BattleState nextPhase, Player player, Combat combat) {
         if (player.getHp() <= 0) {
             nextState = new Death(session);
             return BattleState.COMPLETE;
-        } else if (enemy.getHp() <= 0) {
+        } else if (combat.isEnded()) {
             nextState = new Reward(session);
             return BattleState.COMPLETE;
         }
         return nextPhase;
     }
 
-    private BattleState processBattleInput(Player player, Enemy enemy, GameAction action) {
-        BattleState state = processBattleInputHelpers(player, enemy, action);
+    private BattleState processBattleInput(Player player, Combat combat, GameAction action) {
+        BattleState state = processBattleInputHelpers(player, combat, action);
         if (state != BattleState.PLAYER_TURN) {
             return state;
         }
         if (action.action() != GameAction.Type.BATTLE_CARD || action.payload() == null) {
-            throw new UnsupportedOperationException("Unexpexted GameAction in Battle");
+            throw new UnsupportedOperationException("Unexpected GameAction in Battle");
         }
         try {
             List<Card> hand = chooseDeck(player, action.payload());
-            player.useCard(hand.get(action.id()), enemy);
+            player.useCard(hand.get(action.id()), combat.getSelectedEnemy());
             return BattleState.PLAYER_TURN;
         } catch (IndexOutOfBoundsException e) {
             session.setHelpType(HelpType.WRONG_INPUT);
@@ -139,7 +140,7 @@ public class Battle extends State {
         };
     }
 
-    private BattleState processBattleInputHelpers(Player player, Enemy enemy, GameAction action) {
+    private BattleState processBattleInputHelpers(Player player, Combat combat, GameAction action) {
         if (!viableActions.contains(action.action())) {
             return BattleState.PLAYER_TURN_HELP;
         }
@@ -149,8 +150,8 @@ public class Battle extends State {
                 session.setHelpType(HelpType.ACTIONS);
                 yield BattleState.PLAYER_TURN_HELP;
             }
-            case BATTLE_CHECK -> {
-                session.setHelpType(HelpType.TURN_INFO);
+            case BATTLE_SELECT -> {
+                combat.selectNext();
                 yield BattleState.PLAYER_TURN_HELP;
             }
             default -> BattleState.PLAYER_TURN;

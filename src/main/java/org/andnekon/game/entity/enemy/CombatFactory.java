@@ -5,7 +5,7 @@ import org.andnekon.game.entity.Combat;
 /** CombatFactory */
 public class CombatFactory {
 
-    String[] combats = new String[] {"Horror", "DEATH", "Two ships", "Ambush!", "Horrors"};
+    public static final String[] combats = new String[] {"Horror", "DEATH", "Two ships", "Ambush!", "Horrors"};
 
     public static Combat getCombat(String combat) {
         switch (combat) {

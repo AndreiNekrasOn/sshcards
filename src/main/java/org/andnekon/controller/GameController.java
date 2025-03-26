@@ -46,7 +46,7 @@ public class GameController {
                     "a3", new GameAction(Type.BATTLE_CARD, 2, "armor"),
                     "a4", new GameAction(Type.BATTLE_CARD, 4, "armor"),
                     "e", new GameAction(Type.BATTLE_END_TURN),
-                    "c", new GameAction(Type.BATTLE_CHECK));
+                    "w", new GameAction(Type.BATTLE_SELECT));
 
     private static final Map<String, GameAction> confirmActions =
             Map.of(

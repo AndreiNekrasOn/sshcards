@@ -2,6 +2,7 @@ package org.andnekon.game.state.balance;
 
 import org.andnekon.game.GameAction;
 import org.andnekon.game.GameSession;
+import org.andnekon.game.entity.Combat;
 import org.andnekon.game.entity.Player;
 import org.andnekon.game.entity.enemy.Enemy;
 import org.andnekon.game.state.Battle;
@@ -26,11 +27,11 @@ public class SpecialBattle extends Battle {
     }
 
     @Override
-    protected BattleState checkBattleEnd(BattleState nextPhase, Player player, Enemy enemy) {
+    protected BattleState checkBattleEnd(BattleState nextPhase, Player player, Combat combat) {
         if (player.getHp() <= 0) {
             nextState = new Death(session);
             return BattleState.COMPLETE;
-        } else if (enemy.getHp() <= 0) {
+        } else if (combat.isEnded()) {
             nextState = new Draft(session);
             return BattleState.COMPLETE;
         }

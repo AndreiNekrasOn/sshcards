@@ -2,6 +2,7 @@ package org.andnekon.game.state.balance;
 
 import org.andnekon.game.GameAction;
 import org.andnekon.game.GameSession;
+import org.andnekon.game.entity.enemy.CombatFactory;
 import org.andnekon.game.entity.enemy.EnemyFactory;
 import org.andnekon.game.state.State;
 
@@ -17,13 +18,14 @@ public class Select extends State {
 
     @Override
     public State handleInput(GameAction gameAction) {
-        int max = EnemyFactory.enemyTypes.length;
+        int max = CombatFactory.combats.length;
         switch (gameAction.action()) {
             case DRAFT_NEXT:
                 this.idx++;
                 break;
             case DRAFT_ADD:
-                session.getBattleManager().setEnemies(EnemyFactory.getEnemy(idx % max));
+                session.getBattleManager().setCombat(
+                        CombatFactory.getCombat(CombatFactory.combats[idx % max]));
                 return new SpecialBattle(session);
             default:
                 break;

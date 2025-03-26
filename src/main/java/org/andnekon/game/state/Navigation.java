@@ -27,7 +27,7 @@ public class Navigation extends State {
             session.setHelpType(HelpType.WRONG_INPUT);
             return this;
         }
-        session.getBattleManager().setEnemies(navigationOptions.get(actionId).getEnemies());
+        session.getBattleManager().setCombat(navigationOptions.get(actionId));
         session.getNavigationManager().setInit(false);
         return new Battle(session);
     }

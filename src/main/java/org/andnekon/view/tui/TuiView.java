@@ -4,6 +4,7 @@ import com.googlecode.lanterna.screen.Screen;
 
 import org.andnekon.game.GameSession;
 import org.andnekon.game.action.CardFactory;
+import org.andnekon.game.entity.enemy.CombatFactory;
 import org.andnekon.game.entity.enemy.EnemyFactory;
 import org.andnekon.game.manage.NavigationManager;
 import org.andnekon.game.manage.RewardManager;
@@ -202,8 +203,8 @@ public class TuiView extends AbstractGameView {
     @Override
     protected void showBalanceNav() {
         List<String> enemies = new ArrayList<>();
-        for (var c : EnemyFactory.enemyTypes) {
-            enemies.add(c.getSimpleName());
+        for (var c : CombatFactory.combats) {
+            enemies.add(c);
         }
         current =
                 new TabGroup(
