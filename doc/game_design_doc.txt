@@ -576,3 +576,7 @@ v0.4 - game content and balance
 - [x] 8. Combat abstraction - up to 3 enemies per battle
 - [ ] 9. Score == overkill
 - [ ] 10. Enemies/cards from json, serializing
+
+----
+
+Considering v0.5 brings the core content to the game, for v0.5 I want to focus on deploying it. For that, I'll need to deside on the deployment strategy (just throw jar on the server or get some practice with docker?) and make the game accessable to "regular" users - meaning, only via ssh, without needing to enter raw terminal mode and connecting via `telnet`/`nc`.
