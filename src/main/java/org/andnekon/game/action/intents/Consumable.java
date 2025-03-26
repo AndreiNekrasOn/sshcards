@@ -12,7 +12,6 @@ public class Consumable extends Intent {
 
     @Override
     public void execute(Entity... targets) {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'execute'");
     }
 

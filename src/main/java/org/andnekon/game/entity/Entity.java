@@ -8,7 +8,11 @@ public abstract class Entity {
     protected int hp;
     protected int defense;
 
-    public Map<String, Integer> effectCounter = new HashMap<>();
+    /** only change via setEffect or increaseEffect */
+    protected Map<String, Integer> effectCounter = new HashMap<>();
+
+    // TODO: this is for UI reason. Is this the best solution?
+    private static final int MAX_EFFECT_VALUE = 9;
 
     public void onTurnBegin(Entity... targets) {
         hp += effectCounter.getOrDefault("Heal", 0);
@@ -17,8 +21,8 @@ public abstract class Entity {
 
         effectCounter.put("Heal", 0);
         // tick everything down
-        for (String effectName : effectCounter.keySet()) {
-            effectCounter.put(effectName, Math.max(0, effectCounter.get(effectName) - 1));
+        for (String eName : effectCounter.keySet()) {
+            setEffect(eName, getEffectValue(eName) - 1);
         }
     }
 
@@ -31,6 +35,20 @@ public abstract class Entity {
         } else {
             this.defense -= damage;
         }
+    }
+
+    public int getEffectValue(String effect) {
+        return effectCounter.getOrDefault(effect, 0);
+    }
+
+    public void increaseEffect(String effect, int value) {
+        setEffect(effect, getEffectValue(effect) + value);
+    }
+
+    public void setEffect(String effect, int value) {
+        value = Math.min(MAX_EFFECT_VALUE, value);
+        value = Math.max(0, value);
+        effectCounter.put(effect, value);
     }
 
     private int modifyDamage(int damage) {

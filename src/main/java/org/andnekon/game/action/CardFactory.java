@@ -16,8 +16,7 @@ public class CardFactory {
 
     private CardFactory() {}
 
-    public static final List<String> SHOTS =
-            List.of("Shot", "Lucky Shot", "Triple Shot");
+    public static final List<String> SHOTS = List.of("Shot", "Lucky Shot", "Triple Shot");
 
     public static final List<String> ARMORS =
             List.of(

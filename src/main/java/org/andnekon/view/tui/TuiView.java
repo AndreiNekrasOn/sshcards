@@ -231,4 +231,13 @@ public class TuiView extends AbstractGameView {
     public void setTab(int helpShow) {
         this.helpShow = helpShow;
     }
+
+    @Override
+    public void stop() {
+        try {
+            this.screen.stopScreen();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

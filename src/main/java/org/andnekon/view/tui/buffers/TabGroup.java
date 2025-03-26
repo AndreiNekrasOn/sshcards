@@ -24,7 +24,7 @@ public class TabGroup implements Widget {
 
     @Override
     public void draw(Screen screen) {
-        screen.clear(); // TODO: is this the right place to do it?
+        screen.clear();
         this.buffers.get(tab).draw(screen);
     }
 

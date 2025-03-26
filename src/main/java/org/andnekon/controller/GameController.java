@@ -88,6 +88,7 @@ public class GameController {
             logger.info("transformed input [{}] to action {}", in, action);
             game.process(action);
         } while (!game.getSession().isEnd());
+        view.stop();
     }
 
     private GameAction choose(Map<String, GameAction> choice, String key) {

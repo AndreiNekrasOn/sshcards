@@ -25,6 +25,11 @@ public abstract class AbstractGameView implements GameView {
         }
     }
 
+    @Override
+    public void stop() {
+        throw new UnsupportedOperationException("Unimplemented method 'stop'");
+    }
+
     protected abstract void showReward();
 
     protected abstract void showQuitConfirm();

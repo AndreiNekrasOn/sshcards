@@ -15,10 +15,7 @@ public class Effect extends Intent {
     }
 
     protected void addEffect(List<Entity> targets) {
-        targets.forEach(
-                t -> {
-                    t.effectCounter.put(name, t.effectCounter.getOrDefault(name, 0) + value);
-                });
+        targets.forEach(t -> t.increaseEffect(name, value));
     }
 
     @Override

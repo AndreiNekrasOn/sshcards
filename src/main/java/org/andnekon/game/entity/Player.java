@@ -11,7 +11,6 @@ public class Player extends Entity {
     private int numInBattleDeffence;
 
     private Deck shotDeck;
-    // TODO: armorDeck contains statuses as well - is this what I want?
     private Deck armorDeck;
 
     private int energy;

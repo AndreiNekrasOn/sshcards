@@ -20,7 +20,6 @@ public class Card implements Widget {
     private Function<Widget, Integer> startCol = w -> w.getRegion().leftCol();
     private Function<Widget, Integer> endRow = w -> w.getRegion().botRow();
 
-    // TODO: replace parameters with cardInfoService
     public Card(TerminalPosition topLeft, String name, int cost, String description) {
         name = StringUtil.wrap(name, CARD_WIDTH); // border
         description = StringUtil.wrap(description, CARD_WIDTH);

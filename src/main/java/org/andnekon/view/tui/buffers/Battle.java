@@ -57,12 +57,15 @@ public class Battle extends Buffer {
             String resource = "tui/enemy/" + enemy.getClass().getSimpleName();
             String stats =
                     String.format(
-                            "%s\nhp %d(%d); def %d\nstatus: %s",
+                            "%s\nhp %d(%d); def %d\ns: %s",
                             enemy.getClass().getSimpleName(),
                             enemy.getHp(),
                             enemy.getMaxHp(),
                             enemy.getDefense(),
-                            "");
+                            String.format(
+                                    "%dcor;%dcr",
+                                    enemy.getEffectValue("Corrosion"),
+                                    enemy.getEffectValue("Crack")));
             Widget enemyCard = new EnemyCard(arService, prevCol, region.topRow(), resource, stats);
             prevCol = enemyCard.getRegion().rightCol() + 1;
             enemyCard = new Border(enemyCard);
@@ -74,15 +77,20 @@ public class Battle extends Buffer {
     private void setupPlayerArt() {
         int i = manager.getCombat().getIdx();
         TerminalRegion previousRegion;
+        TerminalPosition artTopLeft;
         if (manager.getEnemies().length > 0) {
             previousRegion = enemyCards.get(enemyCards.size() - 1).getRegion();
+            TerminalRegion selectedERegion = enemyCards.get(i).getRegion();
+            artTopLeft =
+                    new TerminalPosition(
+                            selectedERegion.leftCol() + 1, selectedERegion.botRow() + 1);
         } else {
             previousRegion = playerStats.getRegion();
+            // lets pretend that going up when no enemies is a feature
+            artTopLeft =
+                    new TerminalPosition(
+                            previousRegion.rightCol() + 1, previousRegion.topRow() + 1);
         }
-        TerminalPosition artTopLeft =
-                new TerminalPosition(
-                        enemyCards.get(i).getRegion().leftCol() + 1,
-                        enemyCards.get(i).getRegion().botRow() + 1);
         // +1 here adjusts for border
         TerminalRegion playerCardRegion =
                 new TerminalRegion(
