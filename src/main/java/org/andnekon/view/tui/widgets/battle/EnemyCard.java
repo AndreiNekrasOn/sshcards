@@ -27,6 +27,9 @@ public class EnemyCard implements Widget {
         } catch (IOException e) {
             e.printStackTrace();
             art = resource;
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            // art = resource;
         }
         stateWidget = new MultiLine(col, row, enemyState);
         artWidget =

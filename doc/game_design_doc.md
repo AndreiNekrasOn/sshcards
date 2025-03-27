@@ -570,8 +570,9 @@ v0.4 - game content and balance
 - [x] 2. Process status effects
 - [x] 3. Skip card option
 - [x] 4. Add draw mechanic
-- [ ] 5. Enemies/cards from json, serializing
-- [ ] 5.1*. Untangle Enemy name/class nightmare
+- [x] 5. Enemies from json, serializing
+- [x] 5.1*. Untangle Enemy name/class nightmare
+- [ ] 5.2. Cards from json
 - [.] 6. Add more cards
 - [ ] 7. Balance cards and enemies
 - [ ] 8. Add rest of the enemies

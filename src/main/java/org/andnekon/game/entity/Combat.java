@@ -106,6 +106,12 @@ public class Combat {
         public void takeDamage(int damage) {
             enemy.takeDamage(damage);
         }
+
+        @Override
+        public String getAscii() {
+            return enemy.getAscii();
+        }
+
     }
 
     private List<IdentifiedEnemy> enemies;

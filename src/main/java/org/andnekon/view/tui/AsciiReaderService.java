@@ -9,18 +9,23 @@ public class AsciiReaderService {
 
     public String readFile(String resourceName) throws IOException {
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        InputStream is = classloader.getResourceAsStream(resourceName);
-        if (is == null) {
-            throw new IOException("File does not exist");
-        }
-        StringBuilder sb = new StringBuilder();
-        try (BufferedReader in = new BufferedReader(new InputStreamReader(is))) {
-            String line;
-            while ((line = in.readLine()) != null) {
-                sb.append(line);
-                sb.append('\n');
+        try (InputStream is = classloader.getResourceAsStream(resourceName)) {
+            if (is == null) {
+                throw new IOException("File does not exist");
             }
-            return sb.toString();
+            StringBuilder sb = new StringBuilder();
+            try (BufferedReader in = new BufferedReader(new InputStreamReader(is))) {
+                String line;
+                while ((line = in.readLine()) != null) {
+                    sb.append(line);
+                    sb.append('\n');
+                }
+                return sb.toString();
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            System.err.println(resourceName);
+            throw e;
         }
     }
 }

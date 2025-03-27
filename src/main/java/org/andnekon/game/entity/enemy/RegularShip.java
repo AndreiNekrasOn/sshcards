@@ -10,17 +10,6 @@ import org.andnekon.game.entity.Player;
  */
 public class RegularShip extends Enemy {
 
-    public RegularShip() {
-        super();
-        this.hp = 15;
-        this.maxHp = 15;
-    }
-
-    @Override
-    public String toString() {
-        return "Regular Ship";
-    }
-
     @Override
     public void fillIntents(Player player) {
         int attackValue = 2 * turnNumber + 1;

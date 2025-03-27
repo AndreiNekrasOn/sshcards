@@ -62,21 +62,18 @@ public class Battle extends Buffer {
         Enemy[] enemies = manager.getEnemies();
 
         int prevCol = playerStats.getRegion().rightCol() + 1;
-        for (Enemy enemy : enemies) {
-            String resource =
-                    "tui/enemy/" + enemy.toString().substring(3).replace(" ", ""); // sniff
+        for (Enemy e : enemies) {
             String stats =
                     String.format(
-                            "%s\nhp %d(%d); def %d\ns: %s",
-                            enemy.toString(),
-                            enemy.getHp(),
-                            enemy.getMaxHp(),
-                            enemy.getDefense(),
-                            String.format(
-                                    "%dcor;%dcr",
-                                    enemy.getEffectValue("Corrosion"),
-                                    enemy.getEffectValue("Crack")));
-            Widget enemyCard = new EnemyCard(arService, prevCol, region.topRow(), resource, stats);
+                            "%s\nhp %d(%d) def %d\ns: %dcor;%dcr",
+                            e.toString(),
+                            e.getHp(),
+                            e.getMaxHp(),
+                            e.getDefense(),
+                            e.getEffectValue("Corrosion"),
+                            e.getEffectValue("Crack"));
+            Widget enemyCard =
+                    new EnemyCard(arService, prevCol, region.topRow(), e.getAscii(), stats);
             prevCol = enemyCard.getRegion().rightCol() + 1;
             enemyCard = new Border(enemyCard);
             enemyCards.add(enemyCard);

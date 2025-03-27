@@ -17,6 +17,10 @@ public abstract class Enemy extends Entity {
 
     protected int dmg;
     protected int armor;
+    protected String name;
+
+    protected String ascii;
+
     protected Map<String, Integer> misc;
 
     public Enemy() {
@@ -53,14 +57,22 @@ public abstract class Enemy extends Entity {
     }
 
     @Override
-    public abstract String toString();
+    public String toString() {
+        return name;
+    }
 
     public Enemy withStats(EnemyBase base) {
+        this.name = base.name();
+        this.ascii = base.resource();
         this.hp = base.hp();
         this.maxHp = base.maxHp();
         this.dmg = base.dmg();
         this.armor = base.armor();
         this.misc = base.getMisc();
         return this;
+    }
+
+    public String getAscii() {
+        return ascii;
     }
 }

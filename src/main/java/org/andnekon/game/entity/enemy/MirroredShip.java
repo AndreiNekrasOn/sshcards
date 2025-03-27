@@ -9,11 +9,7 @@ import org.andnekon.game.entity.Player;
  */
 public class MirroredShip extends Enemy {
 
-    public MirroredShip() {
-        super();
-        this.hp = 10;
-        this.maxHp = 20;
-    }
+    public MirroredShip() {}
 
     @Override
     public String toString() {
