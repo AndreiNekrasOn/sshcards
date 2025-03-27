@@ -1,5 +1,6 @@
 package org.andnekon.game.entity;
 
+import org.andnekon.game.action.Intent;
 import org.andnekon.game.entity.enemy.Enemy;
 
 import java.util.ArrayList;
@@ -30,6 +31,82 @@ public class Combat {
         public String toString() {
             return "#" + id + " " + enemy.toString();
         }
+
+        @Override
+        public void clearIntents() {
+            enemy.clearIntents();
+        }
+
+        @Override
+        public String displayIntents() {
+            return enemy.displayIntents();
+        }
+
+        @Override
+        public List<Intent> getCurrentIntents() {
+            return enemy.getCurrentIntents();
+        }
+
+        @Override
+        public void onTurnBegin(Entity... targets) {
+            enemy.onTurnBegin(targets);
+        }
+
+        @Override
+        public int getDefense() {
+            return enemy.getDefense();
+        }
+
+        @Override
+        public int getEffectValue(String effect) {
+            return enemy.getEffectValue(effect);
+        }
+
+        @Override
+        public int getHp() {
+            return enemy.getHp();
+        }
+
+        @Override
+        public int getMaxHp() {
+            return enemy.getMaxHp();
+        }
+
+        @Override
+        public void heal(int value) {
+            enemy.heal(value);
+        }
+
+        @Override
+        public void increaseEffect(String effect, int value) {
+            enemy.increaseEffect(effect, value);
+        }
+
+        @Override
+        public void setDefense(int defense) {
+            enemy.setDefense(defense);
+        }
+
+        @Override
+        public void setEffect(String effect, int value) {
+            enemy.setEffect(effect, value);
+        }
+
+        @Override
+        public void setHp(int hp) {
+            enemy.setHp(hp);
+        }
+
+        @Override
+        public void setMaxHp(int maxHp) {
+            enemy.setMaxHp(maxHp);
+        }
+
+        @Override
+        public void takeDamage(int damage) {
+            enemy.takeDamage(damage);
+        }
+
     }
 
     private List<IdentifiedEnemy> enemies;
