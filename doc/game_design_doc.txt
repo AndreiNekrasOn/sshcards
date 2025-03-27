@@ -574,8 +574,9 @@ v0.4 - game content and balance
 - [ ] 6. Balance cards and enemies
 - [ ] 7. Add rest of the enemies
 - [x] 8. Combat abstraction - up to 3 enemies per battle
-- [ ] 9. Score == overkill
+- [x] 9. Score == overkill
 - [ ] 10. Enemies/cards from json, serializing
+- [ ] 10.1*. Untangle Enemy name/class nightmare
 
 ----
 

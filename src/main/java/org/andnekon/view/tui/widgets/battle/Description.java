@@ -25,13 +25,15 @@ public class Description implements Widget {
 
     @Override
     public void draw(Screen screen) {
-        Enemy enemy = this.manager.getEnemies()[0];
-        List<Intent> intents = enemy.getCurrentIntents();
+        Enemy[] enemies = this.manager.getEnemies();
         StringBuilder sb = new StringBuilder();
         sb.append("Enemies are going to:\n");
-        sb.append("\t" + enemy.getClass().getSimpleName() + ":\n");
-        for (Intent i : intents) {
-            sb.append("\t\t" + i.toString() + "\n");
+        for (Enemy enemy: enemies) {
+            List<Intent> intents = enemy.getCurrentIntents();
+            sb.append("\t" + enemy.toString() + ":\n");
+            for (Intent i : intents) {
+                sb.append("\t\t" + i.toString() + "\n");
+            }
         }
         Widget out = new MultiLine(this.region.leftCol(), this.region.topRow(), sb.toString());
         out.draw(screen);

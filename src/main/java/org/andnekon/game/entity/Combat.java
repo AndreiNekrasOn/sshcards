@@ -2,12 +2,36 @@ package org.andnekon.game.entity;
 
 import org.andnekon.game.entity.enemy.Enemy;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /** Combat */
 public class Combat {
 
-    private List<Enemy> enemies;
+    // is this only for View purpose? Is this the place for it then?
+    // not only for single view -> so it's generally useful
+    class IdentifiedEnemy extends Enemy {
+
+        private Enemy enemy;
+
+        private int id;
+
+        public IdentifiedEnemy(Enemy enemy, int id) {
+            this.enemy = enemy;
+            this.id = id;
+        }
+        @Override
+        public void fillIntents(Player player) {
+            enemy.fillIntents(player);
+        }
+
+        @Override
+        public String toString() {
+            return "#" + id + " " + enemy.toString();
+        }
+    }
+
+    private List<IdentifiedEnemy> enemies;
 
     private int idx;
 
@@ -15,7 +39,10 @@ public class Combat {
 
     public Combat(String name, Enemy... enemies) {
         this.name = name;
-        this.enemies = List.of(enemies);
+        this.enemies = new ArrayList<>();
+        for (int i = 0; i < enemies.length; i++) {
+            this.enemies.add(new IdentifiedEnemy(enemies[i], i));
+        }
         this.idx = 0;
     }
 
@@ -54,7 +81,7 @@ public class Combat {
     }
 
     public void onTurnBegin() {
-        refresh();
+        refresh(); // some are ded on turn start because Corrosion
         enemies.forEach(e -> e.onTurnBegin());
     }
 

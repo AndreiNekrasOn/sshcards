@@ -9,13 +9,13 @@ public class EnemyFactory {
         RegularShip.class, MirroredShip.class, Pirates.class, TheHorror.class
     };
 
-    public static Enemy getEnemy(String name) {
+    public static Enemy getEnemy(String simpleName) {
         for (int i = 0; i < enemyTypes.length; i++) {
-            if (enemyTypes[i].getSimpleName().equals(name)) {
+            if (enemyTypes[i].getSimpleName().equals(simpleName)) {
                 return getEnemy(i);
             }
         }
-        throw new IllegalStateException("Enemy not found: " + name);
+        throw new IllegalStateException("Enemy not found: " + simpleName);
     }
 
     public static Enemy getRandomEnemy() {

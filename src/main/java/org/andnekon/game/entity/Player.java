@@ -9,6 +9,7 @@ public class Player extends Entity {
 
     private int numInBattleAttacks;
     private int numInBattleDeffence;
+    private int score;
 
     private Deck shotDeck;
     private Deck armorDeck;
@@ -19,6 +20,7 @@ public class Player extends Entity {
         this.hp = 50;
         this.maxHp = 50;
         this.defense = 0;
+        this.score = 10;
 
         numInBattleAttacks = 3;
         numInBattleDeffence = 3;
@@ -74,6 +76,14 @@ public class Player extends Entity {
 
     public void setEnergy(int energy) {
         this.energy = energy;
+    }
+
+    public void addScore(int score) {
+        this.score += score;
+    }
+
+    public int getScore() {
+        return this.score;
     }
 
     @Override

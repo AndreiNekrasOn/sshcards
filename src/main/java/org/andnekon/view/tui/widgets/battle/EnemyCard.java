@@ -14,6 +14,8 @@ public class EnemyCard implements Widget {
 
     public static final int WIDTH = 20;
 
+	public static final int HEIGHT = 6;
+
     private Widget stateWidget;
     private Widget artWidget;
 
@@ -24,6 +26,7 @@ public class EnemyCard implements Widget {
             art = arService.readFile(resource);
         } catch (IOException e) {
             e.printStackTrace();
+            art = resource;
         }
         stateWidget = new MultiLine(col, row, enemyState);
         artWidget =

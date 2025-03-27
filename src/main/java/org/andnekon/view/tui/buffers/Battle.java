@@ -29,6 +29,8 @@ public class Battle extends Buffer {
     Widget playerCard;
     Widget description;
 
+    TerminalRegion enemyRegion;
+
     public Battle(AsciiReaderService arService, BattleManager manager, TerminalRegion region) {
         super(region);
         this.manager = manager;
@@ -36,6 +38,10 @@ public class Battle extends Buffer {
         enemyCards = new ArrayList<>();
 
         setupStats();
+        TerminalRegion psRegion = playerStats.getRegion();
+        enemyRegion = new TerminalRegion(psRegion.rightCol() + 1,
+                psRegion.topRow(), psRegion.rightCol() + EnemyCard.WIDTH,
+                psRegion.topRow() + EnemyCard.HEIGHT);
         setupEnemyCards();
         setupPlayerArt();
         setupDescription();
@@ -54,11 +60,11 @@ public class Battle extends Buffer {
 
         int prevCol = playerStats.getRegion().rightCol() + 1;
         for (Enemy enemy : enemies) {
-            String resource = "tui/enemy/" + enemy.getClass().getSimpleName();
+            String resource = "tui/enemy/" + enemy.toString().substring(3).replace(" ", ""); // sniff
             String stats =
                     String.format(
                             "%s\nhp %d(%d); def %d\ns: %s",
-                            enemy.getClass().getSimpleName(),
+                            enemy.toString(),
                             enemy.getHp(),
                             enemy.getMaxHp(),
                             enemy.getDefense(),
@@ -79,7 +85,8 @@ public class Battle extends Buffer {
         TerminalRegion previousRegion;
         TerminalPosition artTopLeft;
         if (manager.getEnemies().length > 0) {
-            previousRegion = enemyCards.get(manager.getCombat().getEnemies().length - 1).getRegion();
+            previousRegion =
+                    enemyCards.get(manager.getCombat().getEnemies().length - 1).getRegion();
             TerminalRegion selectedERegion = enemyCards.get(i).getRegion();
             artTopLeft =
                     new TerminalPosition(
@@ -105,7 +112,7 @@ public class Battle extends Buffer {
 
     private void setupDescription() {
         TerminalRegion playerCardRegion = playerCard.getRegion();
-        TerminalRegion ecRegion = enemyCards.get(enemyCards.size() - 1).getRegion();
+        TerminalRegion ecRegion = enemyRegion;
         description =
                 new Description(
                         manager,

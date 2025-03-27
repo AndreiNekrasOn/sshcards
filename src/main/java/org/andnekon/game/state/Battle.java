@@ -11,6 +11,7 @@ import org.andnekon.view.HelpType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class Battle extends State {
@@ -75,14 +76,18 @@ public class Battle extends State {
         logger.info("runBattle start phase {}", phase);
         Player player = session.getPlayer();
         Combat combat = session.getBattleManager().getCombat();
+        updateScore(player, combat);
+        combat.refresh();
         switch (phase) {
             case PLAYER_TURN_START, PLAYER_TURN, PLAYER_TURN_HELP -> {
+                // blocks
                 phase = processBattleInput(player, combat, action);
             }
             case PLAYER_TURN_END -> {
                 phase = checkBattleEnd(BattleState.ENEMY_TURN_START, player, combat);
             }
             case ENEMY_TURN_START -> {
+                // TODO: only one instance of updateScore/combat.refresh is needed. Which one?
                 combat.onTurnBegin();
                 phase = BattleState.ENEMY_TURN_END;
             }
@@ -93,11 +98,19 @@ public class Battle extends State {
                 session.getBattleManager().initTurn();
                 phase = checkBattleEnd(BattleState.PLAYER_TURN_START, player, combat);
             }
-            case COMPLETE -> {}
+            case COMPLETE -> { }
             default -> throw new UnsupportedOperationException("Unknown battle state");
         }
         logger.info("runBattle end phase {}", phase);
         return !phasesRequiringInput.contains(phase);
+    }
+
+    private void updateScore(Player player, Combat combat) {
+        player.addScore(
+                Arrays.stream(combat.getEnemies())
+                .filter(e -> e.getHp() < 0)
+                .mapToInt(e -> -e.getHp())
+                .reduce((a, b) -> a + b).orElse(0));
     }
 
     protected BattleState checkBattleEnd(BattleState nextPhase, Player player, Combat combat) {
