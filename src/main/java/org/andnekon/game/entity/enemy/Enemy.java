@@ -3,15 +3,21 @@ package org.andnekon.game.entity.enemy;
 import org.andnekon.game.action.Intent;
 import org.andnekon.game.entity.Entity;
 import org.andnekon.game.entity.Player;
+import org.andnekon.utils.config.EnemyBase;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public abstract class Enemy extends Entity {
 
     protected List<Intent> currentIntents;
 
     protected int turnNumber;
+
+    protected int dmg;
+    protected int armor;
+    protected Map<String, Integer> misc;
 
     public Enemy() {
         currentIntents = new ArrayList<>();
@@ -48,4 +54,13 @@ public abstract class Enemy extends Entity {
 
     @Override
     public abstract String toString();
+
+    public Enemy withStats(EnemyBase base) {
+        this.hp = base.hp();
+        this.maxHp = base.maxHp();
+        this.dmg = base.dmg();
+        this.armor = base.armor();
+        this.misc = base.getMisc();
+        return this;
+    }
 }

@@ -35,6 +35,10 @@ public class Demarshal {
                 }
             }
             return result;
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            System.err.println(resourceName);
+            throw e;
         }
     }
 

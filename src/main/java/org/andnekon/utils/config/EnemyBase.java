@@ -57,4 +57,8 @@ public class EnemyBase {
     public int getParam(String name) {
         return misc.get(name);
     }
+
+    public Map<String, Integer> getMisc() {
+        return misc;
+    }
 }

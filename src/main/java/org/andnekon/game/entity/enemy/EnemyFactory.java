@@ -1,31 +1,48 @@
 package org.andnekon.game.entity.enemy;
 
+import org.andnekon.utils.config.Demarshal;
+import org.andnekon.utils.config.EnemyBase;
+
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class EnemyFactory {
 
-    public static final Class<?>[] enemyTypes = {
-        RegularShip.class, MirroredShip.class, Pirates.class, TheHorror.class
-    };
+    // initialize with nulls in place
+    static Map<String, EnemyBase> nameToStats =
+            new HashMap<>() {
+                {
+                    put("RegularShip", null);
+                    put("MirroredShip", null);
+                    put("Pirates", null);
+                    put("TheHorror", null);
+                }
+            };
+    static Map<String, Class<?>> nameToClass =
+            new HashMap<>() {
+                {
+                    put("RegularShip", RegularShip.class);
+                    put("MirroredShip", MirroredShip.class);
+                    put("Pirates", Pirates.class);
+                    put("TheHorror", TheHorror.class);
+                }
+            };
 
-    public static Enemy getEnemy(String simpleName) {
-        for (int i = 0; i < enemyTypes.length; i++) {
-            if (enemyTypes[i].getSimpleName().equals(simpleName)) {
-                return getEnemy(i);
-            }
-        }
-        throw new IllegalStateException("Enemy not found: " + simpleName);
-    }
-
-    public static Enemy getRandomEnemy() {
-        int random = new Random().nextInt(enemyTypes.length);
-        return getEnemy(random);
-    }
-
-    public static final Enemy getEnemy(int id) {
+    public static Enemy getEnemy(String name) {
         try {
-            return (Enemy) enemyTypes[id].getConstructor().newInstance();
+            nameToStats.putIfAbsent(
+                    name, Demarshal.configEnemy(String.format("enemy/%s.config", name)));
+        } catch (NoSuchFieldException | IOException e) {
+            e.printStackTrace();
+            return null; // fuck off
+        }
+        EnemyBase base = nameToStats.get(name);
+        try {
+            Enemy enemy = (Enemy) nameToClass.get(name).getConstructor().newInstance();
+            return enemy.withStats(base);
         } catch (InstantiationException
                 | IllegalAccessException
                 | IllegalArgumentException
@@ -33,7 +50,13 @@ public class EnemyFactory {
                 | NoSuchMethodException
                 | SecurityException e) {
             e.printStackTrace();
-            return new Pirates(); // default? or crash?
         }
+        throw new IllegalStateException("Enemy not found: " + name);
+    }
+
+    public static Enemy getRandomEnemy() {
+        int random = new Random().nextInt(nameToClass.size());
+        String name = nameToClass.keySet().stream().skip(random).findFirst().orElseThrow();
+        return getEnemy(name);
     }
 }
