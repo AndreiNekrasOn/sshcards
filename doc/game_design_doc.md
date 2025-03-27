@@ -570,13 +570,13 @@ v0.4 - game content and balance
 - [x] 2. Process status effects
 - [x] 3. Skip card option
 - [x] 4. Add draw mechanic
-- [.] 5. Add more cards
-- [ ] 6. Balance cards and enemies
-- [ ] 7. Add rest of the enemies
-- [x] 8. Combat abstraction - up to 3 enemies per battle
-- [x] 9. Score == overkill
-- [ ] 10. Enemies/cards from json, serializing
-- [ ] 10.1*. Untangle Enemy name/class nightmare
+- [ ] 5. Enemies/cards from json, serializing
+- [ ] 5.1*. Untangle Enemy name/class nightmare
+- [.] 6. Add more cards
+- [ ] 7. Balance cards and enemies
+- [ ] 8. Add rest of the enemies
+- [x] 9. Combat abstraction - up to 3 enemies per battle
+- [x] 10. Score == overkill
 
 ----
 
