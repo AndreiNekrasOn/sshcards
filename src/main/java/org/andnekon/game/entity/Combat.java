@@ -106,7 +106,6 @@ public class Combat {
         public void takeDamage(int damage) {
             enemy.takeDamage(damage);
         }
-
     }
 
     private List<IdentifiedEnemy> enemies;
