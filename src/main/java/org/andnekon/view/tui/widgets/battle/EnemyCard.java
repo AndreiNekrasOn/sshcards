@@ -14,7 +14,7 @@ public class EnemyCard implements Widget {
 
     public static final int WIDTH = 20;
 
-	public static final int HEIGHT = 6;
+    public static final int HEIGHT = 6;
 
     private Widget stateWidget;
     private Widget artWidget;

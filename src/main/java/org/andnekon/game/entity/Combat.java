@@ -20,6 +20,7 @@ public class Combat {
             this.enemy = enemy;
             this.id = id;
         }
+
         @Override
         public void fillIntents(Player player) {
             enemy.fillIntents(player);

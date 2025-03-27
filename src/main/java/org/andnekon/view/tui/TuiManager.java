@@ -54,17 +54,21 @@ public class TuiManager {
 
     public void processSpecialInput(String result) {
         this.view.setTab(0);
+        State.Type current = session.getCurrentState().getType();
         if ("?".equals(result)) {
             this.view.setTab(1);
-        } else if (session.getCurrentState().getType() == State.Type.BATTLE && "b".equals(result)) {
+        } else if (current == State.Type.BATTLE && "b".equals(result)) {
             this.view.setTab(2);
-        } else if (session.getCurrentState().getType() == State.Type.MENU) {
+        } else if (current == State.Type.MENU) {
             if ("2".equals(result)) {
                 this.view.setTab(1);
-            } else if ("3".equals(result)) {
-                this.view.setTab(2);
+                // } else if ("3".equals(result)) {
+                //     this.view.setTab(2);
             }
-            ;
+        } else if (current == State.Type.BALANCE_DRAFT || current == State.Type.BALANCE_NAV) {
+            if ("j".equals(result)) {
+                this.view.selectionNext();
+            }
         }
     }
 }

@@ -39,9 +39,12 @@ public class Battle extends Buffer {
 
         setupStats();
         TerminalRegion psRegion = playerStats.getRegion();
-        enemyRegion = new TerminalRegion(psRegion.rightCol() + 1,
-                psRegion.topRow(), psRegion.rightCol() + EnemyCard.WIDTH,
-                psRegion.topRow() + EnemyCard.HEIGHT);
+        enemyRegion =
+                new TerminalRegion(
+                        psRegion.rightCol() + 1,
+                        psRegion.topRow(),
+                        psRegion.rightCol() + EnemyCard.WIDTH,
+                        psRegion.topRow() + EnemyCard.HEIGHT);
         setupEnemyCards();
         setupPlayerArt();
         setupDescription();
@@ -60,7 +63,8 @@ public class Battle extends Buffer {
 
         int prevCol = playerStats.getRegion().rightCol() + 1;
         for (Enemy enemy : enemies) {
-            String resource = "tui/enemy/" + enemy.toString().substring(3).replace(" ", ""); // sniff
+            String resource =
+                    "tui/enemy/" + enemy.toString().substring(3).replace(" ", ""); // sniff
             String stats =
                     String.format(
                             "%s\nhp %d(%d); def %d\ns: %s",

@@ -1,5 +1,6 @@
 package org.andnekon.view.tui;
 
+import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.screen.Screen;
 
 import org.andnekon.game.GameSession;
@@ -19,6 +20,7 @@ import org.andnekon.view.tui.buffers.TabGroup;
 import org.andnekon.view.tui.buffers.Welcome;
 import org.andnekon.view.tui.widgets.Border;
 import org.andnekon.view.tui.widgets.MultiLine;
+import org.andnekon.view.tui.widgets.Options;
 import org.andnekon.view.tui.widgets.TopBotLine;
 import org.andnekon.view.tui.widgets.Widget;
 
@@ -63,6 +65,10 @@ public class TuiView extends AbstractGameView {
     private int helpShow;
 
     private Help helpWindow;
+
+    private int balanceSelect = 0;
+    private int balanceSelectMax = 1;
+    private boolean prevSelectDraft = false;
 
     TuiView(GameSession session, TuiManager manager) throws IOException {
         this.session = session;
@@ -144,7 +150,7 @@ public class TuiView extends AbstractGameView {
         Widget mainMenu = new MainMenu(screen.getTerminalSize());
         Help about = new Help(region, "ABOUT");
         about.addSingle("Just a hobby project");
-        current = new TabGroup(mainMenu, helpWindow, about);
+        current = new TabGroup(mainMenu, helpWindow);
     }
 
     @Override
@@ -191,12 +197,18 @@ public class TuiView extends AbstractGameView {
         cards.addAll(CardFactory.SHOTS);
         cards.addAll(CardFactory.ARMORS);
         cards.addAll(CardFactory.STATUSES);
+        if (!prevSelectDraft) {
+            prevSelectDraft = true;
+            balanceSelect = 0;
+        }
+        balanceSelectMax = cards.size();
+        String[] names = cards.toArray(String[]::new);
         current =
                 new TabGroup(
-                        new MultiLine(
-                                halfCol,
-                                region.topRow(),
-                                cards.stream().reduce((a, b) -> a + "\n" + b).orElse("")));
+                        new Options(
+                                new TerminalPosition(halfCol, region.topRow()),
+                                names,
+                                balanceSelect));
     }
 
     @Override
@@ -205,12 +217,18 @@ public class TuiView extends AbstractGameView {
         for (var c : CombatFactory.combats) {
             enemies.add(c);
         }
+        if (prevSelectDraft) {
+            prevSelectDraft = false;
+            balanceSelect = 0;
+            balanceSelectMax = enemies.size();
+        }
+        String[] names = enemies.toArray(String[]::new);
         current =
                 new TabGroup(
-                        new MultiLine(
-                                halfCol,
-                                region.topRow(),
-                                enemies.stream().reduce((a, b) -> a + "\n" + b).orElse("")));
+                        new Options(
+                                new TerminalPosition(halfCol, region.topRow()),
+                                names,
+                                balanceSelect));
     }
 
     @Override
@@ -239,5 +257,10 @@ public class TuiView extends AbstractGameView {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void selectionNext() {
+        balanceSelect++;
+        balanceSelect = balanceSelect % balanceSelectMax;
     }
 }

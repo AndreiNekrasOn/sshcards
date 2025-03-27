@@ -98,7 +98,7 @@ public class Battle extends State {
                 session.getBattleManager().initTurn();
                 phase = checkBattleEnd(BattleState.PLAYER_TURN_START, player, combat);
             }
-            case COMPLETE -> { }
+            case COMPLETE -> {}
             default -> throw new UnsupportedOperationException("Unknown battle state");
         }
         logger.info("runBattle end phase {}", phase);
@@ -108,9 +108,10 @@ public class Battle extends State {
     private void updateScore(Player player, Combat combat) {
         player.addScore(
                 Arrays.stream(combat.getEnemies())
-                .filter(e -> e.getHp() < 0)
-                .mapToInt(e -> -e.getHp())
-                .reduce((a, b) -> a + b).orElse(0));
+                        .filter(e -> e.getHp() < 0)
+                        .mapToInt(e -> -e.getHp())
+                        .reduce((a, b) -> a + b)
+                        .orElse(0));
     }
 
     protected BattleState checkBattleEnd(BattleState nextPhase, Player player, Combat combat) {

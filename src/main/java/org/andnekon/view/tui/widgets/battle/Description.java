@@ -28,7 +28,7 @@ public class Description implements Widget {
         Enemy[] enemies = this.manager.getEnemies();
         StringBuilder sb = new StringBuilder();
         sb.append("Enemies are going to:\n");
-        for (Enemy enemy: enemies) {
+        for (Enemy enemy : enemies) {
             List<Intent> intents = enemy.getCurrentIntents();
             sb.append("\t" + enemy.toString() + ":\n");
             for (Intent i : intents) {

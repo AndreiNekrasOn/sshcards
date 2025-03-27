@@ -9,8 +9,8 @@ import org.andnekon.view.tui.TerminalRegion;
 /** A widget with a single line of text */
 public class SingleLine implements Widget {
 
-    private String text;
-    private TerminalRegion region;
+    protected String text;
+    protected TerminalRegion region;
 
     public SingleLine(String text, TerminalPosition topLeft) {
         this.text = text;
