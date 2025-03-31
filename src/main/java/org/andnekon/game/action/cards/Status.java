@@ -8,4 +8,8 @@ public class Status extends Card {
     public Status(String name, int cost, Intent... intent) {
         super(name, cost, intent);
     }
+
+	public Status() {
+		//TODO Auto-generated constructor stub
+	}
 }

@@ -13,7 +13,9 @@ public abstract class Intent {
 
     public Intent(Entity source, int value, Entity... targets) {
         this.targets = new ArrayList<>();
-        this.targets.addAll(List.of(targets));
+        if (targets != null && targets.length != 0) {
+            this.targets.addAll(List.of(targets));
+        }
         this.source = source;
         this.value = value;
     }

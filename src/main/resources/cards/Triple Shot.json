@@ -1,0 +1,24 @@
+{
+    "name": "Triple Shot",
+    "description": "Deal 1x3 damage",
+    "cost": 3,
+    "type": "attack",
+    "art": "tui/cards/Shot",
+    "actions": [
+        {
+            "type": "attack",
+            "target": "enemy",
+            "value": 1
+        },
+        {
+            "type": "attack",
+            "target": "enemy",
+            "value": 1
+        },
+        {
+            "type": "attack",
+            "target": "enemy",
+            "value": 1
+        }
+    ]
+}

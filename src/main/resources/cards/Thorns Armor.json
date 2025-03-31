@@ -1,0 +1,20 @@
+{
+    "name": "Thorns Armor",
+    "description": "Gain 2 shield, deal 1",
+    "cost": 2,
+    "type": "skill",
+    "art": "tui/cards/Skill",
+    "actions": [
+        {
+            "type": "attack",
+            "target": "self",
+            "value": 1
+        },
+        {
+            "type": "defence",
+            "target": "self",
+            "value": 5
+        }
+    ]
+}
+

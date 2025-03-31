@@ -8,4 +8,8 @@ public class Shot extends Card {
     public Shot(String name, int cost, Intent... intent) {
         super(name, cost, intent);
     }
+
+	public Shot() {
+		//TODO Auto-generated constructor stub
+	}
 }

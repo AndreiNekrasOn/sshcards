@@ -1,0 +1,16 @@
+{
+    "name": "Crack",
+    "description": "Apply 1 cr.",
+    "cost": 1,
+    "type": "status",
+    "art": "tui/cards/Skill",
+    "actions": [
+        {
+            "type": "effect",
+            "target": "enemy",
+            "payload": "crack",
+            "value": 1
+        }
+    ]
+}
+

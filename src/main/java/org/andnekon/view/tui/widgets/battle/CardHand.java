@@ -37,7 +37,6 @@ public class CardHand implements ActiveWidget {
             String[] cardResources,
             TerminalRegion region,
             int cardIdxOffset) {
-        this.manager = manager;
         this.region = region;
         this.widgets = new ArrayList<>();
 
@@ -50,6 +49,7 @@ public class CardHand implements ActiveWidget {
         for (int i = 0; i < cardResources.length; i++) {
             String[] info;
             try {
+                // TODO: fix before moving on with cards
                 info = service.readFile(cardResources[i]).split(":\n");
             } catch (IOException e) {
                 info = new String[] {"0", cardResources[i], "ERROR", "ERROR"};

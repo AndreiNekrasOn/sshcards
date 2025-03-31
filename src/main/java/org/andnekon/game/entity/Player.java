@@ -3,9 +3,13 @@ package org.andnekon.game.entity;
 import org.andnekon.game.action.Card;
 
 import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicLong;
 
 /** Player model. */
 public class Player extends Entity {
+
+    private static AtomicLong allId = new AtomicLong(0);
+    private long id;
 
     private int numInBattleAttacks;
     private int numInBattleDeffence;
@@ -27,6 +31,8 @@ public class Player extends Entity {
 
         shotDeck = new Deck(numInBattleAttacks);
         armorDeck = new Deck(numInBattleDeffence);
+
+        this.id = allId.getAndIncrement();
     }
 
     public int getEnergy() {
@@ -89,5 +95,18 @@ public class Player extends Entity {
     @Override
     public String toString() {
         return "Player";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Player) {
+            return ((Player) obj).id == id;
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return (int)(id ^ (id >>> 32));
     }
 }

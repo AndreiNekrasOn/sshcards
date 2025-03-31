@@ -8,4 +8,8 @@ public class Armor extends Card {
     public Armor(String name, int cost, Intent... intent) {
         super(name, cost, intent);
     }
+
+	public Armor() {
+		//TODO Auto-generated constructor stub
+	}
 }

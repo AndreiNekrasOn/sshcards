@@ -1,0 +1,9 @@
+{
+    "name": "Overdrive",
+    "description": "Gain 1 shield",
+    "cost": -2,
+    "type": "skill",
+    "art": "tui/cards/Skill",
+    "actions": []
+}
+

@@ -1,0 +1,16 @@
+{
+    "name": "Draw Skill",
+    "description": "Draw 1 skill",
+    "cost": 1,
+    "type": "skill",
+    "art": "tui/cards/Skill",
+    "actions": [
+        {
+            "type": "draw",
+            "payload": "skill",
+            "target": "self",
+            "value": 2
+        }
+    ]
+}
+

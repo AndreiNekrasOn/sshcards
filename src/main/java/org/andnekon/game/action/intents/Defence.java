@@ -12,6 +12,9 @@ public class Defence extends Intent {
 
     @Override
     public void execute(Entity... ignored) {
+        if (this.targets == null || !this.targets.isEmpty()) {
+            return;
+        }
         for (Entity target : this.targets) { // applies to self
             target.setDefense(target.getDefense() + value);
         }
