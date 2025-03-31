@@ -111,7 +111,6 @@ public class Combat {
         public String getAscii() {
             return enemy.getAscii();
         }
-
     }
 
     private List<IdentifiedEnemy> enemies;
@@ -134,7 +133,9 @@ public class Combat {
     }
 
     public void selectNext() {
-        idx = (idx + 1) % enemies.size();
+        if (enemies.size() > 0) {
+            idx = (idx + 1) % enemies.size();
+        }
     }
 
     public int getIdx() {

@@ -127,13 +127,6 @@ public class Battle extends Buffer {
     }
 
     private void setupHand() {
-        // fill with dummies
-        // can't fill with dummies, gotta reinitialize
-        String[] attackResources =
-                manager.getPlayer().getShotDeck().getHand().stream()
-                        .map(c -> "tui/cards/" + c.getName())
-                        .toList()
-                        .toArray(String[]::new);
         TerminalRegion skillRegion;
         TerminalRegion attackRegion =
                 new TerminalRegion(
@@ -141,8 +134,16 @@ public class Battle extends Buffer {
                         playerCard.getRegion().botRow() + 2, // for border
                         region.leftCol(),
                         playerCard.getRegion().botRow() + 2);
-        if (attackResources.length > 0) {
-            Widget attackHand = new CardHand(arService, attackResources, attackRegion);
+
+        // manager.getPlayer().getShotDeck().getHand().stream()
+        //         .map(Card::getArt)
+        //         .toList()
+        // .toArray(String[]::new);
+        int aSize = manager.getPlayer().getShotDeck().getHand().size();
+        if (aSize > 0) {
+            Widget attackHand =
+                    new CardHand(
+                            arService, manager.getPlayer().getShotDeck().getHand(), attackRegion);
             attackHand = new Border(attackHand);
             widgets.add(attackHand);
             skillRegion =
@@ -155,14 +156,13 @@ public class Battle extends Buffer {
             skillRegion = attackRegion;
         }
 
-        String[] skillResources =
-                manager.getPlayer().getArmorDeck().getHand().stream()
-                        .map(c -> "tui/cards/" + c.getName())
-                        .toList()
-                        .toArray(String[]::new);
-        if (skillResources.length > 0) {
+        if (manager.getPlayer().getArmorDeck().getHand().size() > 0) {
             Widget skillHand =
-                    new CardHand(arService, skillResources, skillRegion, attackResources.length);
+                    new CardHand(
+                            arService,
+                            manager.getPlayer().getArmorDeck().getHand(),
+                            skillRegion,
+                            aSize);
             skillHand = new Border(skillHand);
             widgets.add(skillHand);
         }

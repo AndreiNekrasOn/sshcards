@@ -81,7 +81,4 @@ public abstract class Card {
     public void setArt(String art) {
         this.art = art;
     }
-
-
-
 }

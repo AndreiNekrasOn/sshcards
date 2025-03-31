@@ -9,7 +9,7 @@ public class Armor extends Card {
         super(name, cost, intent);
     }
 
-	public Armor() {
-		//TODO Auto-generated constructor stub
-	}
+    public Armor() {
+        // TODO Auto-generated constructor stub
+    }
 }

@@ -9,7 +9,7 @@ public class Shot extends Card {
         super(name, cost, intent);
     }
 
-	public Shot() {
-		//TODO Auto-generated constructor stub
-	}
+    public Shot() {
+        // TODO Auto-generated constructor stub
+    }
 }

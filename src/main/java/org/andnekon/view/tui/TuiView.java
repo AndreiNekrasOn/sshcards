@@ -7,7 +7,6 @@ import org.andnekon.game.GameSession;
 import org.andnekon.game.action.CardFactory;
 import org.andnekon.game.entity.enemy.CombatFactory;
 import org.andnekon.game.manage.NavigationManager;
-import org.andnekon.game.manage.RewardManager;
 import org.andnekon.game.state.State;
 import org.andnekon.view.AbstractGameView;
 import org.andnekon.view.tui.buffers.Battle;
@@ -101,16 +100,10 @@ public class TuiView extends AbstractGameView {
 
     @Override
     protected void showReward() {
-        RewardManager rewardManager = session.getRewardManager();
-        String[] resources =
-                rewardManager.getRewardOptions().stream()
-                        .map(c -> "tui/cards/" + c.getName())
-                        .toList()
-                        .toArray(String[]::new);
         Widget rewardPopup =
                 new Reward(
                         new TerminalRegion(halfCol, halfRow, halfCol, halfRow),
-                        resources,
+                        session.getRewardManager().getRewardOptions(),
                         arSerivce);
         rewardPopup = new Border(rewardPopup);
         rewardPopup = new TopBotLine(rewardPopup, region, session, HELP_REWARD);
@@ -194,9 +187,7 @@ public class TuiView extends AbstractGameView {
     @Override
     protected void showBalanceDraft() {
         List<String> cards = new ArrayList<>();
-        cards.addAll(CardFactory.SHOTS);
-        cards.addAll(CardFactory.ARMORS);
-        cards.addAll(CardFactory.STATUSES);
+        cards.addAll(CardFactory.CARDS);
         if (!prevSelectDraft) {
             prevSelectDraft = true;
             balanceSelect = 0;

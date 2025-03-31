@@ -9,7 +9,7 @@ public class Status extends Card {
         super(name, cost, intent);
     }
 
-	public Status() {
-		//TODO Auto-generated constructor stub
-	}
+    public Status() {
+        // TODO Auto-generated constructor stub
+    }
 }

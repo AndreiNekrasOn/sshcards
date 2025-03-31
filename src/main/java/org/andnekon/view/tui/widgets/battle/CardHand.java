@@ -28,31 +28,37 @@ public class CardHand implements ActiveWidget {
 
     private List<Widget> widgets;
 
-    public CardHand(AsciiReaderService service, String[] cardResources, TerminalRegion region) {
-        this(service, cardResources, region, 0);
+    public CardHand(
+            AsciiReaderService service,
+            List<org.andnekon.game.action.Card> hand,
+            TerminalRegion region) {
+        this(service, hand, region, 0);
     }
 
     public CardHand(
             AsciiReaderService service,
-            String[] cardResources,
+            List<org.andnekon.game.action.Card> hand,
             TerminalRegion region,
             int cardIdxOffset) {
         this.region = region;
         this.widgets = new ArrayList<>();
-
         TerminalRegion prevCardRegion =
                 new TerminalRegion(
                         region.leftCol(),
                         region.topRow() + 2,
                         region.leftCol(),
                         region.topRow() + 2);
-        for (int i = 0; i < cardResources.length; i++) {
-            String[] info;
+        for (int i = 0; i < hand.size(); i++) {
+            var cardInfo = hand.get(i);
+            String[] info = new String[4];
+            info[0] = cardInfo.getName();
+            info[1] = String.valueOf(cardInfo.getCost());
+            info[2] = cardInfo.getDescription();
             try {
                 // TODO: fix before moving on with cards
-                info = service.readFile(cardResources[i]).split(":\n");
+                info[3] = service.readFile(cardInfo.getArt());
             } catch (IOException e) {
-                info = new String[] {"0", cardResources[i], "ERROR", "ERROR"};
+                info[3] = "ERROR";
             }
             assert (info.length == 4);
             Widget card = buildCardWidget(info, prevCardRegion, i + cardIdxOffset);
@@ -64,15 +70,17 @@ public class CardHand implements ActiveWidget {
     }
 
     private Widget buildCardWidget(String[] info, TerminalRegion prevCardRegion, int idx) {
-        int cost = Integer.valueOf(info[0]); // TODO: cost -> cost+type, params?
-        String description = info[1];
-        String ascii = info[2];
+        String name = info[0];
+        int cost = Integer.valueOf(info[1]); // TODO: cost -> cost+type, params?
+        String description = info[2];
+        String ascii = info[3];
         // col + 4 is for padding
         // row  +1 fixes border
         Widget card =
                 new Card(
                         new TerminalPosition(
                                 prevCardRegion.rightCol() + 4, prevCardRegion.topRow() + 1),
+                        name,
                         ascii,
                         cost,
                         description);

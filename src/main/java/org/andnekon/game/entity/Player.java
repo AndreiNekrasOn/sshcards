@@ -107,6 +107,6 @@ public class Player extends Entity {
 
     @Override
     public int hashCode() {
-        return (int)(id ^ (id >>> 32));
+        return (int) (id ^ (id >>> 32));
     }
 }

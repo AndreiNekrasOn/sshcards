@@ -2,6 +2,7 @@ package org.andnekon.game.manage;
 
 import org.andnekon.game.action.Card;
 import org.andnekon.game.action.CardFactory;
+import org.andnekon.game.action.cards.Shot;
 import org.andnekon.game.entity.Player;
 
 public class CardManager {
@@ -23,16 +24,11 @@ public class CardManager {
     }
 
     public void addCard(Card card) {
-        String name = card.getName();
-        if (CardFactory.SHOTS.contains(name)) {
+        if (card instanceof Shot) {
             player.getShotDeck().add(card);
-            return;
-        } else if (CardFactory.ARMORS.contains(name) || CardFactory.STATUSES.contains(name)) {
+        } else {
             player.getArmorDeck().add(card);
             return;
-            // } else if (CardFactory.STATUSES.contains(name)) {
-            //     player.getStatusDeck().add(card);
         }
-        throw new IllegalStateException("Unknown card: " + name);
     }
 }

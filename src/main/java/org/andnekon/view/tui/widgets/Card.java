@@ -20,7 +20,7 @@ public class Card implements Widget {
     private Function<Widget, Integer> startCol = w -> w.getRegion().leftCol();
     private Function<Widget, Integer> endRow = w -> w.getRegion().botRow();
 
-    public Card(TerminalPosition topLeft, String name, int cost, String description) {
+    public Card(TerminalPosition topLeft, String name, String ascii, int cost, String description) {
         name = StringUtil.wrap(name, CARD_WIDTH); // border
         description = StringUtil.wrap(description, CARD_WIDTH);
 
@@ -33,6 +33,7 @@ public class Card implements Widget {
         descWidget =
                 new MultiLine(
                         startCol.apply(costWidget), 1 + endRow.apply(costWidget), description);
+        // TODO: ascii is ignored for now
     }
 
     @Override

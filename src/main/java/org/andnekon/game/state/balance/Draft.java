@@ -18,9 +18,7 @@ public class Draft extends State {
     public Draft(GameSession session) {
         super(session);
         cards = new ArrayList<>();
-        cards.addAll(CardFactory.SHOTS);
-        cards.addAll(CardFactory.ARMORS);
-        cards.addAll(CardFactory.STATUSES);
+        cards.addAll(CardFactory.CARDS);
         session.reset(); // make this optional???
         idx = 0;
     }
