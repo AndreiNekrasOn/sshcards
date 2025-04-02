@@ -1,4 +1,4 @@
-package org.andnekon.game.action.intents;
+package org.andnekon.game.action.intents.player;
 
 import org.andnekon.game.action.Intent;
 import org.andnekon.game.entity.Entity;

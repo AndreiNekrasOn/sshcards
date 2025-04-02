@@ -574,6 +574,8 @@ v0.4 - game content and balance
 - [x] 5.1*. Untangle Enemy name/class nightmare
 - [x] 5.2. Cards from json
 - [.] 6. Add more cards
+- [ ] 6.1 Add more mechanics
+- [ ] 6.2 Card logic separated from json
 - [ ] 7. Balance cards and enemies
 - [ ] 8. Add rest of the enemies
 - [x] 9. Combat abstraction - up to 3 enemies per battle
