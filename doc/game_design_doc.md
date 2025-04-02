@@ -572,7 +572,7 @@ v0.4 - game content and balance
 - [x] 4. Add draw mechanic
 - [x] 5. Enemies from json, serializing
 - [x] 5.1*. Untangle Enemy name/class nightmare
-- [ ] 5.2. Cards from json
+- [x] 5.2. Cards from json
 - [.] 6. Add more cards
 - [ ] 7. Balance cards and enemies
 - [ ] 8. Add rest of the enemies

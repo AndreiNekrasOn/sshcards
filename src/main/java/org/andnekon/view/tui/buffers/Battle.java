@@ -144,7 +144,6 @@ public class Battle extends Buffer {
             Widget attackHand =
                     new CardHand(
                             arService, manager.getPlayer().getShotDeck().getHand(), attackRegion);
-            attackHand = new Border(attackHand);
             widgets.add(attackHand);
             skillRegion =
                     new TerminalRegion(
@@ -163,7 +162,6 @@ public class Battle extends Buffer {
                             manager.getPlayer().getArmorDeck().getHand(),
                             skillRegion,
                             aSize);
-            skillHand = new Border(skillHand);
             widgets.add(skillHand);
         }
     }
