@@ -3,6 +3,7 @@ package org.andnekon.game.entity.enemy;
 import org.andnekon.game.action.Intent;
 import org.andnekon.game.entity.Entity;
 import org.andnekon.game.entity.Player;
+import org.andnekon.game.manage.BattleManager;
 import org.andnekon.utils.config.EnemyBase;
 
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public abstract class Enemy extends Entity {
         }
     }
 
-    public abstract void fillIntents(Player player);
+    public abstract void fillIntents(BattleManager manager);
 
     public String displayIntents() {
         StringBuilder intents = new StringBuilder();

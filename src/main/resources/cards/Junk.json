@@ -1,0 +1,14 @@
+{
+    "name": "Junk",
+    "description": "Deal 3 to all",
+    "cost": 1,
+    "type": "attack",
+    "art": "tui/cards/Shot",
+    "actions": [
+        {
+            "type": "attack",
+            "target": "all",
+            "value": 3
+        }
+    ]
+}

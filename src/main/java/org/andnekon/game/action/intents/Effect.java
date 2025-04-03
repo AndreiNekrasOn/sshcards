@@ -2,6 +2,7 @@ package org.andnekon.game.action.intents;
 
 import org.andnekon.game.action.Intent;
 import org.andnekon.game.entity.Entity;
+import org.andnekon.game.manage.BattleManager;
 
 import java.util.List;
 
@@ -9,8 +10,8 @@ public class Effect extends Intent {
 
     private String name;
 
-    public Effect(Entity source, String name, int value, Entity... targets) {
-        super(source, value, targets);
+    public Effect(Entity source, String name, int value, BattleManager manager, Entity... targets) {
+        super(source, value, manager, targets);
         this.name = name;
     }
 

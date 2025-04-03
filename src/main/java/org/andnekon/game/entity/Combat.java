@@ -2,6 +2,7 @@ package org.andnekon.game.entity;
 
 import org.andnekon.game.action.Intent;
 import org.andnekon.game.entity.enemy.Enemy;
+import org.andnekon.game.manage.BattleManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,7 @@ public class Combat {
 
     // is this only for View purpose? Is this the place for it then?
     // not only for single view -> so it's generally useful
+    // TODO: make this default Enemy toString behavior, add getName if needed
     class IdentifiedEnemy extends Enemy {
 
         private Enemy enemy;
@@ -23,8 +25,8 @@ public class Combat {
         }
 
         @Override
-        public void fillIntents(Player player) {
-            enemy.fillIntents(player);
+        public void fillIntents(BattleManager manager) {
+            enemy.fillIntents(manager);
         }
 
         @Override

@@ -3,11 +3,12 @@ package org.andnekon.game.action.intents.player;
 import org.andnekon.game.action.Intent;
 import org.andnekon.game.entity.Entity;
 import org.andnekon.game.entity.Player;
+import org.andnekon.game.manage.BattleManager;
 
 public class DrawSkill extends Intent {
 
-    public DrawSkill(Entity source, int value, Entity... targets) {
-        super(source, value, targets);
+    public DrawSkill(Entity source, int value, BattleManager manager, Entity... targets) {
+        super(source, value, manager, targets);
     }
 
     @Override

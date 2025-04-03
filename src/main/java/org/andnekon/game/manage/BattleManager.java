@@ -45,7 +45,7 @@ public class BattleManager implements StateManager {
         turn++;
         player.onTurnBegin();
         for (Enemy enemy : combat.getEnemies()) {
-            enemy.fillIntents(player);
+            enemy.fillIntents(this);
         }
     }
 

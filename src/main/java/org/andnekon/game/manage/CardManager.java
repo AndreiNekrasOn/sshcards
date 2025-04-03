@@ -7,23 +7,24 @@ import org.andnekon.game.entity.Player;
 
 public class CardManager {
 
-    private Player player;
+    private BattleManager battleManager;
 
-    public CardManager(Player player) {
-        this.player = player;
+    public CardManager(BattleManager manager) {
+        this.battleManager = manager;
     }
 
     public void initializeDefaultDeck() {
         for (int i = 0; i < 4; i++) {
-            addCard(CardFactory.getCard(player, "Shot"));
+            addCard(CardFactory.getCard(battleManager, "Shot"));
         }
         for (int i = 0; i < 3; i++) {
-            addCard(CardFactory.getCard(player, "Armor Up"));
+            addCard(CardFactory.getCard(battleManager, "Armor Up"));
         }
-        addCard(CardFactory.getCard(player, "Lucky Shot"));
+        addCard(CardFactory.getCard(battleManager, "Lucky Shot"));
     }
 
     public void addCard(Card card) {
+        Player player = battleManager.getPlayer();
         if (card instanceof Shot) {
             player.getShotDeck().add(card);
         } else {

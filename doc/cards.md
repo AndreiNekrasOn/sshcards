@@ -40,17 +40,17 @@ only new mechanics are listed
 - apply weak
 - return card from discard
 - scales with strength
-- deal damage, gain defence
+- ~deal damage, gain defence~
 - scales with number of specific cards
-- draws cards
+- ~draws cards~
 - damage to random enemy
-- damage to all
-- damage n times
+- ~damage to all~
+- ~damage n times~
 - add "status" card to draw
 - energy cost scales with the number of times hit
 - ethereal
 - if vuln draw
-- hurts
+- ~hurts~
 - exhaust
 - scales with number of times plaid
 - exhaust skills

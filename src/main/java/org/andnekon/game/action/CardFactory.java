@@ -1,6 +1,7 @@
 package org.andnekon.game.action;
 
 import org.andnekon.game.entity.Player;
+import org.andnekon.game.manage.BattleManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,7 +44,8 @@ public class CardFactory {
 
     private CardFactory() {}
 
-    private static synchronized void initialize(Player player) {
+    private static synchronized void initialize(BattleManager manager) {
+        Player player = manager.getPlayer();
         if (init.contains(player)) {
             return;
         }
@@ -51,7 +53,7 @@ public class CardFactory {
         List<String> all = new ArrayList<>();
         all.addAll(CARDS);
         for (String name : all) {
-            Card card = CardReaderService.readCard(name, player);
+            Card card = CardReaderService.readCard(name, manager);
             // do we panic if card is null?
             nameToCard.put(new PlayerWithCardName(player, name), card);
         }
@@ -59,26 +61,27 @@ public class CardFactory {
 
     public static final List<String> CARDS =
             List.of(
-                    "Shot",
-                    "Lucky Shot",
-                    "Triple Shot",
                     "Armor Up",
                     "Better Armor",
-                    "Thorns Armor",
-                    "Overdrive",
+                    "Crack",
+                    "Corrosion",
                     "Draw Shot",
                     "Draw Skill",
-                    "Crack",
-                    "Corrosion");
+                    "Junk",
+                    "Lucky Shot",
+                    "Overdrive",
+                    "Shot",
+                    "Thorns Armor",
+                    "Triple Shot");
 
-    public static Card getCard(Player player, String name) {
-        initialize(player);
-        return nameToCard.get(new PlayerWithCardName(player, name));
+    public static Card getCard(BattleManager manager, String name) {
+        initialize(manager);
+        return nameToCard.get(new PlayerWithCardName(manager.getPlayer(), name));
     }
 
-    public static Card getRandomCard(Player player) {
+    public static Card getRandomCard(BattleManager manager) {
         int limit = CARDS.size();
         int random = (int) (Math.random() * limit);
-        return getCard(player, CARDS.get(random));
+        return getCard(manager, CARDS.get(random));
     }
 }

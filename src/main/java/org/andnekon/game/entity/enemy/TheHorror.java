@@ -3,6 +3,7 @@ package org.andnekon.game.entity.enemy;
 import org.andnekon.game.action.intents.Attack;
 import org.andnekon.game.action.intents.Defence;
 import org.andnekon.game.entity.Player;
+import org.andnekon.game.manage.BattleManager;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
@@ -26,21 +27,21 @@ public class TheHorror extends Enemy {
     private List<Integer> stateHistory = new ArrayList<>();
 
     @Override
-    public void fillIntents(Player player) {
+    public void fillIntents(BattleManager manager) {
         changeState();
         int currentState = stateHistory.get(stateHistory.size() - 1);
         switch (currentState) {
             case 0:
-                this.currentIntents.add(new Attack(this, dmg, player));
+                this.currentIntents.add(new Attack(this, dmg, manager, manager.getPlayer()));
                 break;
             case 1:
-                this.currentIntents.add(new Attack(this, dmg + 1, player));
-                this.currentIntents.add(new Attack(this, 1, this));
+                this.currentIntents.add(new Attack(this, dmg + 1, manager, manager.getPlayer()));
+                this.currentIntents.add(new Attack(this, 1, manager, this));
                 break;
             case 2:
-                this.currentIntents.add(new Attack(this, dmg / 3, player));
-                this.currentIntents.add(new Defence(this, armor, this));
-                this.currentIntents.add(new Defence(this, armor, player));
+                this.currentIntents.add(new Attack(this, dmg / 3, manager, manager.getPlayer()));
+                this.currentIntents.add(new Defence(this, armor, manager, this));
+                this.currentIntents.add(new Defence(this, armor, manager, manager.getPlayer()));
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + stateHistory);
