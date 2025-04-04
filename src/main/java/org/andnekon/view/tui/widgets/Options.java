@@ -6,11 +6,10 @@ import com.googlecode.lanterna.screen.Screen;
 import org.andnekon.view.tui.TerminalRegion;
 
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 /** Options */
-public class Options implements Widget, Iterator {
+public class Options implements Widget {
 
     final ActiveWidget[] options;
 
@@ -46,17 +45,5 @@ public class Options implements Widget, Iterator {
                         .max()
                         .orElse(bot.rightCol());
         return new TerminalRegion(top.leftCol(), top.topRow(), widthRight, bot.botRow());
-    }
-
-    @Override
-    public boolean hasNext() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'hasNext'");
-    }
-
-    @Override
-    public Object next() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'next'");
     }
 }

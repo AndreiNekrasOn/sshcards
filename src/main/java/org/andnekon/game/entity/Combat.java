@@ -1,8 +1,6 @@
 package org.andnekon.game.entity;
 
-import org.andnekon.game.action.Intent;
 import org.andnekon.game.entity.enemy.Enemy;
-import org.andnekon.game.manage.BattleManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,112 +8,7 @@ import java.util.List;
 /** Combat */
 public class Combat {
 
-    // is this only for View purpose? Is this the place for it then?
-    // not only for single view -> so it's generally useful
-    // TODO: make this default Enemy toString behavior, add getName if needed
-    class IdentifiedEnemy extends Enemy {
-
-        private Enemy enemy;
-
-        private int id;
-
-        public IdentifiedEnemy(Enemy enemy, int id) {
-            this.enemy = enemy;
-            this.id = id;
-        }
-
-        @Override
-        public void fillIntents(BattleManager manager) {
-            enemy.fillIntents(manager);
-        }
-
-        @Override
-        public String toString() {
-            return "#" + id + " " + enemy.toString();
-        }
-
-        @Override
-        public void clearIntents() {
-            enemy.clearIntents();
-        }
-
-        @Override
-        public String displayIntents() {
-            return enemy.displayIntents();
-        }
-
-        @Override
-        public List<Intent> getCurrentIntents() {
-            return enemy.getCurrentIntents();
-        }
-
-        @Override
-        public void onTurnBegin(Entity... targets) {
-            enemy.onTurnBegin(targets);
-        }
-
-        @Override
-        public int getDefense() {
-            return enemy.getDefense();
-        }
-
-        @Override
-        public int getEffectValue(String effect) {
-            return enemy.getEffectValue(effect);
-        }
-
-        @Override
-        public int getHp() {
-            return enemy.getHp();
-        }
-
-        @Override
-        public int getMaxHp() {
-            return enemy.getMaxHp();
-        }
-
-        @Override
-        public void heal(int value) {
-            enemy.heal(value);
-        }
-
-        @Override
-        public void increaseEffect(String effect, int value) {
-            enemy.increaseEffect(effect, value);
-        }
-
-        @Override
-        public void setDefense(int defense) {
-            enemy.setDefense(defense);
-        }
-
-        @Override
-        public void setEffect(String effect, int value) {
-            enemy.setEffect(effect, value);
-        }
-
-        @Override
-        public void setHp(int hp) {
-            enemy.setHp(hp);
-        }
-
-        @Override
-        public void setMaxHp(int maxHp) {
-            enemy.setMaxHp(maxHp);
-        }
-
-        @Override
-        public void takeDamage(int damage) {
-            enemy.takeDamage(damage);
-        }
-
-        @Override
-        public String getAscii() {
-            return enemy.getAscii();
-        }
-    }
-
-    private List<IdentifiedEnemy> enemies;
+    private List<Enemy> enemies;
 
     private int idx;
 
@@ -124,9 +17,7 @@ public class Combat {
     public Combat(String name, Enemy... enemies) {
         this.name = name;
         this.enemies = new ArrayList<>();
-        for (int i = 0; i < enemies.length; i++) {
-            this.enemies.add(new IdentifiedEnemy(enemies[i], i));
-        }
+        this.enemies.addAll(List.of(enemies));
         this.idx = 0;
     }
 

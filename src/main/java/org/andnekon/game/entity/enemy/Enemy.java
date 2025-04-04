@@ -2,7 +2,6 @@ package org.andnekon.game.entity.enemy;
 
 import org.andnekon.game.action.Intent;
 import org.andnekon.game.entity.Entity;
-import org.andnekon.game.entity.Player;
 import org.andnekon.game.manage.BattleManager;
 import org.andnekon.utils.config.EnemyBase;
 
@@ -23,6 +22,8 @@ public abstract class Enemy extends Entity {
     protected String ascii;
 
     protected Map<String, Integer> misc;
+
+    protected int id;
 
     public Enemy() {
         currentIntents = new ArrayList<>();
@@ -59,7 +60,7 @@ public abstract class Enemy extends Entity {
 
     @Override
     public String toString() {
-        return name;
+        return "#" + id + " " + name;
     }
 
     public Enemy withStats(EnemyBase base) {
@@ -75,5 +76,13 @@ public abstract class Enemy extends Entity {
 
     public String getAscii() {
         return ascii;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

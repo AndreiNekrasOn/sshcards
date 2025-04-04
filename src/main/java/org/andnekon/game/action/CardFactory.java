@@ -5,58 +5,19 @@ import org.andnekon.game.manage.BattleManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
+/** CardFactory is a per-player singleton */
 public class CardFactory {
 
-    // TODO: should we make CardFactory non-static and instantiated for player instead?
-    static class PlayerWithCardName {
-        Player p;
-        String name;
+    private static volatile Map<Player, CardFactory> instances = new HashMap<>();
 
-        public PlayerWithCardName(Player p, String name) {
-            this.p = p;
-            this.name = name;
-        }
+    private BattleManager manager;
+    private Map<String, Card> nameToCard = new HashMap<>();
 
-        @Override
-        public boolean equals(Object obj) {
-            if (!(obj instanceof PlayerWithCardName)) {
-                return false;
-            }
-            PlayerWithCardName other = (PlayerWithCardName) obj;
-            return other.name.equals(name) && other.p.equals(p);
-        }
-
-        @Override
-        public int hashCode() {
-            long value = name.hashCode() + p.hashCode();
-            return (int) (value ^ (value >>> 32));
-        }
-    }
-
-    private static volatile Set<Player> init = new HashSet<>();
-
-    private static volatile Map<PlayerWithCardName, Card> nameToCard = new HashMap<>();
-
-    private CardFactory() {}
-
-    private static synchronized void initialize(BattleManager manager) {
-        Player player = manager.getPlayer();
-        if (init.contains(player)) {
-            return;
-        }
-        init.add(player);
-        List<String> all = new ArrayList<>();
-        all.addAll(CARDS);
-        for (String name : all) {
-            Card card = CardReaderService.readCard(name, manager);
-            // do we panic if card is null?
-            nameToCard.put(new PlayerWithCardName(player, name), card);
-        }
+    private CardFactory(BattleManager manager) {
+        this.manager = manager;
     }
 
     public static final List<String> CARDS =
@@ -74,14 +35,30 @@ public class CardFactory {
                     "Thorns Armor",
                     "Triple Shot");
 
-    public static Card getCard(BattleManager manager, String name) {
-        initialize(manager);
-        return nameToCard.get(new PlayerWithCardName(manager.getPlayer(), name));
+    public static synchronized CardFactory instance(BattleManager manager) {
+        Player player = manager.getPlayer();
+        if (instances.containsKey(player)) {
+            return instances.get(player);
+        }
+        CardFactory result = new CardFactory(manager);
+        instances.put(player, result);
+
+        List<String> all = new ArrayList<>();
+        all.addAll(CARDS);
+        for (String name : all) {
+            Card card = CardReaderService.readCard(name, manager);
+            result.nameToCard.put(name, card);
+        }
+        return result;
     }
 
-    public static Card getRandomCard(BattleManager manager) {
+    public Card getCard(String name) {
+        return nameToCard.get(name);
+    }
+
+    public Card getRandomCard() {
         int limit = CARDS.size();
         int random = (int) (Math.random() * limit);
-        return getCard(manager, CARDS.get(random));
+        return getCard(CARDS.get(random));
     }
 }

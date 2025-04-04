@@ -2,7 +2,6 @@ package org.andnekon.game.entity.enemy;
 
 import org.andnekon.game.action.intents.Attack;
 import org.andnekon.game.action.intents.Defence;
-import org.andnekon.game.entity.Player;
 import org.andnekon.game.manage.BattleManager;
 import org.slf4j.LoggerFactory;
 

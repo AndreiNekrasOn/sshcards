@@ -5,7 +5,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import org.andnekon.game.entity.Player;
 import org.andnekon.game.manage.BattleManager;
 
 import java.io.IOException;
@@ -40,9 +39,9 @@ public class CardReaderService {
                 int value = actions.get(i).getAsJsonObject().get("value").getAsInt();
                 JsonElement payload = actions.get(i).getAsJsonObject().get("payload");
                 if (payload != null) {
-                    cb.addIntent(type, target, value, payload.getAsString(), manager);
+                    cb.addIntent(type, target, value, payload.getAsString());
                 } else {
-                    cb.addIntent(type, target, value, null, manager);
+                    cb.addIntent(type, target, value, null);
                 }
             }
             return cb.build();

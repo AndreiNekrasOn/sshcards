@@ -34,7 +34,9 @@ public class Draft extends State {
                 break;
             case DRAFT_ADD:
                 session.getCardManager()
-                        .addCard(CardFactory.getCard(session.getBattleManager(), cards.get(idx % max)));
+                        .addCard(
+                                CardFactory.instance(session.getBattleManager())
+                                        .getCard(cards.get(idx % max)));
                 break;
             case DRAFT_SKIP:
                 return new Select(session);

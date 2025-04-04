@@ -5,9 +5,9 @@ import org.andnekon.game.action.cards.Shot;
 import org.andnekon.game.action.cards.Status;
 import org.andnekon.game.action.intents.Attack;
 import org.andnekon.game.action.intents.Defence;
+import org.andnekon.game.action.intents.Effect;
 import org.andnekon.game.action.intents.player.DrawAttack;
 import org.andnekon.game.action.intents.player.DrawSkill;
-import org.andnekon.game.action.intents.Effect;
 import org.andnekon.game.entity.Entity;
 import org.andnekon.game.entity.Player;
 import org.andnekon.game.manage.BattleManager;
@@ -17,7 +17,10 @@ public class CardBuilder {
 
     private Card card;
 
+    private BattleManager manager;
+
     public CardBuilder(BattleManager manager, String type, String name, int cost) {
+        this.manager = manager;
         this.card =
                 switch (type) {
                     case "attack" -> new Shot(name, cost);
@@ -39,8 +42,7 @@ public class CardBuilder {
         return this;
     }
 
-    public CardBuilder addIntent(
-            String type, String target, int value, String payload, BattleManager manager) {
+    public CardBuilder addIntent(String type, String target, int value, String payload) {
         Player player = manager.getPlayer();
         Entity[] targets =
                 switch (target) {

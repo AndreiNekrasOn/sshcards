@@ -2,7 +2,6 @@ package org.andnekon.game.entity.enemy;
 
 import org.andnekon.game.action.intents.Attack;
 import org.andnekon.game.action.intents.Defence;
-import org.andnekon.game.entity.Player;
 import org.andnekon.game.manage.BattleManager;
 
 /**
@@ -17,10 +16,12 @@ public class Pirates extends Enemy {
     public void fillIntents(BattleManager manager) {
         if (turnNumber % 2 == 0) {
             this.currentIntents.add(new Defence(this, 2, manager, this));
-            this.currentIntents.add(new Attack(this, dmg + attackValue++, manager, manager.getPlayer()));
+            this.currentIntents.add(
+                    new Attack(this, dmg + attackValue++, manager, manager.getPlayer()));
         } else {
             this.currentIntents.add(new Attack(this, 1, manager, manager.getPlayer()));
-            this.currentIntents.add(new Attack(this, dmg + attackValue++, manager, manager.getPlayer()));
+            this.currentIntents.add(
+                    new Attack(this, dmg + attackValue++, manager, manager.getPlayer()));
         }
     }
 }

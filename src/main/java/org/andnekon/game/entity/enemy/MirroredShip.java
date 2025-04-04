@@ -1,7 +1,6 @@
 package org.andnekon.game.entity.enemy;
 
 import org.andnekon.game.action.intents.Effect;
-import org.andnekon.game.entity.Player;
 import org.andnekon.game.manage.BattleManager;
 
 /**
@@ -19,7 +18,8 @@ public class MirroredShip extends Enemy {
 
     @Override
     public void fillIntents(BattleManager manager) {
-        this.currentIntents.add(new Effect(this, "Crack", turnNumber,manager, manager.getPlayer()));
+        this.currentIntents.add(
+                new Effect(this, "Crack", turnNumber, manager, manager.getPlayer()));
         this.currentIntents.add(new Effect(this, "Heal", turnNumber, manager, this));
     }
 }

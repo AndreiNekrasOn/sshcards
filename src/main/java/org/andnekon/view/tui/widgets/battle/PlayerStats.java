@@ -20,8 +20,6 @@ public class PlayerStats implements Widget {
 
     private Widget resources;
 
-    // private Widget upgrades; // TODO: rethink if it's even needed
-
     public PlayerStats(BattleManager manager, TerminalPosition topLeft) {
         this.manager = manager;
         this.topLeft = topLeft;

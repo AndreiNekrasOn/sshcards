@@ -11,7 +11,6 @@ public abstract class Entity {
     /** only change via setEffect or increaseEffect */
     protected Map<String, Integer> effectCounter = new HashMap<>();
 
-    // TODO: this is for UI reason. Is this the best solution?
     private static final int MAX_EFFECT_VALUE = 9;
 
     public void onTurnBegin(Entity... targets) {

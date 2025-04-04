@@ -55,7 +55,6 @@ public class CardHand implements ActiveWidget {
             info[1] = String.valueOf(cardInfo.getCost());
             info[2] = cardInfo.getDescription();
             try {
-                // TODO: fix before moving on with cards
                 info[3] = service.readFile(cardInfo.getArt());
             } catch (IOException e) {
                 info[3] = "ERROR";
@@ -71,7 +70,7 @@ public class CardHand implements ActiveWidget {
 
     private Widget buildCardWidget(String[] info, TerminalRegion prevCardRegion, int idx) {
         String name = info[0];
-        int cost = Integer.valueOf(info[1]); // TODO: cost -> cost+type, params?
+        int cost = Integer.valueOf(info[1]);
         String description = info[2];
         String ascii = info[3];
         // col + 4 is for padding
@@ -107,7 +106,6 @@ public class CardHand implements ActiveWidget {
         return region;
     }
 
-    // TODO: implement ActiveWidget
     @Override
     public boolean isActive() {
         return true;

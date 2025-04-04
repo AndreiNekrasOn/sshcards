@@ -15,12 +15,12 @@ public class CardManager {
 
     public void initializeDefaultDeck() {
         for (int i = 0; i < 4; i++) {
-            addCard(CardFactory.getCard(battleManager, "Shot"));
+            addCard(CardFactory.instance(battleManager).getCard("Shot"));
         }
         for (int i = 0; i < 3; i++) {
-            addCard(CardFactory.getCard(battleManager, "Armor Up"));
+            addCard(CardFactory.instance(battleManager).getCard("Armor Up"));
         }
-        addCard(CardFactory.getCard(battleManager, "Lucky Shot"));
+        addCard(CardFactory.instance(battleManager).getCard("Lucky Shot"));
     }
 
     public void addCard(Card card) {
