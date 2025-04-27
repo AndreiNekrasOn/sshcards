@@ -14,6 +14,8 @@ Corrosion: Apply 4 cor.
 Draw Shot: Draw 1 attack
 Draw Skill: Draw 1 skill
 Overdrive: Gain 1 shield
+Heal
+
 
 # Defence
 Armor Up: Gain 1 shield

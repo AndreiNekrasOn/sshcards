@@ -574,7 +574,7 @@ v0.4 - game content and balance
 - [x] 5.1*. Untangle Enemy name/class nightmare
 - [x] 5.2. Cards from json
 - [.] 6. Add more cards
-- [ ] 6.1 Add more mechanics
+- [.] 6.1 Add more mechanics
 - [ ] 6.2 Card logic separated from json
 - [ ] 7. Balance cards and enemies
 - [ ] 8. Add rest of the enemies
@@ -583,4 +583,4 @@ v0.4 - game content and balance
 
 ----
 
-Considering v0.5 brings the core content to the game, for v0.5 I want to focus on deploying it. For that, I'll need to deside on the deployment strategy (just throw jar on the server or get some practice with docker?) and make the game accessable to "regular" users - meaning, only via ssh, without needing to enter raw terminal mode and connecting via `telnet`/`nc`.
+Considering v0.4 brings the core content to the game, for v0.5 I want to focus on deploying it. For that, I'll need to decide on the deployment strategy (just throw jar on the server or get some practice with docker?) and make the game accessable to "regular" users - meaning, only via ssh, without needing to enter raw terminal mode and connecting via `telnet`/`nc`.

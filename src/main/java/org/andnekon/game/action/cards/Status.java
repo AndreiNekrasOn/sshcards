@@ -10,6 +10,5 @@ public class Status extends Card {
     }
 
     public Status() {
-        // TODO Auto-generated constructor stub
     }
 }

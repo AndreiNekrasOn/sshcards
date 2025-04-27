@@ -31,6 +31,7 @@ public class CardFactory {
                     "Junk",
                     "Lucky Shot",
                     "Overdrive",
+                    "Repair",
                     "Shot",
                     "Thorns Armor",
                     "Triple Shot");
