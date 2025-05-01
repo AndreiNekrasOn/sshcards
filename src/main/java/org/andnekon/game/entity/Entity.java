@@ -14,9 +14,9 @@ public abstract class Entity {
     private static final int MAX_EFFECT_VALUE = 9;
 
     public void onTurnBegin(Entity... targets) {
-        hp += effectCounter.getOrDefault("Heal", 0);
+        hp += effectCounter.getOrDefault("heal", 0);
+        hp -= effectCounter.getOrDefault("corrosion", 0);
         hp = Math.min(hp, maxHp);
-        hp -= effectCounter.getOrDefault("Corrosion", 0);
 
         effectCounter.put("Heal", 0);
         // tick everything down

@@ -9,6 +9,5 @@ public class Status extends Card {
         super(name, cost, intent);
     }
 
-    public Status() {
-    }
+    public Status() {}
 }

@@ -1,0 +1,15 @@
+{
+    "name": "Repair",
+    "description": "Heal 6",
+    "cost": 1,
+    "type": "skill",
+    "art": "tui/cards/Skill",
+    "actions": [
+        {
+            "type": "effect",
+            "target": "self",
+            "payload": "heal",
+            "value": 6
+        }
+    ]
+}
