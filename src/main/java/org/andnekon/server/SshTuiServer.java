@@ -2,15 +2,11 @@ package org.andnekon.server;
 
 import org.andnekon.controller.GameController;
 import org.andnekon.controller.GameControllerFactory;
-import org.andnekon.utils.MonitoredOutputStream;
 import org.apache.sshd.server.Environment;
 import org.apache.sshd.server.ExitCallback;
 import org.apache.sshd.server.SshServer;
-import org.apache.sshd.server.auth.AsyncAuthException;
 import org.apache.sshd.server.auth.keyboard.InteractiveChallenge;
 import org.apache.sshd.server.auth.keyboard.KeyboardInteractiveAuthenticator;
-import org.apache.sshd.server.auth.password.PasswordAuthenticator;
-import org.apache.sshd.server.auth.password.PasswordChangeRequiredException;
 import org.apache.sshd.server.channel.ChannelSession;
 import org.apache.sshd.server.command.Command;
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider;
@@ -22,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -32,7 +29,7 @@ public class SshTuiServer {
         SshServer sshd = SshServer.setUpDefaultServer();
         sshd.setPort(2222);
         sshd.setHost("0.0.0.0");
-        sshd.setKeyPairProvider(new SimpleGeneratorHostKeyProvider());
+        sshd.setKeyPairProvider(new SimpleGeneratorHostKeyProvider(Paths.get("hostkey.ser")));
         sshd.setShellFactory(new ShellFactory() {
             @Override
             public Command createShell(ChannelSession channel) throws IOException {
@@ -87,8 +84,6 @@ public class SshTuiServer {
                 };
             }
         });
-
-        sshd.setPasswordAuthenticator((String username, String password, ServerSession session) -> true);
         sshd.setKeyboardInteractiveAuthenticator(new KeyboardInteractiveAuthenticator() {
             @Override
             public InteractiveChallenge generateChallenge(ServerSession session, String username, String lang,
