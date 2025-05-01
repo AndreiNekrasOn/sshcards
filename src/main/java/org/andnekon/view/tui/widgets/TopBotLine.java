@@ -33,13 +33,15 @@ public class TopBotLine implements Widget {
         shortHelp.draw(screen);
 
         StringBuilder sb = new StringBuilder();
-        sb.append("HP: ")
+        sb.append("HP:")
                 .append(session.getPlayer().getHp())
-                .append("(" + session.getPlayer().getMaxHp() + ") ")
-                .append("#Cards: ")
+                .append(" (" + session.getPlayer().getMaxHp() + ") ")
+                .append(" #Cards: ")
                 .append(
                         session.getPlayer().getShotDeck().getTotal().size()
-                                + session.getPlayer().getArmorDeck().getTotal().size());
+                                + session.getPlayer().getArmorDeck().getTotal().size())
+                .append(" Score: ")
+                .append(session.getPlayer().getScore());
         Widget statsHelp =
                 new SingleLine(
                         sb.toString(), new TerminalPosition(region.leftCol(), region.topRow() - 1));

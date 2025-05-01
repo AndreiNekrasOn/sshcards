@@ -1,5 +1,6 @@
 package org.andnekon.view.tui.buffers;
 
+import org.andnekon.game.action.Card;
 import org.andnekon.view.tui.AsciiReaderService;
 import org.andnekon.view.tui.TerminalRegion;
 import org.andnekon.view.tui.widgets.Widget;
@@ -12,10 +13,9 @@ public class Reward extends Popup {
 
     private List<Widget> widgets = new ArrayList<>();
 
-    // todo -> service
-    public Reward(TerminalRegion region, String[] cardResources, AsciiReaderService service) {
+    public Reward(TerminalRegion region, List<Card> hand, AsciiReaderService service) {
         super(region);
-        Widget cards = new CardHand(service, cardResources, region);
+        Widget cards = new CardHand(service, hand, region);
         widgets.add(cards);
     }
 

@@ -1,0 +1,16 @@
+{
+    "name": "Corrosion",
+    "description": "Apply 1 cor.",
+    "cost": 1,
+    "type": "status",
+    "art": "tui/cards/Skill",
+    "actions": [
+        {
+            "type": "effect",
+            "payload": "corrosion",
+            "target": "enemy",
+            "value": 4
+        }
+    ]
+}
+

@@ -3,15 +3,19 @@ package org.andnekon.game.entity;
 import org.andnekon.game.action.Card;
 
 import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicLong;
 
 /** Player model. */
 public class Player extends Entity {
 
+    private static AtomicLong allId = new AtomicLong(0);
+    private long id;
+
     private int numInBattleAttacks;
     private int numInBattleDeffence;
+    private int score;
 
     private Deck shotDeck;
-    // TODO: armorDeck contains statuses as well - is this what I want?
     private Deck armorDeck;
 
     private int energy;
@@ -20,12 +24,15 @@ public class Player extends Entity {
         this.hp = 50;
         this.maxHp = 50;
         this.defense = 0;
+        this.score = 10;
 
         numInBattleAttacks = 3;
         numInBattleDeffence = 3;
 
         shotDeck = new Deck(numInBattleAttacks);
         armorDeck = new Deck(numInBattleDeffence);
+
+        this.id = allId.getAndIncrement();
     }
 
     public int getEnergy() {
@@ -77,8 +84,29 @@ public class Player extends Entity {
         this.energy = energy;
     }
 
+    public void addScore(int score) {
+        this.score += score;
+    }
+
+    public int getScore() {
+        return this.score;
+    }
+
     @Override
     public String toString() {
         return "Player";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Player) {
+            return ((Player) obj).id == id;
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (id ^ (id >>> 32));
     }
 }

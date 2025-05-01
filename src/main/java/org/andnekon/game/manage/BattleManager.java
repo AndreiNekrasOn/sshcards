@@ -1,5 +1,6 @@
 package org.andnekon.game.manage;
 
+import org.andnekon.game.entity.Combat;
 import org.andnekon.game.entity.Player;
 import org.andnekon.game.entity.enemy.Enemy;
 
@@ -7,7 +8,7 @@ public class BattleManager implements StateManager {
 
     private Player player;
 
-    private Enemy enemy;
+    private Combat combat;
 
     /** Turn number, with turn 0 meaning that the battle is not initialized */
     private int turn;
@@ -36,18 +37,16 @@ public class BattleManager implements StateManager {
         return player;
     }
 
-    public Enemy getEnemy() {
-        return enemy;
-    }
-
-    public void setEnemy(Enemy enemy) {
-        this.enemy = enemy;
+    public Enemy[] getEnemies() {
+        return combat.getEnemies();
     }
 
     public void initTurn() {
-        this.turn++;
-        this.player.onTurnBegin();
-        this.enemy.fillIntents(this.player);
+        turn++;
+        player.onTurnBegin();
+        for (Enemy enemy : combat.getEnemies()) {
+            enemy.fillIntents(this);
+        }
     }
 
     public int getTurnNumber() {
@@ -56,5 +55,13 @@ public class BattleManager implements StateManager {
 
     public int getTurn() {
         return turn;
+    }
+
+    public void setCombat(Combat combat) {
+        this.combat = combat;
+    }
+
+    public Combat getCombat() {
+        return combat;
     }
 }

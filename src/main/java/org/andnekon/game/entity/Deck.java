@@ -65,6 +65,16 @@ public class Deck {
 
         // add cards from the draw to the hand
         while (!draw.isEmpty() && hand.size() < handSize) {
+            drawCard();
+        }
+    }
+
+    public void drawCard() {
+        if (draw.size() == 0) {
+            Collections.shuffle(discard);
+            draw.addAll(discard);
+        }
+        if (!draw.isEmpty() && hand.size() < handSize) {
             hand.add(draw.remove(0));
         }
     }

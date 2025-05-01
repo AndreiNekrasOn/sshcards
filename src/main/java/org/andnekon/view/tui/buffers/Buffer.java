@@ -24,15 +24,9 @@ public abstract class Buffer implements Widget {
 
     @Override
     public void draw(Screen screen) {
-        // TODO: Make this smarter with BufferManager
         screen.clear();
         List<Widget> widgets = widgets();
         for (Widget w : widgets) {
-            // TODO: fix; warning instead of error
-            // if (isOverlap(topLeft, w.getTopLeftPos(), (f,s) -> f < s) ||
-            //         isOverlap(bottomRight, w.getBottomRightPos(), (f,s) -> f < s)) {
-            //     throw new IllegalStateException("Widget overlaps buffer");
-            // }
             w.draw(screen);
         }
     }

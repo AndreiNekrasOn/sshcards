@@ -6,8 +6,6 @@ import com.googlecode.lanterna.screen.Screen;
 import org.andnekon.utils.StringUtil;
 import org.andnekon.view.tui.TerminalRegion;
 
-import java.util.function.Function;
-
 /** Card */
 public class Card implements Widget {
 
@@ -16,24 +14,21 @@ public class Card implements Widget {
     private Widget nameWidget;
     private Widget costWidget;
     private Widget descWidget;
+    private Widget asciiWidget;
 
-    private Function<Widget, Integer> startCol = w -> w.getRegion().leftCol();
-    private Function<Widget, Integer> endRow = w -> w.getRegion().botRow();
-
-    // TODO: replace parameters with cardInfoService
-    public Card(TerminalPosition topLeft, String name, int cost, String description) {
-        name = StringUtil.wrap(name, CARD_WIDTH); // border
+    public Card(TerminalPosition topLeft, String name, String ascii, int cost, String description) {
+        name = StringUtil.wrap(name, CARD_WIDTH - 2); // border
         description = StringUtil.wrap(description, CARD_WIDTH);
 
-        nameWidget = new MultiLine(topLeft.getColumn(), topLeft.getRow(), name);
         costWidget =
                 new SingleLine(
                         String.valueOf(cost),
-                        new TerminalPosition(
-                                startCol.apply(nameWidget), 1 + endRow.apply(nameWidget)));
+                        new TerminalPosition(topLeft.getColumn(), topLeft.getRow()));
+        nameWidget = new MultiLine(costWidget.getRegion().rightCol() + 2, topLeft.getRow(), name);
         descWidget =
                 new MultiLine(
-                        startCol.apply(costWidget), 1 + endRow.apply(costWidget), description);
+                        topLeft.getColumn(), 1 + nameWidget.getRegion().botRow(), description);
+        asciiWidget = new MultiLine(topLeft.getColumn(), descWidget.getRegion().botRow(), ascii);
     }
 
     @Override
@@ -41,15 +36,16 @@ public class Card implements Widget {
         nameWidget.draw(screen);
         costWidget.draw(screen);
         descWidget.draw(screen);
+        asciiWidget.draw(screen);
     }
 
     @Override
     public TerminalRegion getRegion() {
-        TerminalRegion left = nameWidget.getRegion();
+        TerminalRegion left = costWidget.getRegion();
         return new TerminalRegion(
                 left.leftCol(),
                 left.topRow(),
                 left.leftCol() + CARD_WIDTH,
-                descWidget.getRegion().botRow());
+                asciiWidget.getRegion().botRow());
     }
 }

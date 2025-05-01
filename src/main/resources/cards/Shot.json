@@ -1,0 +1,14 @@
+{
+    "name": "Shot",
+    "description": "Deal 1 damaege",
+    "cost": 1,
+    "type": "attack",
+    "art": "tui/cards/Shot",
+    "actions": [
+        {
+            "type": "attack",
+            "target": "enemy",
+            "value": 1
+        }
+    ]
+}

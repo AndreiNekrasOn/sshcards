@@ -1,8 +1,7 @@
 package org.andnekon.game.entity.enemy;
 
-import org.andnekon.game.action.intents.Attack;
 import org.andnekon.game.action.intents.Effect;
-import org.andnekon.game.entity.Player;
+import org.andnekon.game.manage.BattleManager;
 
 /**
  * Mirrored ship has a lot of max hp and starts with half hp. It scaels exponentially in attack
@@ -10,11 +9,7 @@ import org.andnekon.game.entity.Player;
  */
 public class MirroredShip extends Enemy {
 
-    public MirroredShip() {
-        super();
-        this.hp = 10;
-        this.maxHp = 20;
-    }
+    public MirroredShip() {}
 
     @Override
     public String toString() {
@@ -22,8 +17,9 @@ public class MirroredShip extends Enemy {
     }
 
     @Override
-    public void fillIntents(Player player) {
-        this.currentIntents.add(new Attack(this, (int) Math.pow(2, turnNumber), player));
-        this.currentIntents.add(new Effect(this, "Heal", (int) Math.pow(2, turnNumber), this));
+    public void fillIntents(BattleManager manager) {
+        this.currentIntents.add(
+                new Effect(this, "Crack", turnNumber, manager, manager.getPlayer()));
+        this.currentIntents.add(new Effect(this, "Heal", turnNumber, manager, this));
     }
 }

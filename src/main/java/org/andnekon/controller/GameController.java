@@ -27,6 +27,13 @@ public class GameController {
                     "3", new GameAction(Type.NAVIGATION, 3),
                     "4", new GameAction(Type.NAVIGATION, 4));
 
+    private static final Map<String, GameAction> rewardActions =
+            Map.of(
+                    "1", new GameAction(Type.NAVIGATION, 1),
+                    "2", new GameAction(Type.NAVIGATION, 2),
+                    "3", new GameAction(Type.NAVIGATION, 3),
+                    "s", new GameAction(Type.NAVIGATION, 0));
+
     private static final Map<String, GameAction> battleActions =
             Map.of(
                     // menu is 1-indexed, while hand is 0-indexed
@@ -39,18 +46,22 @@ public class GameController {
                     "a3", new GameAction(Type.BATTLE_CARD, 2, "armor"),
                     "a4", new GameAction(Type.BATTLE_CARD, 4, "armor"),
                     "e", new GameAction(Type.BATTLE_END_TURN),
-                    "c", new GameAction(Type.BATTLE_CHECK));
+                    "w", new GameAction(Type.BATTLE_SELECT));
 
     private static final Map<String, GameAction> confirmActions =
             Map.of(
                     "y", new GameAction(Type.ACCEPT),
                     "Y", new GameAction(Type.ACCEPT),
-                    "j", new GameAction(Type.ACCEPT),
-                    "J", new GameAction(Type.ACCEPT),
                     "n", new GameAction(Type.REFUSE),
                     "N", new GameAction(Type.REFUSE),
                     "x", new GameAction(Type.REFUSE),
                     "X", new GameAction(Type.REFUSE));
+
+    private static final Map<String, GameAction> ballanceActions =
+            Map.of(
+                    "j", new GameAction(Type.DRAFT_NEXT),
+                    " ", new GameAction(Type.DRAFT_ADD),
+                    "s", new GameAction(Type.DRAFT_SKIP));
 
     private static final Map<String, GameAction> globalActions =
             Map.of(
@@ -77,6 +88,7 @@ public class GameController {
             logger.info("transformed input [{}] to action {}", in, action);
             game.process(action);
         } while (!game.getSession().isEnd());
+        view.stop();
     }
 
     private GameAction choose(Map<String, GameAction> choice, String key) {
@@ -98,7 +110,10 @@ public class GameController {
                 }
                 yield new GameAction(Type.ACCEPT); // any other key -> quit
             }
-            case REWARD -> choose(navActions, key);
+            case REWARD -> choose(rewardActions, key);
+            case BALANCE_BATTlE -> choose(battleActions, key);
+            case BALANCE_NAV -> choose(ballanceActions, key);
+            case BALANCE_DRAFT -> choose(ballanceActions, key);
             default -> new GameAction(Type.PASS);
         };
     }

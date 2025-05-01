@@ -1,10 +1,12 @@
 package org.andnekon.view.tui;
 
+import com.googlecode.lanterna.TerminalPosition;
 import com.googlecode.lanterna.screen.Screen;
 
 import org.andnekon.game.GameSession;
+import org.andnekon.game.action.CardFactory;
+import org.andnekon.game.entity.enemy.CombatFactory;
 import org.andnekon.game.manage.NavigationManager;
-import org.andnekon.game.manage.RewardManager;
 import org.andnekon.game.state.State;
 import org.andnekon.view.AbstractGameView;
 import org.andnekon.view.tui.buffers.Battle;
@@ -16,10 +18,14 @@ import org.andnekon.view.tui.buffers.Reward;
 import org.andnekon.view.tui.buffers.TabGroup;
 import org.andnekon.view.tui.buffers.Welcome;
 import org.andnekon.view.tui.widgets.Border;
+import org.andnekon.view.tui.widgets.MultiLine;
+import org.andnekon.view.tui.widgets.Options;
 import org.andnekon.view.tui.widgets.TopBotLine;
 import org.andnekon.view.tui.widgets.Widget;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * TUI view provides graphical (terminal) enviroment for game logic.<br>
@@ -40,8 +46,8 @@ public class TuiView extends AbstractGameView {
     private static final int halfRow = (38 - 2) / 2;
 
     private static final String HELP_GENERAL = "q:quit, ?:help, ";
-    private static final String HELP_REWARD = HELP_GENERAL + "<1-3> choose reward";
-    private static final String HELP_NAVIGATION = HELP_GENERAL + "<1-2> choose path";
+    private static final String HELP_REWARD = HELP_GENERAL + "<1-3>:choose reward;s:skip";
+    private static final String HELP_NAVIGATION = HELP_GENERAL + "<1-2>:choose path";
     private static final String HELP_BATTLE =
             HELP_GENERAL
                     + "m:toggle missile; "
@@ -58,6 +64,10 @@ public class TuiView extends AbstractGameView {
     private int helpShow;
 
     private Help helpWindow;
+
+    private int balanceSelect = 0;
+    private int balanceSelectMax = 1;
+    private boolean prevSelectDraft = false;
 
     TuiView(GameSession session, TuiManager manager) throws IOException {
         this.session = session;
@@ -90,16 +100,10 @@ public class TuiView extends AbstractGameView {
 
     @Override
     protected void showReward() {
-        RewardManager rewardManager = session.getRewardManager();
-        String[] resources =
-                rewardManager.getRewardOptions().stream()
-                        .map(c -> "tui/cards/" + c.getName())
-                        .toList()
-                        .toArray(String[]::new);
         Widget rewardPopup =
                 new Reward(
                         new TerminalRegion(halfCol, halfRow, halfCol, halfRow),
-                        resources,
+                        session.getRewardManager().getRewardOptions(),
                         arSerivce);
         rewardPopup = new Border(rewardPopup);
         rewardPopup = new TopBotLine(rewardPopup, region, session, HELP_REWARD);
@@ -139,7 +143,7 @@ public class TuiView extends AbstractGameView {
         Widget mainMenu = new MainMenu(screen.getTerminalSize());
         Help about = new Help(region, "ABOUT");
         about.addSingle("Just a hobby project");
-        current = new TabGroup(mainMenu, helpWindow, about);
+        current = new TabGroup(mainMenu, helpWindow);
     }
 
     @Override
@@ -176,6 +180,49 @@ public class TuiView extends AbstractGameView {
     }
 
     @Override
+    protected void showBalanceBattle() {
+        current = new TabGroup(new MultiLine(halfCol, halfRow, "Battle"));
+    }
+
+    @Override
+    protected void showBalanceDraft() {
+        List<String> cards = new ArrayList<>();
+        cards.addAll(CardFactory.CARDS);
+        if (!prevSelectDraft) {
+            prevSelectDraft = true;
+            balanceSelect = 0;
+        }
+        balanceSelectMax = cards.size();
+        String[] names = cards.toArray(String[]::new);
+        current =
+                new TabGroup(
+                        new Options(
+                                new TerminalPosition(halfCol, region.topRow()),
+                                names,
+                                balanceSelect));
+    }
+
+    @Override
+    protected void showBalanceNav() {
+        List<String> enemies = new ArrayList<>();
+        for (var c : CombatFactory.combats) {
+            enemies.add(c);
+        }
+        if (prevSelectDraft) {
+            prevSelectDraft = false;
+            balanceSelect = 0;
+            balanceSelectMax = enemies.size();
+        }
+        String[] names = enemies.toArray(String[]::new);
+        current =
+                new TabGroup(
+                        new Options(
+                                new TerminalPosition(halfCol, region.topRow()),
+                                names,
+                                balanceSelect));
+    }
+
+    @Override
     public void display(State state) {
         if (helpShow != 0) {
             current.at(helpShow).draw(screen);
@@ -192,5 +239,19 @@ public class TuiView extends AbstractGameView {
 
     public void setTab(int helpShow) {
         this.helpShow = helpShow;
+    }
+
+    @Override
+    public void stop() {
+        try {
+            this.screen.stopScreen();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void selectionNext() {
+        balanceSelect++;
+        balanceSelect = balanceSelect % balanceSelectMax;
     }
 }

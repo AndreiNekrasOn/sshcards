@@ -1,0 +1,16 @@
+{
+    "name": "Draw Shot",
+    "description": "Draw 1 attack",
+    "cost": 0,
+    "type": "skill",
+    "art": "tui/cards/Skill",
+    "actions": [
+        {
+            "type": "draw",
+            "payload": "attack",
+            "target": "self",
+            "value": 1
+        }
+    ]
+}
+

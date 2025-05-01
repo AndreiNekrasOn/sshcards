@@ -18,10 +18,15 @@ public class GameAction {
         BATTLE_CARD,
         BATTLE_END_TURN,
         BATTLE_HELP,
-        BATTLE_CHECK,
+        BATTLE_SELECT,
 
         // QUIT ACTIONS
-        QUIT_REFUSE;
+        QUIT_REFUSE,
+
+        // DRAFT MODE
+        DRAFT_NEXT,
+        DRAFT_ADD,
+        DRAFT_SKIP;
     }
 
     private int id;

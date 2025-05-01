@@ -55,6 +55,4 @@ public class TerminalRegion {
     public String toString() {
         return "TerminalRegion [topLeft=" + topLeft + ", bottomRight=" + bottomRight + "]";
     }
-
-    // TODO: isOverlapping here?
 }

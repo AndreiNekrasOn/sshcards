@@ -1,0 +1,15 @@
+{
+    "name": "Armor Up",
+    "description": "Gain 1 shield",
+    "cost": 1,
+    "type": "skill",
+    "art": "tui/cards/Skill",
+    "actions": [
+        {
+            "type": "defence",
+            "target": "self",
+            "value": 1
+        }
+    ]
+}
+

@@ -565,12 +565,22 @@ Then, for better decoupling of logic from UI, I need to represent each state as 
 
 ## Plans for v0.4
 v0.4 - game content and balance
-- [ ] 1. Game balance view and logic (draft deck, select any enemy, quick restart)
-- [ ] 2. Process status effects
-- [ ] 3. Skip card option
-- [ ] 4. Add draw mechanic
-- [ ] 5. Add more cards
-- [ ] 6. Balance cards
-- [ ] 7. Add rest of the enemies
-- [ ] 8. Combat abstraction - up to 3 enemies per battle
-- [ ] 9. Score == overkill
+- [x] 1. Game balance view and logic (draft deck, select any enemy, quick restart)
+- [x] 1.1 Optional - ActiveWidget highlighting
+- [x] 2. Process status effects
+- [x] 3. Skip card option
+- [x] 4. Add draw mechanic
+- [x] 5. Enemies from json, serializing
+- [x] 5.1*. Untangle Enemy name/class nightmare
+- [x] 5.2. Cards from json
+- [x] 6. Add more cards
+- [x] 6.1 Add more mechanics
+- [ ] 6.2 Card logic separated from json
+- [x] 7. Balance cards and enemies
+- [x] 8. Add rest of the enemies
+- [x] 9. Combat abstraction - up to 3 enemies per battle
+- [x] 10. Score == overkill
+
+----
+
+Considering v0.4 brings the core content to the game, for v0.5 I want to focus on deploying it. For that, I'll need to decide on the deployment strategy (just throw jar on the server or get some practice with docker?) and make the game accessable to "regular" users - meaning, only via ssh, without needing to enter raw terminal mode and connecting via `telnet`/`nc`.

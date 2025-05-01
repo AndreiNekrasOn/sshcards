@@ -2,37 +2,34 @@ package org.andnekon.game.manage;
 
 import org.andnekon.game.action.Card;
 import org.andnekon.game.action.CardFactory;
+import org.andnekon.game.action.cards.Shot;
 import org.andnekon.game.entity.Player;
 
 public class CardManager {
 
-    private Player player;
+    private BattleManager battleManager;
 
-    public CardManager(Player player) {
-        this.player = player;
+    public CardManager(BattleManager manager) {
+        this.battleManager = manager;
     }
 
     public void initializeDefaultDeck() {
         for (int i = 0; i < 4; i++) {
-            addCard(CardFactory.getCard(player, "Shot"));
+            addCard(CardFactory.instance(battleManager).getCard("Shot"));
         }
         for (int i = 0; i < 3; i++) {
-            addCard(CardFactory.getCard(player, "Armor Up"));
+            addCard(CardFactory.instance(battleManager).getCard("Armor Up"));
         }
-        addCard(CardFactory.getCard(player, "Lucky Shot"));
+        addCard(CardFactory.instance(battleManager).getCard("Lucky Shot"));
     }
 
     public void addCard(Card card) {
-        String name = card.getName();
-        if (CardFactory.SHOTS.contains(name)) {
+        Player player = battleManager.getPlayer();
+        if (card instanceof Shot) {
             player.getShotDeck().add(card);
-            return;
-        } else if (CardFactory.ARMORS.contains(name) || CardFactory.STATUSES.contains(name)) {
+        } else {
             player.getArmorDeck().add(card);
             return;
-            // } else if (CardFactory.STATUSES.contains(name)) {
-            //     player.getStatusDeck().add(card);
         }
-        throw new IllegalStateException("Unknown card: " + name);
     }
 }

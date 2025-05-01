@@ -8,16 +8,20 @@ public abstract class Entity {
     protected int hp;
     protected int defense;
 
-    // TODO: use decorator here?
-    public Map<String, Integer> effectCounter = new HashMap<>();
+    /** only change via setEffect or increaseEffect */
+    protected Map<String, Integer> effectCounter = new HashMap<>();
+
+    private static final int MAX_EFFECT_VALUE = 9;
 
     public void onTurnBegin(Entity... targets) {
-        this.hp += effectCounter.getOrDefault("Heal", 0);
-        this.hp -= effectCounter.getOrDefault("Poison", 0);
+        hp += effectCounter.getOrDefault("heal", 0);
+        hp -= effectCounter.getOrDefault("corrosion", 0);
+        hp = Math.min(hp, maxHp);
 
         effectCounter.put("Heal", 0);
-        for (String effectName : effectCounter.keySet()) {
-            effectCounter.put(effectName, Math.max(0, effectCounter.get(effectName) - 1));
+        // tick everything down
+        for (String eName : effectCounter.keySet()) {
+            setEffect(eName, getEffectValue(eName) - 1);
         }
     }
 
@@ -32,8 +36,22 @@ public abstract class Entity {
         }
     }
 
+    public int getEffectValue(String effect) {
+        return effectCounter.getOrDefault(effect, 0);
+    }
+
+    public void increaseEffect(String effect, int value) {
+        setEffect(effect, getEffectValue(effect) + value);
+    }
+
+    public void setEffect(String effect, int value) {
+        value = Math.min(MAX_EFFECT_VALUE, value);
+        value = Math.max(0, value);
+        effectCounter.put(effect, value);
+    }
+
     private int modifyDamage(int damage) {
-        int vuln = effectCounter.getOrDefault("Vulnurable", 0);
+        int vuln = effectCounter.getOrDefault("Crack", 0);
         return damage + vuln;
     }
 

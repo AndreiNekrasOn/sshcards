@@ -81,9 +81,9 @@ public class GameSession {
     public void reset() {
         this.player = new Player();
         this.navigationManager = new NavigationManager();
-        this.rewardManager = new RewardManager(player);
         this.battleManager = new BattleManager(player);
-        this.cardManager = new CardManager(player);
+        this.rewardManager = new RewardManager(battleManager);
+        this.cardManager = new CardManager(battleManager);
         cardManager.initializeDefaultDeck();
     }
 }

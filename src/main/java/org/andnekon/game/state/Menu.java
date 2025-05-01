@@ -2,6 +2,7 @@ package org.andnekon.game.state;
 
 import org.andnekon.game.GameAction;
 import org.andnekon.game.GameSession;
+import org.andnekon.game.state.balance.Draft;
 
 public class Menu extends State {
 
@@ -20,7 +21,7 @@ public class Menu extends State {
                 yield new Navigation(session);
             }
             case 2 -> this; // no need for state, handle at view
-            case 3 -> this; // no need for state, handle at view
+            case 3 -> new Draft(session); // no need for state, handle at view
             case 4 -> new Quit(session);
             default -> this;
         };

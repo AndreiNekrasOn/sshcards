@@ -1,66 +1,65 @@
 package org.andnekon.game.action;
 
-import org.andnekon.game.action.cards.Armor;
-import org.andnekon.game.action.cards.Shot;
-import org.andnekon.game.action.cards.Status;
-import org.andnekon.game.action.intents.Attack;
-import org.andnekon.game.action.intents.Defence;
-import org.andnekon.game.action.intents.Effect;
-import org.andnekon.game.entity.Entity;
+import org.andnekon.game.entity.Player;
+import org.andnekon.game.manage.BattleManager;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+/** CardFactory is a per-player singleton */
 public class CardFactory {
 
-    private CardFactory() {}
+    private static volatile Map<Player, CardFactory> instances = new HashMap<>();
 
-    public static final List<String> SHOTS =
-            List.of("Shot", "Lucky Shot", "Triple Shot", "Corrosion");
+    private BattleManager manager;
+    private Map<String, Card> nameToCard = new HashMap<>();
 
-    public static final List<String> ARMORS =
-            List.of("Armor Up", "Better Armor", "Thorns Armor", "Overdrive");
-
-    public static final List<String> STATUSES = List.of("Corrosion", "Crack");
-
-    public static Card getCard(Entity player, String name) {
-        return switch (name) {
-            // shot
-            case "Shot" -> new Shot(name, 1, new Attack(player, 1));
-            case "Lucky Shot" ->
-                    new Shot(name, 2, new Attack(player, 4), new Attack(player, 1, player));
-            case "Triple Shot" ->
-                    new Shot(
-                            name,
-                            3,
-                            new Attack(player, 1),
-                            new Attack(player, 1),
-                            new Attack(player, 1));
-            // status
-            case "Corrosion" -> new Status(name, 1, new Effect(player, "Poison", 1));
-            case "Crack" -> new Status(name, 1, new Effect(player, "Vulnurable", 2));
-            // armor
-            case "Overdrive" -> new Shot(name, -2, new Attack(player, 1, player));
-            case "Armor Up" -> new Armor(name, 1, new Defence(player, 1, player));
-            case "Better Armor" ->
-                    new Armor(
-                            name, 2, new Attack(player, 1, player), new Defence(player, 5, player));
-            case "Thorns Armor" ->
-                    new Armor(name, 1, new Defence(player, 2, player), new Attack(player, 1));
-            default -> throw new IllegalStateException("Unexpected value: " + name);
-        };
+    private CardFactory(BattleManager manager) {
+        this.manager = manager;
     }
 
-    public static Card getRandomCard(Entity player) {
-        int shotLimit = SHOTS.size();
-        int armorLimit = shotLimit + ARMORS.size();
-        int statusLimit = armorLimit + STATUSES.size();
-        int random = (int) (Math.random() * statusLimit);
-        if (random < shotLimit) {
-            return getCard(player, SHOTS.get(random));
-        } else if (random < armorLimit) {
-            return getCard(player, ARMORS.get(random - shotLimit));
-        } else {
-            return getCard(player, STATUSES.get(random - armorLimit));
+    public static final List<String> CARDS =
+            List.of(
+                    "Armor Up",
+                    "Better Armor",
+                    "Crack",
+                    "Corrosion",
+                    "Draw Shot",
+                    "Draw Skill",
+                    "Junk",
+                    "Lucky Shot",
+                    "Overdrive",
+                    "Repair",
+                    "Shot",
+                    "Thorns Armor",
+                    "Triple Shot");
+
+    public static synchronized CardFactory instance(BattleManager manager) {
+        Player player = manager.getPlayer();
+        if (instances.containsKey(player)) {
+            return instances.get(player);
         }
+        CardFactory result = new CardFactory(manager);
+        instances.put(player, result);
+
+        List<String> all = new ArrayList<>();
+        all.addAll(CARDS);
+        for (String name : all) {
+            Card card = CardReaderService.readCard(name, manager);
+            result.nameToCard.put(name, card);
+        }
+        return result;
+    }
+
+    public Card getCard(String name) {
+        return nameToCard.get(name);
+    }
+
+    public Card getRandomCard() {
+        int limit = CARDS.size();
+        int random = (int) (Math.random() * limit);
+        return getCard(CARDS.get(random));
     }
 }
