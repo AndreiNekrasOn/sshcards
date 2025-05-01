@@ -224,6 +224,7 @@ public class TuiView extends AbstractGameView {
 
     @Override
     public void display(State state) {
+        screen.doResizeIfNecessary();
         if (helpShow != 0) {
             current.at(helpShow).draw(screen);
         } else {

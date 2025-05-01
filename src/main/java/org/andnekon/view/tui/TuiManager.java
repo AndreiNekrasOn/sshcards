@@ -26,6 +26,7 @@ public class TuiManager {
 
     public TuiManager(GameSession session, InputStream is, OutputStream os) throws IOException {
         UnixTerminal terminal = new UnixTerminal(is, os, Charset.defaultCharset());
+        terminal.setTerminalSize(150, 40);
         this.session = session;
         this.screen = new TerminalScreen(terminal);
         this.view = new TuiView(session, this);
